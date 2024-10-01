@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "./app/App.jsx",
+    ".expo/types/**/*.js",
+    "nativewind-env.d.ts"
+  ]
+}
