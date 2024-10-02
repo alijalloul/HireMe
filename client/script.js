@@ -1,44 +1,94 @@
 const fs = require("fs");
 const path = require("path");
 
-const folderPath = "C:/Users/Ali Jalloul/Desktop/HireMeV3"; // Path to your project folder
-const importStatement = "import { Colors } from '@/constants/Colors'"; // The import statement to add
+const directoryPath = "C:/Users/Ali Jalloul/Desktop/HireMe/client";
 
-// Function to add import to each file
-const addImportToFile = (filePath) => {
-  const data = fs.readFileSync(filePath, "utf8");
+const replaceInFile = (filePath) => {
+  let content = fs.readFileSync(filePath, "utf-8");
+  let modified; // To track if changes were made
 
-  // Check if the import already exists
-  if (!data.includes(importStatement)) {
-    // Add the import statement to the top of the file
-    const updatedData = `${importStatement}\n${data}`;
-    fs.writeFileSync(filePath, updatedData, "utf8");
-    console.log(`Added import to: ${filePath}`);
-  } else {
-    console.log(`Import already exists in: ${filePath}`);
-  }
+  do {
+    modified = false; // Reset modified status for each loop
+
+    // Perform all replacements in a single pass
+    const newContent = content
+      .replace(
+        /\{\s*translateText\(\s*([^"]+)\s*,\s*([^"]+)\s*\)\s*\}/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `{${p1}}`;
+        }
+      )
+      .replace(
+        /=\{\s*translateText\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)\s*\}/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `="${p1}"`;
+        }
+      )
+      .replace(
+        /\{\s*translateText\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)\s*\}/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `${p1}`;
+        }
+      )
+      .replace(
+        /\{\s*translateText\(\s*([^"]+)\s*,\s*"([^"]+)"\s*\)\s*\}/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `{${p1}}`;
+        }
+      )
+      .replace(
+        /\{\s*translateText\(\s*"([^"]+)"\s*,\s*([^"]+)\s*\)\s*\}/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `${p1}`;
+        }
+      )
+      .replace(
+        /\s*translateText\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)\s*,/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `"${p1}",`;
+        }
+      )
+
+      .replace(
+        /\s*translateText\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)\s*/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `"${p1}"`;
+        }
+      )
+      .replace(
+        /\?\s*translateText\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)\s*/g,
+        (match, p1) => {
+          modified = true; // Changes were made
+          return `${p1}`;
+        }
+      );
+
+    // Update content for the next iteration
+    content = newContent;
+  } while (modified); // Continue looping until no changes are made
+
+  // Write the modified content back to the file only if changes were made
+  fs.writeFileSync(filePath, content, "utf-8");
+  console.log(`Modified: ${filePath}`);
 };
 
-// Function to recursively read directories
-const readDirectory = (dirPath) => {
-  fs.readdir(dirPath, (err, files) => {
-    if (err) throw err;
-
-    files.forEach((file) => {
-      const filePath = path.join(dirPath, file);
-      const stat = fs.statSync(filePath);
-
-      // If it's a directory, recurse into it
-      if (stat.isDirectory()) {
-        readDirectory(filePath);
-      }
-      // If it's a file and ends with x, add the import
-      else if (stat.isFile() && file.endsWith("x")) {
-        addImportToFile(filePath);
-      }
-    });
+const traverseDirectory = (dirPath) => {
+  fs.readdirSync(dirPath).forEach((file) => {
+    const fullPath = path.join(dirPath, file);
+    if (fs.statSync(fullPath).isDirectory()) {
+      traverseDirectory(fullPath); // Recur for nested directories
+    } else if (path.extname(fullPath) === ".jsx") {
+      replaceInFile(fullPath); // Process .jsx files
+    }
   });
 };
 
-// Start reading from the root folder
-readDirectory(folderPath);
+// Start processing from the specified directory
+traverseDirectory(directoryPath);

@@ -1,9 +1,8 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
 import {
   FlatList,
-  I18nManager,
   Image,
   Text,
   TextInput,

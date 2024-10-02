@@ -1,13 +1,9 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import moment from "moment";
 import { memo } from "react";
-import { I18nManager, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const JobPosts = ({ navigation }) => {
   const posts = useSelector((state) => state.jobPosts.postsInfo);
@@ -38,37 +34,31 @@ const JobPosts = ({ navigation }) => {
 
             <View className="mb-3 flex flex-row justify-between">
               <GaramondText className=" text-[15px] ">
-                {translateText(job?.country, job?.country)}
+                {job?.country}
               </GaramondText>
               <GaramondText className=" text-[15px] ">
-                {translateText(job?.location, job?.location)}
+                {job?.location}
               </GaramondText>
             </View>
 
             <View className="mb-3 flex flex-row justify-between">
               <GaramondText className=" text-[15px] ">
-                {translateText(
-                  job?.experienceRequired,
-                  job?.experienceRequired
-                )}
+                {job?.experienceRequired}
               </GaramondText>
               <GaramondText className=" text-[15px] ">
-                {translateText(job?.jobType, job?.jobType)}
+                {job?.jobType}
               </GaramondText>
             </View>
 
             <GaramondText className=" text-[15px] opacity-50 leading-6">
-              {translateText(
-                job?.description.substring(0, 200),
-                job?.description.substring(0, 200)
-              )}
+              {job?.description.substring(0, 200)}
             </GaramondText>
           </TouchableOpacity>
         ))
       ) : (
         <View className="flex-1 justify-center items-center">
           <GaramondText className=" opacity-50 text-sm">
-            {translateText("No Jobs Available", "لا تتوفر وظائف")}
+            No Jobs Available
           </GaramondText>
         </View>
       )}

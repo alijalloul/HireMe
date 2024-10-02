@@ -1,7 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
-import { I18nManager, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
@@ -17,10 +17,6 @@ const CV = ({ navigation }) => {
   const [email, setEmail] = useState(user?.email || "");
   const [address, setAddress] = useState(user?.address || "");
 
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
-  };
-
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -33,12 +29,9 @@ const CV = ({ navigation }) => {
     <View className="bg-white flex-1 items-center">
       <View className="w-[90%] flex-1">
         <GaramondText className=" text-4xl mb-5">
-          {translateText(
-            user?.type === "employer"
-              ? "First, tell the employee of how they would contact you."
-              : "First, tell the employer of how they would contact you.",
-            "أولاً، قل للموظف كيفية التواصل معك."
-          )}
+          {user?.type === "employer"
+            ? "First, tell the employee of how they would contact you."
+            : "First, tell the employer of how they would contact you."}
         </GaramondText>
 
         <View
@@ -56,26 +49,20 @@ const CV = ({ navigation }) => {
 
         <RenderTextInput
           isMultiline={false}
-          title={translateText("E-Mail", "البريد الإلكتروني")}
+          title="E-Mail"
           value={email}
           setValue={setEmail}
-          placeholder={translateText(
-            "Ex: mohammed.h@hotmail.com",
-            "مثال: mohammed.h@hotmail.com"
-          )}
+          placeholder="Ex: mohammed.h@hotmail.com"
         />
 
         <View className="my-2"></View>
 
         <RenderTextInput
           isMultiline={false}
-          title={translateText("Address", "العنوان")}
+          title="Address"
           value={address}
           setValue={setAddress}
-          placeholder={translateText(
-            "Ex: Lebanon - Beirut - Hamera - Sadat St.",
-            "مثال: لبنان - بيروت - حمرا - شارع سادات"
-          )}
+          placeholder="Ex: Lebanon - Beirut - Hamera - Sadat St."
         />
       </View>
 
@@ -103,11 +90,9 @@ const CV = ({ navigation }) => {
                 dispatch
               );
         }}
-        className="self-end w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[#FE6F07] rounded-xl"
+        className={`self-end w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
       >
-        <GaramondText className="text-lg text-white">
-          {translateText("Next", "التالي")}
-        </GaramondText>
+        <GaramondText className="text-lg text-white">Next</GaramondText>
       </TouchableOpacity>
     </View>
   );

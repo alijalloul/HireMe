@@ -1,7 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useState } from "react";
-import { I18nManager, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 
 import { useEffect } from "react";
@@ -11,10 +11,6 @@ const ChooseLanguage = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [language, setLanguage] = useState("english");
-
-  const translateText = (englishText, arabicText) => {
-    return language === "arabic" ? arabicText : englishText;
-  };
 
   useEffect(() => {
     if (language === "arabic") {
@@ -28,26 +24,34 @@ const ChooseLanguage = ({ navigation }) => {
     <View className="bg-white flex-1 justify-center items-center">
       <View className="flex-1 w-full justify-center items-center">
         <View className="w-full flex justify-center items-center mb-10">
-          <GaramondText className="text-3xl text-[#FE6F07] font-garamond-bold">
+          <GaramondText
+            className={`text-3xl text-[${Colors.primary}] font-garamond-bold`}
+          >
             Choose Your Language
           </GaramondText>
-          <GaramondText className="text-3xl text-[#FE6F07] font-garamond-bold">
+          <GaramondText
+            className={`text-3xl text-[${Colors.primary}] font-garamond-bold`}
+          >
             اختر لغتك
           </GaramondText>
         </View>
         <View className="w-full flex-row justify-center items-center mb-10  ">
-          <View className="w-[80%] border-2 border-[#FE6F07] rounded-2xl flex-row justify-center items-center">
+          <View
+            className={`w-[80%] border-2 border-[${Colors.primary}] rounded-2xl flex-row justify-center items-center`}
+          >
             <TouchableOpacity
               onPress={() => {
                 setLanguage("english");
               }}
               className={`${
-                language === "english" ? "bg-[#FE6F07] " : "bg-white"
+                language === "english" ? `bg-[${Colors.primary}] ` : "bg-white"
               } rounded-xl  w-[50%] py-5  flex justify-center items-center `}
             >
               <GaramondText
                 className={`${
-                  language === "english" ? " text-white " : "text-[#FE6F07]"
+                  language === "english"
+                    ? " text-white "
+                    : `text-[${Colors.primary}]`
                 } font-garamond-bold text-xl`}
               >
                 English
@@ -58,12 +62,14 @@ const ChooseLanguage = ({ navigation }) => {
                 setLanguage("arabic");
               }}
               className={`${
-                language === "arabic" ? "bg-[#FE6F07] " : "bg-white"
+                language === "arabic" ? `bg-[${Colors.primary}] ` : "bg-white"
               } rounded-xl  w-[50%] py-5  flex justify-center items-center`}
             >
               <GaramondText
                 className={`${
-                  language === "arabic" ? " text-white " : "text-[#FE6F07]"
+                  language === "arabic"
+                    ? " text-white "
+                    : `text-[${Colors.primary}]`
                 } font-garamond-bold text-xl`}
               >
                 عربي
@@ -78,10 +84,10 @@ const ChooseLanguage = ({ navigation }) => {
           onPress={() => {
             editAppLanguage(language, navigation, dispatch);
           }}
-          className="w-[90%] bg-[#FE6F07] py-3 rounded-3xl flex justify-center items-center mb-5"
+          className={`w-[90%] bg-[${Colors.primary}] py-3 rounded-3xl flex justify-center items-center mb-5`}
         >
           <GaramondText className="text-white font-garamond-bold text-xl">
-            {translateText("Confirm", "وافق")}
+            Confirm
           </GaramondText>
         </TouchableOpacity>
       </View>

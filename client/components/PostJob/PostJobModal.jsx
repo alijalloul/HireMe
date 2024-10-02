@@ -1,15 +1,8 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import moment from "moment";
 import React, { memo, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "react-native-modal";
@@ -30,10 +23,6 @@ import {
   updateJobPost,
 } from "@/redux/User";
 
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
-
 const PostJobModal = ({
   isBottomSheetVisible,
   setBottomSheetVisible,
@@ -48,33 +37,16 @@ const PostJobModal = ({
 
   const [id, setId] = useState(null);
 
-  const [jobTitle, setJobTitle] = useState(
-    translateText("Software Engineer", "مهندس البرمجيات")
-  );
-  const [company, setCompany] = useState(
-    translateText("TechCo", "شركة تكنولوجيا")
-  );
-  const [location, setLocation] = useState(
-    translateText("San Francisco", "سان فرانسيسكو")
-  );
-  const [country, setCountry] = useState(
-    translateText("United States", "الولايات المتحدة")
-  );
-  const [category, setCategory] = useState(
-    translateText("Information Technology", "تكنولوجيا المعلومات")
-  );
+  const [jobTitle, setJobTitle] = useState("Software Engineer");
+  const [company, setCompany] = useState("TechCo");
+  const [location, setLocation] = useState("San Francisco");
+  const [country, setCountry] = useState("United States");
+  const [category, setCategory] = useState("Information Technology");
   const [skills, setSkills] = useState(["JavaScript", "React", "Node"]);
-  const [experienceRequired, setExperienceRequired] = useState(
-    translateText("3-4 years", "3-4 سنوات")
-  );
-  const [jobType, setJobType] = useState(
-    translateText("Full-Time", "دوام كامل")
-  );
+  const [experienceRequired, setExperienceRequired] = useState("3-4 years");
+  const [jobType, setJobType] = useState("Full-Time");
   const [description, setDescription] = useState(
-    translateText(
-      "We are looking for a skilled Software Engineer to join our dynamic team...",
-      "نبحث عن مهندس برمجيات ماهر للانضمام إلى فريقنا الديناميكي..."
-    )
+    "We are looking for a skilled Software Engineer to join our dynamic team..."
   );
 
   const [jobTitleError, setJobTitleError] = useState(false);
@@ -295,39 +267,39 @@ const PostJobModal = ({
   };
 
   const categories = [
-    translateText("Technology", "تكنولوجيا"),
-    translateText("Healthcare", "الرعاىة الصحية"),
-    translateText("Finance", "تمويل"),
-    translateText("Education", "تعليم"),
-    translateText("Marketing", "تسويق"),
-    translateText("Sales", "مبيعات"),
-    translateText("Design", "تصميم"),
-    translateText("Engineering", "هندسة"),
-    translateText("Customer Service", "خدمة الزبائن"),
-    translateText("Human Resources", "الموارد البشرية"),
-    translateText("Administrative", "إداري"),
-    translateText("Legal", "قانوني"),
-    translateText("Writing", "كتابة"),
-    translateText("Art", "فن"),
-    translateText("Entertainment", "ترفيه"),
-    translateText("Science", "علوم"),
-    translateText("Retail", "بيع بالتجزئة"),
-    translateText("Food Service", "خدمة الطعام"),
-    translateText("Construction", "بناء"),
-    translateText("Transportation", "مواصلات"),
-    translateText("Social Services", "خدمات اجتماعية"),
-    translateText("Manufacturing", "تصنيع"),
-    translateText("Media", "وسائط"),
-    translateText("Research", "بحث"),
-    translateText("Architecture", "بنيان"),
-    translateText("Environmental", "البيئية"),
-    translateText("Hospitality", "ضيافة"),
-    translateText("Real Estate", "العقارات"),
-    translateText("Agriculture", "زراعة"),
-    translateText("Fitness", "لياقة بدنية"),
-    translateText("Fashion", "موضة"),
-    translateText("Automotive", "السيارات"),
-    translateText("Other", "آخر"),
+    "Technology",
+    "Healthcare",
+    "Finance",
+    "Education",
+    "Marketing",
+    "Sales",
+    "Design",
+    "Engineering",
+    "Customer Service",
+    "Human Resources",
+    "Administrative",
+    "Legal",
+    "Writing",
+    "Art",
+    "Entertainment",
+    "Science",
+    "Retail",
+    "Food Service",
+    "Construction",
+    "Transportation",
+    "Social Services",
+    "Manufacturing",
+    "Media",
+    "Research",
+    "Architecture",
+    "Environmental",
+    "Hospitality",
+    "Real Estate",
+    "Agriculture",
+    "Fitness",
+    "Fashion",
+    "Automotive",
+    "Other",
   ];
 
   const CheckMarkForm = ({ value, setValue, conditional }) => {
@@ -338,7 +310,9 @@ const PostJobModal = ({
             setValue(conditional);
           }}
           className={`h-8 w-8 p-2 rounded-lg mr-3 ${
-            value === conditional ? "bg-[#FE6F07]" : "bg-white border-[1px]"
+            value === conditional
+              ? `bg-[${Colors.primary}]`
+              : "bg-white border-[1px]"
           }`}
         >
           {value === conditional && (
@@ -398,10 +372,7 @@ const PostJobModal = ({
         }`}
       >
         <GaramondText className="mb-5 text-lg opacity-60">
-          {translateText(
-            "You Have Not Posted Any Job Yet.",
-            "لم تقم بنشر أي وظيفة بعد."
-          )}
+          You Have Not Posted Any Job Yet.
         </GaramondText>
       </View>
       <View>
@@ -467,9 +438,7 @@ const PostJobModal = ({
             }`}
           >
             <GaramondText className=" text-3xl font-garamond">
-              {isEditing
-                ? translateText("Edit", "تحرير")
-                : translateText("Post a Job", "نشر وظيفة")}
+              {isEditing ? Edit : "Post a Job"}
             </GaramondText>
 
             <TouchableOpacity onPress={() => closeModal()}>
@@ -490,90 +459,73 @@ const PostJobModal = ({
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Job Title *", "عنوان الوظيفة *")}
+                  title="Job Title *"
                   value={jobTitle}
                   setValue={setJobTitle}
-                  placeholder={translateText("Ex: Accountant", "مثال: محاسب")}
+                  placeholder="Ex: Accountant"
                   isError={jobTitleError}
                   setIsError={setJobTitleError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Company *", "الشركة *")}
+                  title="Company *"
                   value={company}
                   setValue={setCompany}
-                  placeholder={translateText("Ex: Amazon", "مثال: أمازون")}
+                  placeholder="Ex: Amazon"
                   isError={companyError}
                   setIsError={setCategoryError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Location *", "الموقع *")}
+                  title="Location *"
                   value={location}
                   setValue={setLocation}
-                  placeholder={translateText("Ex: Beirut", "مثال: بيروت")}
+                  placeholder="Ex: Beirut"
                   isError={locationError}
                   setIsError={setLocationError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Country *", "الدولة *")}
+                  title="Country *"
                   value={country}
                   setValue={setCountry}
-                  placeholder={translateText("Ex: Lebanon", "مثال: لبنان")}
+                  placeholder="Ex: Lebanon"
                   isError={countryError}
                   setIsError={setCountryError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
               <View className="mb-5">
                 <SingleSelectorModal
-                  title={translateText("Category *", "الفئة *")}
+                  title="Category *"
                   data={categories}
                   value={category}
                   setValue={setCategory}
                   isError={categoryError}
                   setIsError={setCategoryError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
               <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  {translateText("Skills", "المهارات")}
-                </GaramondText>
+                <GaramondText className="text-[20px] mb-2">Skills</GaramondText>
 
                 <SkillModal value={skills} setValue={setSkills} />
               </View>
 
               <View className="mb-5">
                 <GaramondText className="text-[20px] mb-2">
-                  {translateText("Job Experience", "خبرة الوظيفة")}
+                  Job Experience
                 </GaramondText>
 
                 <View>
@@ -581,7 +533,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("No Experience", "لا تجربة")}
+                      conditional="No Experience"
                     />
                   }
 
@@ -589,7 +541,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("1-2 years", "1-2 سنوات")}
+                      conditional="1-2 years"
                     />
                   }
 
@@ -597,7 +549,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("3-4 years", "3-4 سنوات")}
+                      conditional="3-4 years"
                     />
                   }
 
@@ -605,7 +557,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("5+ years", "5+ سنوات")}
+                      conditional="5+ years"
                     />
                   }
                 </View>
@@ -613,7 +565,7 @@ const PostJobModal = ({
 
               <View className="mb-5">
                 <GaramondText className="text-[20px] mb-2">
-                  {translateText("Job Type", "نوع الوظيفة")}
+                  Job Type
                 </GaramondText>
 
                 <View>
@@ -621,7 +573,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={jobType}
                       setValue={setJobType}
-                      conditional={translateText("Full-Time", "دوام كامل")}
+                      conditional="Full-Time"
                     />
                   }
 
@@ -629,7 +581,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={jobType}
                       setValue={setJobType}
-                      conditional={translateText("Part-Time", "دوام جزئي")}
+                      conditional="Part-Time"
                     />
                   }
 
@@ -637,7 +589,7 @@ const PostJobModal = ({
                     <CheckMarkForm
                       value={jobType}
                       setValue={setJobType}
-                      conditional={translateText("Contract", "عقد")}
+                      conditional="Contract"
                     />
                   }
                 </View>
@@ -646,25 +598,20 @@ const PostJobModal = ({
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={true}
-                  title={translateText("Description", "الوصف")}
+                  title="Description"
                   value={description}
                   setValue={setDescription}
-                  placeholder={translateText(
-                    "Ex: I count money",
-                    "مثال: أنا أحسب المال"
-                  )}
+                  placeholder="Ex: I count money"
                 />
               </View>
 
               <View className="w-full flex justify-center items-end mb-8">
                 <TouchableOpacity
                   onPress={() => saveWorkExperience()}
-                  className="w-32 bottom-0 right-0 bg-[#FE6F07] rounded-xl px-10 py-2"
+                  className={`w-32 bottom-0 right-0 bg-[${Colors.primary}] rounded-xl px-10 py-2`}
                 >
                   <GaramondText className="text-lg fontW-garamond text-white">
-                    {isEditing
-                      ? translateText("Edit", "تحرير")
-                      : translateText("Post", "نشر")}
+                    {isEditing ? Edit : "Post"}
                   </GaramondText>
                 </TouchableOpacity>
               </View>

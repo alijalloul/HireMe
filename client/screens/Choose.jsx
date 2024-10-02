@@ -1,9 +1,9 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import { LinearGradient } from "expo-linear-gradient";
 import { MotiText, MotiView, useDynamicAnimation } from "moti";
 import React, { useEffect, useState } from "react";
-import { I18nManager, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import { editUser } from "@/redux/User";
@@ -31,8 +31,8 @@ const Choose = ({ navigation }) => {
   const animateJobCardBackground = () => {
     if (type === "employee") {
       JobCardBackgroundAnimation.animateTo(() => ({
-        backgroundColor: "#FE6F07",
-        borderColor: "#FE6F07",
+        backgroundColor: Colors.primary,
+        borderColor: Colors.primary,
       }));
 
       JobTextBackgroundAnimation.animateTo(() => ({
@@ -75,8 +75,8 @@ const Choose = ({ navigation }) => {
   const animateClientCardBackground = () => {
     if (type === "employer") {
       ClientCardBackgroundAnimation.animateTo(() => ({
-        backgroundColor: "#FE6F07",
-        borderColor: "#FE6F07",
+        backgroundColor: Colors.primary,
+        borderColor: Colors.primary,
       }));
 
       ClientTextBackgroundAnimation.animateTo(() => ({
@@ -111,21 +111,14 @@ const Choose = ({ navigation }) => {
     }
   }, [type, error]);
 
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
-  };
-
   return (
     <View className="flex-1 bg-white items-center">
       <View className="my-5 flex justify-center items-center">
         <GaramondText className={`text-sm text-red-500 ${!error && "hidden"}`}>
-          {translateText(
-            "You need to choose an account type",
-            "يجب عليك اختيار نوع الحساب"
-          )}
+          You need to choose an account type
         </GaramondText>
         <GaramondText className="text-[40px] font-garamond">
-          {translateText("I am looking for...", "أبحث عن...")}
+          I am looking for...
         </GaramondText>
       </View>
 
@@ -142,7 +135,7 @@ const Choose = ({ navigation }) => {
             <LinearGradient
               colors={[
                 "white",
-                type === "employee" ? "#FE6F07" : "rgba(0,0,0,0.4)",
+                type === "employee" ? Colors.primary : "rgba(0,0,0,0.4)",
               ]}
               start={{ x: 0, y: 0.4 }}
               className="p-[8px] rounded-full"
@@ -159,7 +152,7 @@ const Choose = ({ navigation }) => {
               state={JobTextBackgroundAnimation}
               className=" text-[40px]"
             >
-              {translateText("A Job", "وظيفة")}
+              A Job
             </MotiText>
           </TouchableOpacity>
         </View>
@@ -178,7 +171,7 @@ const Choose = ({ navigation }) => {
             <LinearGradient
               colors={[
                 "white",
-                type === "employer" ? "#FE6F07" : "rgba(0,0,0,0.4)",
+                type === "employer" ? `${Colors.primary}` : "rgba(0,0,0,0.4)",
               ]}
               start={{ x: 0, y: 0.4 }}
               className="p-[8px] rounded-full"
@@ -194,7 +187,7 @@ const Choose = ({ navigation }) => {
               state={ClientTextBackgroundAnimation}
               className=" text-[40px]"
             >
-              {translateText("An Employee", "موظف")}
+              An Employee
             </MotiText>
           </TouchableOpacity>
         </View>
@@ -206,11 +199,9 @@ const Choose = ({ navigation }) => {
             ? editUser({ ...userInfo, type: type }, "CV", navigation, dispatch)
             : setError(true);
         }}
-        className="absolute bottom-0 right-0 mb-3 mr-3 bg-[#FE6F07] rounded-xl px-10 py-2"
+        className={`absolute bottom-0 right-0 mb-3 mr-3 bg-[${Colors.primary}] rounded-xl px-10 py-2`}
       >
-        <GaramondText className="text-lg text-white">
-          {translateText("Next", "التالي")}
-        </GaramondText>
+        <GaramondText className="text-lg text-white">Next</GaramondText>
       </TouchableOpacity>
     </View>
   );

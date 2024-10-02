@@ -1,8 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  I18nManager,
   Image,
   Keyboard,
   ScrollView,
@@ -42,10 +41,6 @@ const Verification = ({ navigation }) => {
     };
   }, []);
 
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
-  };
-
   return (
     <View className="flex-1 justify-center bg-white">
       <View
@@ -80,18 +75,17 @@ const Verification = ({ navigation }) => {
         </View>
 
         <View className="flex justify-center items-center mb-16">
-          <GaramondText className="text-[#FE6F07] font-garamond-bold text-4xl">
-            {translateText("Verification Code", "رمز التحقق")}
+          <GaramondText
+            className={`text-[${Colors.primary}] font-garamond-bold text-4xl`}
+          >
+            Verification Code
           </GaramondText>
 
           <View className="flex justify-center items-center mb-3">
             <GaramondText className=" text-[16px]">
-              {translateText(
-                "Please enter the code sent to",
-                "الرجاء إدخال الرمز المرسل إليه"
-              )}
+              Please enter the code sent to
             </GaramondText>
-            <GaramondText className=" text-[#FE6F07] text-[16px]">
+            <GaramondText className={` text-[${Colors.primary}] text-[16px]`}>
               {phoneNumber}
             </GaramondText>
           </View>
@@ -102,7 +96,7 @@ const Verification = ({ navigation }) => {
             }}
           >
             <GaramondText className=" opacity-50 border-b-[0.5px]">
-              {translateText("Change Phone Number", "تغيير رقم الهاتف")}
+              Change Phone Number
             </GaramondText>
           </TouchableOpacity>
         </View>
@@ -118,7 +112,7 @@ const Verification = ({ navigation }) => {
               <GaramondText
                 className={`${
                   OTP.length > 0
-                    ? "text-[#FE6F07] border-[#FE6F07]"
+                    ? `text-[${Colors.primary}] border-[${Colors.primary}]`
                     : "text-black border-black"
                 } border-b-[8px] flex justify-center items-center text-3xl font-garamond-bold px-5`}
               >
@@ -129,7 +123,7 @@ const Verification = ({ navigation }) => {
               <GaramondText
                 className={`${
                   OTP.length > 1
-                    ? "text-[#FE6F07] border-[#FE6F07]"
+                    ? `text-[${Colors.primary}] border-[${Colors.primary}]`
                     : "text-black border-black"
                 } border-b-[8px] flex justify-center items-center text-3xl font-garamond-bold px-5`}
               >
@@ -140,7 +134,7 @@ const Verification = ({ navigation }) => {
               <GaramondText
                 className={`${
                   OTP.length > 2
-                    ? "text-[#FE6F07] border-[#FE6F07]"
+                    ? `text-[${Colors.primary}] border-[${Colors.primary}]`
                     : "text-black border-black"
                 } border-b-[8px] flex justify-center items-center text-3xl font-garamond-bold px-5`}
               >
@@ -151,7 +145,7 @@ const Verification = ({ navigation }) => {
               <GaramondText
                 className={`${
                   OTP.length > 3
-                    ? "text-[#FE6F07] border-[#FE6F07]"
+                    ? `text-[${Colors.primary}] border-[${Colors.primary}]`
                     : "text-black border-black"
                 } border-b-[8px] flex justify-center items-center text-3xl font-garamond-bold px-5`}
               >
@@ -178,10 +172,10 @@ const Verification = ({ navigation }) => {
             onPress={() => {
               signup({ ...user, otp: OTP }, navigation, dispatch);
             }}
-            className="bg-[#FE6F07] w-full py-3 rounded-3xl flex justify-center items-center mb-3"
+            className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-3`}
           >
             <GaramondText className="text-white font-garamond-bold text-xl">
-              {translateText("Verify", "تحقق")}
+              Verify
             </GaramondText>
           </TouchableOpacity>
           <TouchableOpacity
@@ -190,8 +184,10 @@ const Verification = ({ navigation }) => {
             }}
             className="bg-white w-full py-3 rounded-3xl flex justify-center items-center"
           >
-            <GaramondText className="text-[#FE6F07] font-garamond-bold text-xl">
-              {translateText("Resend Code", "إعادة إرسال الرمز")}
+            <GaramondText
+              className={`text-[${Colors.primary}] font-garamond-bold text-xl`}
+            >
+              Resend Code
             </GaramondText>
           </TouchableOpacity>
         </View>

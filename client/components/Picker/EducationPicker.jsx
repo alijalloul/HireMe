@@ -1,14 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
 
 import pen from "@/assets/images/pen.png";
@@ -16,10 +9,6 @@ import trash from "@/assets/images/trash.png";
 
 import RenderTextInput from "../RenderTextInput";
 import SingleSelectorModal from "../SingleSelectorModal";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const EducationPicker = ({
   headerText,
@@ -119,39 +108,39 @@ const EducationPicker = ({
   };
 
   const degrees = [
-    translateText("Bachelor of Science (BS)", "بكالوريوس العلوم"),
-    translateText("Master of Science (MS)", "ماجستير العلوم"),
-    translateText("Doctor of Philosophy (PHD)", "دكتوراه في الفلسفة"),
-    translateText("Bachelor of Technology (BTech)", "بكالوريوس تقنيات"),
-    translateText("High School Diploma", "الثانوية العامة"),
+    "Bachelor of Science (BS)",
+    "Master of Science (MS)",
+    "Doctor of Philosophy (PHD)",
+    "Bachelor of Technology (BTech)",
+    "High School Diploma",
   ];
 
   const majors = [
-    translateText("Computer Science", "علوم الكمبيوتر"),
-    translateText("Mechanical Engineering", "هندسة ميكانيكية"),
-    translateText("Psychology", "علم النفس"),
-    translateText("Biology", "أحياء"),
-    translateText("Business Administration", "إدارة الأعمال"),
-    translateText("Economics", "اقتصاد"),
-    translateText("English Literature", "أدب إنجليزي"),
-    translateText("History", "تاريخ"),
-    translateText("Chemistry", "كيمياء"),
-    translateText("Mathematics", "رياضيات"),
-    translateText("Political Science", "علم سياسة"),
-    translateText("Sociology", "علم اجتماع"),
-    translateText("Physics", "فيزياء"),
-    translateText("Art and Design", "فنون وتصميم"),
-    translateText("Environmental Science", "علم البيئة"),
-    translateText("Nursing", "تمريض"),
-    translateText("Marketing", "تسويق"),
-    translateText("Accounting", "محاسبة"),
-    translateText("Civil Engineering", "هندسة مدنية"),
-    translateText("Architecture", "هندسة معمارية"),
-    translateText("Music", "موسيقى"),
-    translateText("Education", "تعليم"),
-    translateText("Communications", "اتصالات"),
-    translateText("Graphic Design", "تصميم جرافيك"),
-    translateText("Philosophy", "فلسفة"),
+    "Computer Science",
+    "Mechanical Engineering",
+    "Psychology",
+    "Biology",
+    "Business Administration",
+    "Economics",
+    "English Literature",
+    "History",
+    "Chemistry",
+    "Mathematics",
+    "Political Science",
+    "Sociology",
+    "Physics",
+    "Art and Design",
+    "Environmental Science",
+    "Nursing",
+    "Marketing",
+    "Accounting",
+    "Civil Engineering",
+    "Architecture",
+    "Music",
+    "Education",
+    "Communications",
+    "Graphic Design",
+    "Philosophy",
   ];
 
   const convertToArabicNumerals = (number) => {
@@ -164,10 +153,7 @@ const EducationPicker = ({
   const startYearN = 1990;
   const endYearN = 2023;
   const years = Array.from({ length: endYearN - startYearN + 1 }, (_, index) =>
-    translateText(
-      (endYearN - index).toString(),
-      convertToArabicNumerals(endYearN - index)
-    )
+    (endYearN - index).toString()
   );
 
   return (
@@ -219,24 +205,21 @@ const EducationPicker = ({
 
                 {educ.major && (
                   <GaramondText className="text-[15px]">
-                    {translateText("in", "في")}{" "}
+                    in
                     <GaramondText className="text-xl">
                       {educ.major}
-                    </GaramondText>{" "}
-                    {translateText("from", "من")}
+                    </GaramondText>
+                    from
                   </GaramondText>
                 )}
                 <View className="w-full flex flex-row justify-between items-center mb-4">
-                  <GaramondText className="text-lg">
-                    {translateText(educ.school, "نص باللغة العربية")}
-                  </GaramondText>
+                  <GaramondText className="text-lg">{educ.school}</GaramondText>
                   <GaramondText className="text-[15px] opacity-70 mb-3">
-                    {translateText(educ.startYear, "نص باللغة العربية")} -{" "}
-                    {translateText(educ.endYear, "نص باللغة العربية")}
+                    {educ.startYear} -{educ.endYear}
                   </GaramondText>
                 </View>
                 <GaramondText className="text-lg opacity-70">
-                  {translateText(educ.note, "نص باللغة العربية")}
+                  {educ.note}
                 </GaramondText>
               </View>
             ))}
@@ -246,10 +229,12 @@ const EducationPicker = ({
           onPress={() => {
             setBottomSheetVisible(true);
           }}
-          className="bg-white border-[1px] border-[#FE6F07] w-full py-3 rounded-3xl flex justify-center items-center mb-5"
+          className={`bg-white border-[1px] border-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-5`}
         >
-          <GaramondText className="text-[#FE6F07] font-garamond-bold text-xl">
-            + {translateText("Add education", "نص باللغة العربية")}
+          <GaramondText
+            className={`text-[${Colors.primary}] font-garamond-bold text-xl`}
+          >
+            + Add education
           </GaramondText>
         </TouchableOpacity>
       </View>
@@ -266,9 +251,7 @@ const EducationPicker = ({
             }`}
           >
             <GaramondText className="text-3xl font-garamond">
-              {isEditing
-                ? translateText("Edit", "تعديل")
-                : translateText("Add Education", "إضافة تعليم")}
+              {isEditing ? Edit : "Add Education"}
             </GaramondText>
 
             <TouchableOpacity
@@ -293,56 +276,44 @@ const EducationPicker = ({
             <View className="w-[90%]">
               <View className="mb-5">
                 <SingleSelectorModal
-                  title={translateText("Degree *", "الدرجة *")}
+                  title="Degree *"
                   data={degrees}
                   value={degree}
                   setValue={setDegree}
                   isError={degreeError}
                   setIsError={setDegreeError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
               <View className="mb-5">
                 <SingleSelectorModal
-                  title={translateText("Major *", "التخصص *")}
+                  title="Major *"
                   data={majors}
                   value={major}
                   setValue={setMajor}
                   isError={majorError}
                   setIsError={setMajorError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("School *", "المدرسة *")}
+                  title="School *"
                   value={school}
                   setValue={setSchool}
-                  placeholder={translateText(
-                    "Ex: LU",
-                    "مثال: الجامعة اللبنانية"
-                  )}
+                  placeholder="Ex: LU"
                   isError={schoolError}
                   setIsError={setSchoolError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
               <View className="mb-5">
                 <GaramondText className="text-[20px] mb-2">
-                  {translateText("Duration", "المدة")}
+                  Duration
                 </GaramondText>
                 <View className="flex flex-row justify-between items-center">
                   <View className="w-[45%]">
@@ -366,13 +337,10 @@ const EducationPicker = ({
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={true}
-                  title={translateText("Add Note", "إضافة ملاحظة")}
+                  title="Add Note"
                   value={note}
                   handleChange={setNote}
-                  placeholder={translateText(
-                    "Ex: Minor in cyber security",
-                    "مثال: تخصص فرعي في أمان الأنظمة السيبرانية"
-                  )}
+                  placeholder="Ex: Minor in cyber security"
                 />
               </View>
 
@@ -381,12 +349,10 @@ const EducationPicker = ({
                   onPress={() => {
                     saveEducation();
                   }}
-                  className="w-32 bottom-0 right-0 bg-[#FE6F07] rounded-xl px-10 py-2"
+                  className={`w-32 bottom-0 right-0 bg-[${Colors.primary}] rounded-xl px-10 py-2`}
                 >
                   <GaramondText className="text-lg text-white">
-                    {isEditing
-                      ? translateText("Edit", "تعديل")
-                      : translateText("Add", "إضافة")}
+                    {isEditing ? Edit : "Add"}
                   </GaramondText>
                 </TouchableOpacity>
               </View>

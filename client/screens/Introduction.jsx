@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
 import { I18nManager } from "react-native";
@@ -32,10 +32,6 @@ const Introduction = ({ navigation }) => {
     });
   }, []);
 
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
-  };
-
   return (
     <ScrollView
       className="flex-1 bg-white"
@@ -46,16 +42,11 @@ const Introduction = ({ navigation }) => {
     >
       <View className="w-[90%] h-full">
         <GaramondText className="text-4xl mb-5">
-          {translateText(
-            "You are one step closer towards finding your perfect job!",
-            "أنت قريب جدًا من العثور على وظيفتك المثالية!"
-          )}
+          You are one step closer towards finding your perfect job!
         </GaramondText>
         <GaramondText className="text-[20px] mb-5">
-          {translateText(
-            "We will need you to fill out some information to get to know you better.",
-            "سنحتاج منك ملء بعض المعلومات لنتعرف عليك بشكل أفضل."
-          )}
+          We will need you to fill out some information to get to know you
+          better.
         </GaramondText>
 
         <View className="w-full flex justify-center items-center mb-2">
@@ -71,25 +62,19 @@ const Introduction = ({ navigation }) => {
           <RenderTextInput
             isNumpad={false}
             isMultiline={false}
-            title={translateText("Professional Role", "الدور المهني")}
+            title="Professional Role"
             value={professionalRole}
             setValue={setProffesionalRole}
-            placeholder={translateText(
-              "Ex: Web Developer | Translator",
-              "على سبيل المثال: مطور ويب | مترجم"
-            )}
+            placeholder="Ex: Web Developer | Translator"
           />
         </View>
         <View className="mb-4">
           <RenderTextInput
             isMultiline={true}
-            title={translateText("Introduction", "مقدمة")}
+            title="Introduction"
             value={introduction}
             setValue={setIntroduction}
-            placeholder={translateText(
-              "Ex: Hello, I am a university student currently majoring in computer science at LIU. I like to travel, jog, and sleep.",
-              "مثال: مرحبًا، أنا طالب جامعي حاليًا أدرس علوم الكمبيوتر في ال LIU. أحب السفر والركض والنوم."
-            )}
+            placeholder="Ex: Hello, I am a university student currently majoring in computer science at LIU. I like to travel, jog, and sleep."
           />
         </View>
 
@@ -108,11 +93,9 @@ const Introduction = ({ navigation }) => {
                 dispatch
               );
             }}
-            className="w-32 bottom-0 right-0 mb-3 bg-[#FE6F07] rounded-xl px-10 py-2"
+            className={`w-32 bottom-0 right-0 mb-3 bg-[${Colors.primary}] rounded-xl px-10 py-2`}
           >
-            <GaramondText className="text-lg text-white">
-              {translateText("Next", "التالي")}
-            </GaramondText>
+            <GaramondText className="text-lg text-white">Next</GaramondText>
           </TouchableOpacity>
         </View>
       </View>

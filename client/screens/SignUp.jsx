@@ -1,14 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobright from "@/assets/images/blobright.png";
@@ -53,21 +46,11 @@ const SignUp = ({ navigation }) => {
       error = true;
     }
     if (telephone === "") {
-      setTelephoneErrorMessage(
-        translateText(
-          "This field can not be empty",
-          "هذا الحقل لا يمكن أن يكون فارغًا"
-        )
-      );
+      setTelephoneErrorMessage("This field can not be empty");
       setTelephoneError(true);
       error = true;
     } else if (telephone.length < 8) {
-      setTelephoneErrorMessage(
-        translateText(
-          "Your phone number should be 8 characters long",
-          " يجب أن يتكون رقم هاتفك من ٨ أحرف"
-        )
-      );
+      setTelephoneErrorMessage("Your phone number should be 8 characters long");
       setTelephoneError(true);
       error = true;
     }
@@ -92,18 +75,11 @@ const SignUp = ({ navigation }) => {
 
       if (res) {
         setTelephoneErrorMessage(
-          translateText(
-            "This phone number is already in use, try loggin in",
-            "رقم الهاتف مستعمل"
-          )
+          "This phone number is already in use, try loggin in"
         );
         setTelephoneError(true);
       }
     }
-  };
-
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
   };
 
   return (
@@ -135,7 +111,7 @@ const SignUp = ({ navigation }) => {
 
         <View className="flex-1 w-[90%]">
           <GaramondText className="pl-5 pt-20 text-[40px] text-white w-[50%]">
-            {translateText("Create Account", "إنشاء حساب")}
+            Create Account
           </GaramondText>
           <View className=" mt-32">
             <View className="mb-10">
@@ -146,13 +122,10 @@ const SignUp = ({ navigation }) => {
                   icon={user}
                   value={name}
                   setValue={setName}
-                  placeholder={translateText("Full Name", "الاسم الكامل")}
+                  placeholder="Full Name"
                   isError={nameError}
                   setIsError={setNameError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                   isArabic={I18nManager.isRTL && true}
                 />
               </View>
@@ -164,7 +137,7 @@ const SignUp = ({ navigation }) => {
                   icon={phone}
                   value={telephone}
                   setValue={setTelephone}
-                  placeholder={translateText("Phone Number", "رقم الهاتف")}
+                  placeholder="Phone Number"
                   isError={telephoneError}
                   setIsError={setTelephoneError}
                   errorMessage={telephoneErrorMessage}
@@ -179,13 +152,10 @@ const SignUp = ({ navigation }) => {
                   icon={key}
                   value={password}
                   setValue={setPassword}
-                  placeholder={translateText("Password", "كلمة المرور")}
+                  placeholder="Password"
                   isError={passwordError}
                   setIsError={setPasswordError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                   isArabic={I18nManager.isRTL && true}
                 />
               </View>
@@ -196,16 +166,16 @@ const SignUp = ({ navigation }) => {
                 onPress={() => {
                   handleNext();
                 }}
-                className="bg-[#FE6F07] w-full py-3 rounded-3xl flex justify-center items-center"
+                className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center`}
               >
                 <GaramondText className="text-white font-garamond-bold text-xl">
-                  {translateText("Sign Up", "سجل")}
+                  Sign Up
                 </GaramondText>
               </TouchableOpacity>
 
               <View className=" relative flex justify-center items-center w-full my-4">
                 <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
-                  {translateText("or", "او")}
+                  or
                 </GaramondText>
                 <View className="opacity-50 absolute w-full border-b-[1px] "></View>
               </View>
@@ -217,7 +187,7 @@ const SignUp = ({ navigation }) => {
                 className="bg-white border-[1px] border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center mb-2"
               >
                 <GaramondText className=" font-garamond-bold text-xl">
-                  {translateText("Log In", "تسجيل الدخول")}
+                  Log In
                 </GaramondText>
               </TouchableOpacity>
             </View>

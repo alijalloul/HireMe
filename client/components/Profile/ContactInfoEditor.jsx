@@ -1,21 +1,10 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import check from "@/assets/images/check.png";
 import pen from "@/assets/images/pen.png";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const ContactInfoEditor = ({
   textSize,
@@ -49,7 +38,7 @@ const ContactInfoEditor = ({
           value === "" && " opacity-50"
         }`}
       >
-        {value === "" ? translateText(placeholder, "النص البديل") : value}
+        {value === "" ? placeholder : value}
       </GaramondText>
 
       <TextInput

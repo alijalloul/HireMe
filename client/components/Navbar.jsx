@@ -241,7 +241,7 @@ const Navbar = ({ navigation }) => {
           className="z-10 absolute top-0 left-0 right-0 flex justify-center items-center"
         >
           <View
-            className={` z-10 bg-[#FE6F07] border-8 border-white rounded-full w-16 aspect-square `}
+            className={`z-10 bg-[${Colors.primary}] border-8 border-white rounded-full w-16 aspect-square `}
           ></View>
         </MotiView>
 
@@ -267,7 +267,7 @@ const Navbar = ({ navigation }) => {
             </TouchableOpacity>
           </MotiView>
 
-          <GaramondText className="text-[#FE6F07] text-lg">home</GaramondText>
+          <GaramondText className={`text-[${Colors.primary}] text-lg`}>home</GaramondText>
         </View>
         <View className="z-20 relative flex justify-center items-center">
           <MotiView
@@ -292,7 +292,7 @@ const Navbar = ({ navigation }) => {
               />
             </TouchableOpacity>
           </MotiView>
-          <GaramondText className="text-[#FE6F07] text-lg">myJobs</GaramondText>
+          <GaramondText className={`text-[${Colors.primary}] text-lg`}>myJobs</GaramondText>
         </View>
         <View className="z-20 flex justify-center items-center">
           <MotiView
@@ -315,7 +315,7 @@ const Navbar = ({ navigation }) => {
               />
             </TouchableOpacity>
           </MotiView>
-          <GaramondText className="text-[#FE6F07] text-lg">
+          <GaramondText className={`text-[${Colors.primary}] text-lg`}>
             profile
           </GaramondText>
         </View>

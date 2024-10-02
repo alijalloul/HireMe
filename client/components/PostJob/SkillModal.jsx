@@ -272,7 +272,7 @@ const SkillModal = ({ value, setValue }) => {
                   setSkills([]);
                   setIsVisible(false);
                 }}
-                className="w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[#FE6F07] rounded-xl"
+                className={`w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
               >
                 <GaramondText className="text-lg text-white">حفظ</GaramondText>
               </TouchableOpacity>

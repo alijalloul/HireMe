@@ -1,8 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useCallback, useState } from "react";
 import {
-  I18nManager,
   RefreshControl,
   ScrollView,
   Text,
@@ -14,10 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import EmployeeJobs from "@/components/EmployeeJobs";
 import Pagination from "@/components/Pagination";
 import PostJobModal from "@/components/PostJob/PostJobModal";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const MyJobs = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -63,12 +58,10 @@ const MyJobs = ({ navigation }) => {
           className={`${
             user?.type === "employee"
               ? "hidden"
-              : "self-end w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[#FE6F07] rounded-xl"
+              : `self-end w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`
           }`}
         >
-          <GaramondText className="text-lg text-white">
-            {translateText("Post Job", "أضف الوظيفة")}
-          </GaramondText>
+          <GaramondText className="text-lg text-white">Post Job</GaramondText>
         </TouchableOpacity>
       </View>
     );
@@ -107,15 +100,19 @@ const MyJobs = ({ navigation }) => {
             setJobsStatus("pending");
           }}
           className={`${
-            jobsStatus === "pending" ? "bg-[#FE6F07]" : "bg-white"
-          } flex justify-center items-center rounded-xl border-[1px] border-[#FE6F07] rounded-r-none w-[20%] p-2`}
+            jobsStatus === "pending" ? `bg-[${Colors.primary}]` : "bg-white"
+          } flex justify-center items-center rounded-xl border-[1px] border-[${
+            Colors.primary
+          }] rounded-r-none w-[20%] p-2`}
         >
           <GaramondText
             className={`${
-              jobsStatus === "pending" ? "text-white" : "text-[#FE6F07]"
+              jobsStatus === "pending"
+                ? "text-white"
+                : `text-[${Colors.primary}]`
             }`}
           >
-            {translateText("Pending", "قيد الانتظار")}
+            Pending
           </GaramondText>
         </TouchableOpacity>
 
@@ -124,15 +121,17 @@ const MyJobs = ({ navigation }) => {
             setJobsStatus("hired");
           }}
           className={`${
-            jobsStatus === "hired" ? "bg-[#FE6F07]" : "bg-white"
-          } flex justify-center items-center rounded-xl border-[1px] border-[#FE6F07] rounded-l-none w-[20%] p-2`}
+            jobsStatus === "hired" ? `bg-[${Colors.primary}]` : "bg-white"
+          } flex justify-center items-center rounded-xl border-[1px] border-[${
+            Colors.primary
+          }] rounded-l-none w-[20%] p-2`}
         >
           <GaramondText
             className={`${
-              jobsStatus === "hired" ? "text-white" : "text-[#FE6F07]"
+              jobsStatus === "hired" ? "text-white" : `text-[${Colors.primary}]`
             }`}
           >
-            {translateText("Hired", "تم")}
+            Hired
           </GaramondText>
         </TouchableOpacity>
       </View>

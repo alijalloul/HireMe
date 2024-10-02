@@ -1,9 +1,8 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { memo, useCallback, useEffect, useLayoutEffect, useState } from "react";
 import {
-  I18nManager,
   Image,
   RefreshControl,
   ScrollView,
@@ -21,10 +20,6 @@ import HeaderLeft from "@/components/Header/HeaderLeft";
 import JobPosts from "@/components/JobPosts";
 import Pagination from "@/components/Pagination";
 import { fetchPostsBySearch } from "@/redux/JobPost";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -82,14 +77,14 @@ const Home = ({ navigation }) => {
       <View className="w-[90%]">
         <View className="mb-5">
           <GaramondText className="text-xl text-gray-500">
-            {translateText("Hello", "مرحبًا")} {user?.name?.split(" ")[0]},
+            Hello {user?.name?.split(" ")[0]},
           </GaramondText>
           <GaramondText
             className={`font-garamond-bold text-2xl ${
               user?.type === "employer" && "hidden"
             }`}
           >
-            {translateText("Find your perfect job", "ابحث عن وظيفتك المثالية")}
+            Find your perfect job
           </GaramondText>
         </View>
 
@@ -100,7 +95,7 @@ const Home = ({ navigation }) => {
               onChangeText={(text) => {
                 setSearch(text);
               }}
-              placeholder={translateText("Find your job", "ابحث عن وظيفتك")}
+              placeholder="Find your job"
               className="w-[85%] rounded-xl bg-gray-100 mr-2 pl-4"
             />
 

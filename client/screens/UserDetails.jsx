@@ -1,14 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobTop from "@/assets/images/blobTop.png";
@@ -27,10 +20,6 @@ const UserDetails = ({ route, navigation }) => {
     hireEmployee(jobPostId, userId, navigation, dispatch);
   };
 
-  const translateText = (text, arabicText) => {
-    return I18nManager.isRTL ? arabicText : text;
-  };
-
   return (
     <ScrollView
       className="flex-1 bg-white"
@@ -43,7 +32,7 @@ const UserDetails = ({ route, navigation }) => {
 
       <View className="my-8 w-full">
         <GaramondText className="text-center text-5xl text-white">
-          {translateText(user?.name, "اسم المستخدم")}
+          {user?.name}
         </GaramondText>
       </View>
 
@@ -55,12 +44,12 @@ const UserDetails = ({ route, navigation }) => {
       </View>
 
       <GaramondText className="text-center text-xl ">
-        {translateText(user?.profession, "المهنة")}
+        {user?.profession}
       </GaramondText>
 
       <View className="w-[90%] my-8">
         <GaramondText className="text-center text-xl ">
-          {translateText(user?.introduction, "مقدمة")}
+          {user?.introduction}
         </GaramondText>
       </View>
 
@@ -70,7 +59,7 @@ const UserDetails = ({ route, navigation }) => {
             style={{ fontSize: 32 }}
             className="font-garamond-semibold mb-5"
           >
-            {translateText("Work Experience", "خبرة العمل")}
+            Work Experience
           </GaramondText>
           <View>
             {user?.workExperience?.length > 0 ? (
@@ -80,44 +69,30 @@ const UserDetails = ({ route, navigation }) => {
                   className="relative w-full border-[1px] rounded-2xl p-5 pt-3 pr-3 mb-4"
                 >
                   <View className="flex flex-row w-full justify-end items-center"></View>
-                  <GaramondText className="text-3xl">
-                    {translateText(work.title, work.title)}
-                  </GaramondText>
+                  <GaramondText className="text-3xl">{work.title}</GaramondText>
                   <GaramondText className="text-[15px]">
-                    {translateText(work.company, work.company)}
+                    {work.company}
                   </GaramondText>
                   <GaramondText className="text-xl">
-                    {translateText(
-                      work.startMonthWork +
-                        " " +
-                        work.startYear +
-                        " - " +
-                        work.endMonthWork +
-                        " " +
-                        work.endYear,
-                      work.startMonthWork +
-                        " " +
-                        work.startYear +
-                        " - " +
-                        work.endMonthWork +
-                        " " +
-                        work.endYear
-                    )}
+                    {work.startMonthWork +
+                      " " +
+                      work.startYear +
+                      " - " +
+                      work.endMonthWork +
+                      " " +
+                      work.endYear}
                   </GaramondText>
                   <GaramondText className="text-[15px] opacity-70 mb-3">
-                    {translateText(
-                      work.country + ", " + work.location,
-                      work.country + ", " + work.location
-                    )}
+                    {work.country + ", " + work.location}
                   </GaramondText>
                   <GaramondText className="text-lg opacity-70">
-                    {translateText(work.description, work.description)}
+                    {work.description}
                   </GaramondText>
                 </View>
               ))
             ) : (
               <GaramondText className="text-center opacity-50 font-garamond">
-                {translateText("no work experience", "لا توجد خبرة عمل")}
+                no work experience
               </GaramondText>
             )}
           </View>
@@ -130,7 +105,7 @@ const UserDetails = ({ route, navigation }) => {
             style={{ fontSize: 32 }}
             className="font-garamond-semibold mb-5"
           >
-            {translateText("Education", "التعليم")}
+            Education
           </GaramondText>
 
           <View>
@@ -142,33 +117,25 @@ const UserDetails = ({ route, navigation }) => {
                 >
                   <View className="flex flex-row w-full justify-end items-center"></View>
                   <GaramondText className="text-3xl">
-                    {translateText(
-                      educ.degree + (educ.major ? " in" : " from"),
-                      educ.degree + (educ.major ? " في" : " من")
-                    )}
+                    {educ.degree + (educ.major ? " in" : " from")}
                   </GaramondText>
                   {educ.major && (
                     <GaramondText className="text-[15px]">
-                      {translateText(educ.major + " from", educ.major + " من")}
+                      {educ.major + " from"}
                     </GaramondText>
                   )}
-                  <GaramondText className="text-lg">
-                    {translateText(educ.school, educ.school)}
-                  </GaramondText>
+                  <GaramondText className="text-lg">{educ.school}</GaramondText>
                   <GaramondText className="text-[15px] opacity-70 mb-3">
-                    {translateText(
-                      educ.startYear + " - " + educ.endYear,
-                      educ.startYear + " - " + educ.endYear
-                    )}
+                    {educ.startYear + " - " + educ.endYear}
                   </GaramondText>
                   <GaramondText className="text-lg opacity-70">
-                    {translateText(educ.note, educ.note)}
+                    {educ.note}
                   </GaramondText>
                 </View>
               ))
             ) : (
               <GaramondText className="text-center opacity-50 font-garamond">
-                {translateText("no education", "لا توجد تعليم")}
+                no education
               </GaramondText>
             )}
           </View>
@@ -181,7 +148,7 @@ const UserDetails = ({ route, navigation }) => {
             style={{ fontSize: 32 }}
             className="font-garamond-semibold mb-5"
           >
-            {translateText("Languages", "اللغات")}
+            Languages
           </GaramondText>
           <View>
             {user?.language?.length > 0 ? (
@@ -204,7 +171,7 @@ const UserDetails = ({ route, navigation }) => {
                       className="border-[1px] rounded-2xl px-2 py-2 mr-2 w-[35%] flex flex-row justify-between items-center"
                     >
                       <GaramondText className="text-xl">
-                        {translateText(langArr.language, langArr.language)}
+                        {langArr.language}
                       </GaramondText>
                     </View>
                     <View
@@ -220,10 +187,7 @@ const UserDetails = ({ route, navigation }) => {
                       className="border-[1px] rounded-2xl px-2 py-2 mr-3 w-[45%] flex flex-row justify-between items-center"
                     >
                       <GaramondText className="text-xl">
-                        {translateText(
-                          langArr.proficiency,
-                          langArr.proficiency
-                        )}
+                        {langArr.proficiency}
                       </GaramondText>
                     </View>
                   </View>
@@ -231,20 +195,18 @@ const UserDetails = ({ route, navigation }) => {
               ))
             ) : (
               <GaramondText className="text-center opacity-50 font-garamond">
-                {translateText("no languages", "لا توجد لغات")}
+                no languages
               </GaramondText>
             )}
           </View>
         </View>
 
         <View className="w-[90%] flex self-center">
-          <GaramondText className="text-2xl mb-4">
-            {translateText("Cover Letter", "رسالة تغطية")}
-          </GaramondText>
+          <GaramondText className="text-2xl mb-4">Cover Letter</GaramondText>
 
           <View className="border-[1px] rounded-xl p-5">
             <GaramondText className="font-garamond">
-              {translateText(user?.coverLetter, user?.coverLetter)}
+              {user?.coverLetter}
             </GaramondText>
           </View>
         </View>
@@ -254,11 +216,9 @@ const UserDetails = ({ route, navigation }) => {
         onPress={() => {
           handleHire();
         }}
-        className="self-end w-32 h-12 flex justify-center items-center bottom-0 right-0 mr-3 mb-3 bg-[#FE6F07] rounded-xl"
+        className={`self-end w-32 h-12 flex justify-center items-center bottom-0 right-0 mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
       >
-        <GaramondText className="text-lg text-white">
-          {translateText("Hire", "توظيف")}
-        </GaramondText>
+        <GaramondText className="text-lg text-white">Hire</GaramondText>
       </TouchableOpacity>
     </ScrollView>
   );

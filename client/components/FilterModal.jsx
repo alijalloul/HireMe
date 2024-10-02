@@ -1,14 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 
 import Modal from "react-native-modal";
@@ -20,10 +13,6 @@ import check from "@/assets/images/checkWhite.png";
 import { fetchPosts, fetchPostsByFilter } from "@/redux/JobPost";
 import SkillModal from "./PostJob/SkillModal";
 import SingleSelectorModal from "./SingleSelectorModal";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const FilterModal = ({
   bottomSheetVisible,
@@ -153,9 +142,7 @@ const FilterModal = ({
           )}
         </TouchableOpacity>
 
-        <GaramondText className="text-lg ">
-          {translateText(conditional, conditional)}
-        </GaramondText>
+        <GaramondText className="text-lg ">{conditional}</GaramondText>
       </View>
     );
   };
@@ -174,7 +161,7 @@ const FilterModal = ({
             }`}
           >
             <GaramondText className=" text-3xl font-garamond">
-              {translateText("Filter", "تصفية")}
+              Filter
             </GaramondText>
 
             <TouchableOpacity onPress={() => closeModal()}>
@@ -195,34 +182,34 @@ const FilterModal = ({
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Company", "الشركة")}
+                  title="Company"
                   value={company}
                   setValue={setCompany}
-                  placeholder={translateText("Ex: Amazon", "مثال: أمازون")}
+                  placeholder="Ex: Amazon"
                 />
               </View>
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Location", "الموقع")}
+                  title="Location"
                   value={location}
                   setValue={setLocation}
-                  placeholder={translateText("Ex: Beirut", "مثال: بيروت")}
+                  placeholder="Ex: Beirut"
                 />
               </View>
               <View className="mb-5">
                 <RenderTextInput
                   isMultiline={false}
-                  title={translateText("Country", "البلد")}
+                  title="Country"
                   value={country}
                   setValue={setCountry}
-                  placeholder={translateText("Ex: Lebanon", "مثال: لبنان")}
+                  placeholder="Ex: Lebanon"
                 />
               </View>
 
               <View className="mb-5">
                 <SingleSelectorModal
-                  title={translateText("Category", "الفئة")}
+                  title="Category"
                   data={categories}
                   value={category}
                   setValue={setCategory}
@@ -230,16 +217,14 @@ const FilterModal = ({
               </View>
 
               <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  {translateText("Skills", "المهارات")}
-                </GaramondText>
+                <GaramondText className="text-[20px] mb-2">Skills</GaramondText>
 
                 <SkillModal value={skills} setValue={setSkills} />
               </View>
 
               <View className="mb-5">
                 <GaramondText className="text-[20px] mb-2">
-                  {translateText("Job Experience", "خبرة العمل")}
+                  Job Experience
                 </GaramondText>
 
                 <View>
@@ -247,7 +232,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("No Experience", "بدون خبرة")}
+                      conditional="No Experience"
                     />
                   }
 
@@ -255,7 +240,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("1-2 years", "1-2 سنوات")}
+                      conditional="1-2 years"
                     />
                   }
 
@@ -263,7 +248,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("3-4 years", "3-4 سنوات")}
+                      conditional="3-4 years"
                     />
                   }
 
@@ -271,7 +256,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={experienceRequired}
                       setValue={setExperienceRequired}
-                      conditional={translateText("5+ years", "5+ سنوات")}
+                      conditional="5+ years"
                     />
                   }
                 </View>
@@ -279,7 +264,7 @@ const FilterModal = ({
 
               <View className="mb-5">
                 <GaramondText className="text-[20px] mb-2">
-                  {translateText("Job Type", "نوع الوظيفة")}
+                  Job Type
                 </GaramondText>
 
                 <View>
@@ -287,7 +272,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={jobType}
                       setValue={setJobType}
-                      conditional={translateText("Full-Time", "وقت كامل")}
+                      conditional="Full-Time"
                     />
                   }
 
@@ -295,7 +280,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={jobType}
                       setValue={setJobType}
-                      conditional={translateText("Part-Time", "وقت جزئي")}
+                      conditional="Part-Time"
                     />
                   }
 
@@ -303,7 +288,7 @@ const FilterModal = ({
                     <CheckMarkForm
                       value={jobType}
                       setValue={setJobType}
-                      conditional={translateText("Contract", "عقد")}
+                      conditional="Contract"
                     />
                   }
                 </View>
@@ -312,19 +297,21 @@ const FilterModal = ({
               <View className="w-full flex-row justify-between items-end mb-8">
                 <TouchableOpacity
                   onPress={() => clear()}
-                  className="flex justify-center items-center w-32 bottom-0 right-0 border-[1px] border-[#FE6F07] bg-white rounded-xl py-2"
+                  className={`flex justify-center items-center w-32 bottom-0 right-0 border-[1px] border-[${Colors.primary}] bg-white rounded-xl py-2`}
                 >
-                  <GaramondText className="text-lg fontW-garamond text-[#FE6F07]">
-                    {translateText("Clear", "مسح")}
+                  <GaramondText
+                    className={`text-lg fontW-garamond text-[${Colors.primary}]`}
+                  >
+                    Clear
                   </GaramondText>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => saveWorkExperience()}
-                  className="flex justify-center items-center w-32 bottom-0 right-0 bg-[#FE6F07] rounded-xl py-2"
+                  className={`flex justify-center items-center w-32 bottom-0 right-0 bg-[${Colors.primary}] rounded-xl py-2`}
                 >
                   <GaramondText className="text-lg fontW-garamond text-white">
-                    {translateText("Filter", "تصفية")}
+                    Filter
                   </GaramondText>
                 </TouchableOpacity>
               </View>

@@ -1,23 +1,12 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
 
 import downVector from "@/assets/images/downVector.png";
 import trash from "@/assets/images/trash.png";
 import SingleSelectorModal from "../SingleSelectorModal";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const LanguagePicker = ({
   headerSize,
@@ -36,12 +25,7 @@ const LanguagePicker = ({
 
   const [languageIndex, setLanguageIndex] = useState(null);
 
-  const proficiencies = [
-    translateText("Basic", "أساسي"),
-    translateText("Intermediate", "متوسط"),
-    translateText("Fluent", "طلاقة"),
-    translateText("Native", "أصلي"),
-  ];
+  const proficiencies = ["Basic", "Intermediate", "Fluent", "Native"];
 
   const languages = [
     "Español",
@@ -135,7 +119,7 @@ const LanguagePicker = ({
           style={{ fontSize: headerSize }}
           className=" font-garamond-semibold mb-5"
         >
-          {translateText(headerText, "اخبرنا عن اللغات التي تتحدثها")}
+          {headerText}
         </GaramondText>
         <View>
           {languageArr?.length > 0 &&
@@ -199,10 +183,12 @@ const LanguagePicker = ({
           onPress={() => {
             setBottomSheetVisible(true);
           }}
-          className="bg-white border-[1px] border-[#FE6F07] w-full py-3 rounded-3xl flex justify-center items-center mb-5"
+          className={`bg-white border-[1px] border-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-5`}
         >
-          <GaramondText className="text-[#FE6F07] font-garamond-bold text-xl">
-            {translateText("+ Add language", "+ إضافة لغة")}
+          <GaramondText
+            className={`text-[${Colors.primary}] font-garamond-bold text-xl`}
+          >
+            + Add language
           </GaramondText>
         </TouchableOpacity>
       </View>
@@ -218,9 +204,7 @@ const LanguagePicker = ({
             }`}
           >
             <GaramondText className=" text-3xl font-garamond">
-              {isEditing
-                ? translateText("Edit", "تعديل")
-                : translateText("Add Language", "إضافة لغة")}
+              {isEditing ? Edit : "Add Language"}
             </GaramondText>
 
             <TouchableOpacity
@@ -249,31 +233,25 @@ const LanguagePicker = ({
             <View className="w-[90%]">
               <View className="mb-5">
                 <SingleSelectorModal
-                  title={translateText("Language *", "اللغة *")}
+                  title="Language *"
                   data={languages}
                   value={language}
                   setValue={setLanguage}
                   isError={languageError}
                   setIsError={setLanguageError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "لا يمكن ترك هذا الحقل فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
               <View className="mb-5">
                 <SingleSelectorModal
-                  title={translateText("Proficiency *", "الإلمام *")}
+                  title="Proficiency *"
                   data={proficiencies}
                   value={proficiency}
                   setValue={setProficiency}
                   isError={proficiencyError}
                   setIsError={setProficiencyError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "لا يمكن ترك هذا الحقل فارغًا"
-                  )}
+                  errorMessage="This field can not be empty"
                 />
               </View>
 
@@ -282,12 +260,10 @@ const LanguagePicker = ({
                   onPress={() => {
                     handleSave();
                   }}
-                  className="w-32 bottom-0 right-0 bg-[#FE6F07] rounded-xl px-10 py-2"
+                  className={`w-32 bottom-0 right-0 bg-[${Colors.primary}] rounded-xl px-10 py-2`}
                 >
                   <GaramondText className="text-lg text-white">
-                    {isEditing
-                      ? translateText("Edit", "تعديل")
-                      : translateText("Add", "إضافة")}
+                    {isEditing ? Edit : "Add"}
                   </GaramondText>
                 </TouchableOpacity>
               </View>

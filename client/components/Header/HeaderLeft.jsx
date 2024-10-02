@@ -16,7 +16,7 @@ const HeaderLeft = ({ setBottomSheetVisible, numberOfFilters }) => {
       <View
         className={`${
           numberOfFilters > 0
-            ? "relative left-4 bottom-3 self-end flex justify-center items-center rounded-full bg-[#FE6F07] aspect-square w-6"
+            ? `relative left-4 bottom-3 self-end flex justify-center items-center rounded-full bg-[${Colors.primary}] aspect-square w-6`
             : "hidden"
         }`}
       >

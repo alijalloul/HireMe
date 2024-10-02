@@ -1,10 +1,9 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import React, { memo } from "react";
 import {
-  I18nManager,
   Image,
   Text,
   TouchableOpacity,
@@ -36,10 +35,6 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
     setImage("");
   };
 
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
-  };
-
   return (
     <View className="flex justify-center items-center">
       <TouchableWithoutFeedback
@@ -61,14 +56,12 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
           }}
           className={`${
             isButton
-              ? "flex items-center justify-center bg-white border-[1px] border-[#FE6F07] w-24 py-2 rounded-xl mr-2 "
+              ? `flex items-center justify-center bg-white border-[1px] border-[${Colors.primary}] w-24 py-2 rounded-xl mr-2 `
               : "hidden"
           }`}
         >
-          <GaramondText className="text-[15px] text-[#FE6F07]">
-            {image
-              ? translateText("Edit", "تعديل")
-              : translateText("+ Add Image", "+ إضافة صورة")}
+          <GaramondText className={`text-[15px] text-[${Colors.primary}]`}>
+            {image ? Edit : "+ Add Image"}
           </GaramondText>
         </TouchableOpacity>
 
@@ -83,7 +76,7 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
           }`}
         >
           <GaramondText className="text-[15px] text-red-500">
-            {translateText("Remove", "إزالة")}
+            Remove
           </GaramondText>
         </TouchableOpacity>
       </View>

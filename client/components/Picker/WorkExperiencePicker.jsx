@@ -1,14 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Modal from "react-native-modal";
 
 import RenderTextInput from "../RenderTextInput";
@@ -42,10 +35,6 @@ const WorkExperiencePicker = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const [workIndex, setWorkIndex] = useState(null);
-
-  const translateText = (text, arabicText) => {
-    return I18nManager.isRTL ? arabicText : text;
-  };
 
   const closeModal = () => {
     setBottomSheetVisible(false);
@@ -135,18 +124,18 @@ const WorkExperiencePicker = ({
   };
 
   const months = [
-    translateText("January", "يناير"),
-    translateText("February", "فبراير"),
-    translateText("March", "مارس"),
-    translateText("April", "إبريل"),
-    translateText("May", "مايو"),
-    translateText("June", "يونيو"),
-    translateText("July", "يوليو"),
-    translateText("August", "أغسطس"),
-    translateText("September", "سبتمبر"),
-    translateText("October", "أكتوبر"),
-    translateText("November", "نوفمبر"),
-    translateText("December", "ديسمبر"),
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const convertToArabicNumerals = (number) => {
@@ -159,10 +148,7 @@ const WorkExperiencePicker = ({
   const startYearN = 1990;
   const endYearN = 2023;
   const years = Array.from({ length: endYearN - startYearN + 1 }, (_, index) =>
-    translateText(
-      (endYearN - index).toString(),
-      convertToArabicNumerals(endYearN - index)
-    )
+    (endYearN - index).toString()
   );
 
   return (
@@ -172,10 +158,7 @@ const WorkExperiencePicker = ({
           style={{ fontSize: headerSize }}
           className="font-garamond-semibold mb-5"
         >
-          {translateText(
-            headerText,
-            "إذا كنت تملك خبرة عمل ذات صلة ، قم بإضافتها هنا."
-          )}
+          {headerText}
         </GaramondText>
         <View>
           {workExperience.length > 0 &&
@@ -187,7 +170,7 @@ const WorkExperiencePicker = ({
                 <View className="w-full flex flex-row justify-between items-center">
                   <View className="w-[80%]">
                     <GaramondText className="text-3xl">
-                      {translateText(work.title, work.title)}
+                      {work.title}
                     </GaramondText>
                   </View>
 
@@ -214,207 +197,164 @@ const WorkExperiencePicker = ({
                     </TouchableOpacity>
                   </View>
                 </View>
-                <GaramondText className="text-xl">
-                  {translateText(work.company, work.company)}
-                </GaramondText>
+                <GaramondText className="text-xl">{work.company}</GaramondText>
                 <View className="w-full flex my-4">
                   <GaramondText className="text-[15px]">
-                    {translateText(work.country, work.country)},{" "}
-                    {translateText(work.location, work.location)}
+                    {work.country},{work.location}
                   </GaramondText>
                   <GaramondText className="text-[15px]">
-                    {translateText(work.startMonth, work.startMonth)}{" "}
-                    {translateText(work.startYear, work.startYear)} -{" "}
-                    {translateText(work.endMonth, work.endMonth)}
-                    {translateText(work.endYear, work.endYear)}
+                    {work.startMonth} {work.startYear} - {work.endMonth}{" "}
+                    {work.endYear}
                   </GaramondText>
                 </View>
                 <GaramondText className="text-lg opacity-70">
-                  {translateText(work.description, work.description)}
+                  {work.description}
                 </GaramondText>
               </View>
             ))}
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            setBottomSheetVisible(true);
-          }}
-          className="bg-white border-[1px] border-[#FE6F07] w-full py-3 rounded-3xl flex justify-center items-center mb-5"
-        >
-          <GaramondText className="text-[#FE6F07] font-garamond-bold text-xl">
-            + {translateText("Add experience", "إضافة خبرة")}
-          </GaramondText>
-        </TouchableOpacity>
-      </View>
-      <Modal
-        isVisible={isBottomSheetVisible}
-        animationInTiming={700}
-        className="m-0 mt-10 rounded-t-xl"
-      >
-        <View className="flex-1 justify-center bg-white">
-          <View
-            className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
-              isBottomSheetVisible && "border-b-[1px]"
-            }`}
+          <TouchableOpacity
+            onPress={() => {
+              setBottomSheetVisible(true);
+            }}
+            className={`bg-white border-[1px] border-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-5`}
           >
-            <GaramondText className="text-3xl font-garamond">
-              {isEditing
-                ? translateText("Edit", "تعديل")
-                : translateText("Add Work Experience", "إضافة خبرة عمل")}
+            <GaramondText
+              className={`text-[${Colors.primary}] font-garamond-bold text-xl`}
+            >
+              + Add experience
             </GaramondText>
+          </TouchableOpacity>
+        </View>
+        <Modal
+          isVisible={isBottomSheetVisible}
+          animationInTiming={700}
+          className="m-0 mt-10 rounded-t-xl"
+        >
+          <View className="flex-1 justify-center bg-white">
+            <View
+              className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
+                isBottomSheetVisible && "border-b-[1px]"
+              }`}
+            >
+              <GaramondText className="text-3xl font-garamond">
+                {isEditing ? "Edit" : "Add Work Experience"}
+              </GaramondText>
 
-            <TouchableOpacity onPress={() => closeModal()}>
-              <GaramondText className="text-5xl font-garamond-bold">
-                ×
+              <TouchableOpacity onPress={() => closeModal()}>
+                <GaramondText className="text-5xl font-garamond-bold">
+                  ×
+                </GaramondText>
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView
+              contentContainerStyle={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <View className="w-[90%] flex-1">
+                <View className="mb-5">
+                  <RenderTextInput
+                    isMultiline={false}
+                    title={`Title *`}
+                    value={title}
+                    setValue={setTitle}
+                    placeholder="Ex: Accountant"
+                    isError={titleError}
+                    setIsError={setTitleError}
+                    errorMessage="This field can not be empty"
+                  />
+                </View>
+                <View className="mb-5">
+                  <RenderTextInput
+                    isMultiline={false}
+                    title={`Company *`}
+                    value={company}
+                    setValue={setCompany}
+                    placeholder="Ex: Amazon"
+                    isError={companyError}
+                    setIsError={setCompanyError}
+                    errorMessage="This field can not be empty"
+                  />
+                </View>
+                <View className="mb-5">
+                  <RenderTextInput
+                    isMultiline={false}
+                    title={`Location *`}
+                    value={location}
+                    setValue={setLocation}
+                    placeholder="Ex: San Francisco"
+                    isError={locationError}
+                    setIsError={setLocationError}
+                    errorMessage="This field can not be empty"
+                  />
+                </View>
+                <View className="mb-5">
+                  <RenderTextInput
+                    isMultiline={false}
+                    title={`Country *`}
+                    value={country}
+                    setValue={setCountry}
+                    placeholder="Ex: USA"
+                    isError={countryError}
+                    setIsError={setCountryError}
+                    errorMessage="This field can not be empty"
+                  />
+                </View>
+                <View className="flex flex-row justify-between w-full mb-5">
+                  <SingleSelectorModal
+                    title={`Start Month`}
+                    selectedValue={startMonth}
+                    setSelectedValue={setStartMonth}
+                    options={months}
+                  />
+                  <SingleSelectorModal
+                    title={`Start Year`}
+                    selectedValue={startYear}
+                    setSelectedValue={setStartYear}
+                    options={years}
+                  />
+                </View>
+                <View className="flex flex-row justify-between w-full mb-5">
+                  <SingleSelectorModal
+                    title={`End Month`}
+                    selectedValue={endMonth}
+                    setSelectedValue={setEndMonth}
+                    options={months}
+                  />
+                  <SingleSelectorModal
+                    title={`End Year`}
+                    selectedValue={endYear}
+                    setSelectedValue={setEndYear}
+                    options={years}
+                  />
+                </View>
+                <View className="mb-5">
+                  <RenderTextInput
+                    isMultiline={true}
+                    title={`Description`}
+                    value={description}
+                    setValue={setDescription}
+                    placeholder="Describe your responsibilities"
+                  />
+                </View>
+              </View>
+            </ScrollView>
+
+            <TouchableOpacity
+              onPress={() => {
+                saveWorkExperience();
+              }}
+              className="bg-[#FE6F07] py-3 rounded-3xl m-5"
+            >
+              <GaramondText className="text-white font-garamond-bold text-center text-xl">
+                {isEditing ? "Save Changes" : "Save"}
               </GaramondText>
             </TouchableOpacity>
           </View>
-
-          <ScrollView
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            className=""
-          >
-            <View className="w-[90%] flex-1">
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title={`${translateText("Title", "العنوان")} *`}
-                  value={title}
-                  setValue={setTitle}
-                  placeholder={translateText("Ex: Accountant", "مثال: محاسب")}
-                  isError={titleError}
-                  setIsError={setTitleError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
-                />
-              </View>
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title={`${translateText("Company", "الشركة")} *`}
-                  value={company}
-                  setValue={setCompany}
-                  placeholder={translateText("Ex: Amazon", "مثال: أمازون")}
-                  isError={companyError}
-                  setIsError={setCompanyError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
-                />
-              </View>
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title={`${translateText("Location", "الموقع")} *`}
-                  value={location}
-                  setValue={setLocation}
-                  placeholder={translateText("Ex: Beirut", "مثال: بيروت")}
-                  isError={locationError}
-                  setIsError={setLocationError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
-                />
-              </View>
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title={`${translateText("Country", "البلد")} *`}
-                  value={country}
-                  setValue={setCountry}
-                  placeholder={translateText("Ex: Lebanon", "مثال: لبنان")}
-                  isError={countryError}
-                  setIsError={setCountryError}
-                  errorMessage={translateText(
-                    "This field can not be empty",
-                    "هذا الحقل لا يمكن أن يكون فارغًا"
-                  )}
-                />
-              </View>
-              <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  {translateText("Start Date", "تاريخ البدء")}
-                </GaramondText>
-
-                <View className="flex flex-row justify-between items-center w-full">
-                  <View className="w-[48%]">
-                    <SingleSelectorModal
-                      data={months}
-                      value={startMonth}
-                      setValue={setStartMonth}
-                    />
-                  </View>
-
-                  <View className="w-[48%]">
-                    <SingleSelectorModal
-                      data={years}
-                      value={startYear}
-                      setValue={setStartYear}
-                    />
-                  </View>
-                </View>
-              </View>
-              <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  {translateText("End Date", "تاريخ الانتهاء")}
-                </GaramondText>
-                <View className="flex flex-row justify-between items-center w-full">
-                  <View className="w-[48%]">
-                    <SingleSelectorModal
-                      data={months}
-                      value={endMonth}
-                      setValue={setEndMonth}
-                    />
-                  </View>
-
-                  <View className="w-[48%]">
-                    <SingleSelectorModal
-                      data={years}
-                      value={endYear}
-                      setValue={setEndYear}
-                    />
-                  </View>
-                </View>
-              </View>
-              <View className="mb-5">
-                <GaramondText className="text-[20px] font-garamond">
-                  {translateText("Description", "الوصف")}
-                </GaramondText>
-                <RenderTextInput
-                  isMultiline={true}
-                  title=""
-                  value={description}
-                  setValue={setDescription}
-                  placeholder={translateText(
-                    "Ex: Responsible for financial data analysis.",
-                    "مثال: مسؤول عن تحليل البيانات المالية."
-                  )}
-                />
-              </View>
-
-              <View className="w-full flex justify-center items-end mb-8">
-                <TouchableOpacity
-                  onPress={() => saveWorkExperience()}
-                  className="w-32 bottom-0 right-0 bg-[#FE6F07] rounded-xl px-10 py-2"
-                >
-                  <GaramondText className="text-lg text-white">
-                    {isEditing
-                      ? translateText("Edit", "تعديل")
-                      : translateText("Add", "إضافة")}
-                  </GaramondText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-      </Modal>
+        </Modal>
+      </View>
     </View>
   );
 };

@@ -1,13 +1,9 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import moment from "moment";
 import React from "react";
-import { I18nManager, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const EmployeeJobs = ({ navigation, jobsStatus }) => {
   const jobs = useSelector((state) => state.user.jobPosts)?.filter(
@@ -22,15 +18,7 @@ const EmployeeJobs = ({ navigation, jobsStatus }) => {
         }`}
       >
         <GaramondText className="mb-5 text-lg opacity-60">
-          {jobsStatus === "pending"
-            ? translateText(
-                "You Have Not Applied to Any Job Yet.",
-                "لم تقم بالتقديم على أي وظيفة بعد."
-              )
-            : translateText(
-                "You Have Not Been Hired to Any Job Yet.",
-                "لم تعمل في أي وظيفة بعد."
-              )}
+          {jobsStatus === "pending" && "You Have Not Applied to Any Job Yet."}
         </GaramondText>
       </View>
       <View>

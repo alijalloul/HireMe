@@ -1,14 +1,7 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobleft from "@/assets/images/blobleft.png";
@@ -72,10 +65,6 @@ const LogIn = ({ navigation }) => {
     }
   };
 
-  const translateText = (englishText, arabicText) => {
-    return I18nManager.isRTL ? arabicText : englishText;
-  };
-
   return (
     <View className="flex-1 justify-center bg-white">
       <View
@@ -115,7 +104,7 @@ const LogIn = ({ navigation }) => {
             }}
             className="relative top-12 text-[40px] text-white font-garamond-bold w-[50%]"
           >
-            {translateText("Welcome Back", "مرحبًا بعودتك")}
+            Welcome Back
           </GaramondText>
 
           <View className="mt-48">
@@ -127,22 +116,10 @@ const LogIn = ({ navigation }) => {
                   icon={phone}
                   value={telephone}
                   setValue={setTelephone}
-                  placeholder={translateText("Phone Number", "رقم الهاتف")}
+                  placeholder="Phone Number"
                   isError={telephoneError}
                   setIsError={setTelephoneError}
-                  errorMessage={
-                    errorType === "User doesn't exist"
-                      ? translateText(
-                          "User doesn't exist",
-                          "المستخدم غير موجود"
-                        )
-                      : telephone === "" &&
-                        translateText(
-                          "This field can not be empty",
-                          "هذا الحقل لا يمكن أن يكون فارغًا"
-                        )
-                  }
-                  isArabic={I18nManager.isRTL && true}
+                  errorMessage={errorType === "User doesn't exist"}
                 />
               </View>
 
@@ -153,26 +130,17 @@ const LogIn = ({ navigation }) => {
                   icon={key}
                   value={password}
                   setValue={setPassword}
-                  placeholder={translateText("Password", "كلمة المرور")}
+                  placeholder="Password"
                   isError={passwordError}
                   setIsError={setPasswordError}
-                  errorMessage={
-                    errorType === "Invalid password"
-                      ? translateText("Invalid password", "رمز مرور خاطئ")
-                      : password === "" &&
-                        translateText(
-                          "This field can not be empty",
-                          "هذا الحقل لا يمكن أن يكون فارغًا"
-                        )
-                  }
-                  isArabic={I18nManager.isRTL && true}
+                  errorMessage={errorType === "Invalid password"}
                 />
               </View>
 
               <View className="w-full flex justify-end items-end">
                 <TouchableOpacity className=" opacity-60">
                   <GaramondText className=" border-b-[1px]">
-                    {translateText("Forgot Password", "نسيت كلمة السر")}
+                    Forgot Password
                   </GaramondText>
                 </TouchableOpacity>
               </View>
@@ -183,17 +151,16 @@ const LogIn = ({ navigation }) => {
                 onPress={() => {
                   handleLogIn();
                 }}
-                className="bg-[#FE6F07] w-full py-3 rounded-3xl flex justify-center items-center"
+                className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center`}
               >
                 <GaramondText className="text-white font-garamond-bold text-xl">
-                  {" "}
-                  {translateText("Log In", "تسجيل الدخول")}
+                  Log In
                 </GaramondText>
               </TouchableOpacity>
 
               <View className=" relative flex justify-center items-center w-full my-4">
                 <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
-                  {translateText("or", "او")}
+                  or
                 </GaramondText>
                 <View className="opacity-50 absolute w-full border-b-[1px] "></View>
               </View>
@@ -205,7 +172,7 @@ const LogIn = ({ navigation }) => {
                 className="bg-white border-[1px] border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center"
               >
                 <GaramondText className=" font-garamond-bold text-xl">
-                  {translateText("Sign Up", "سجل")}
+                  Sign Up
                 </GaramondText>
               </TouchableOpacity>
             </View>

@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import { useIsFocused } from "@react-navigation/native";
 import * as DocumentPicker from "expo-document-picker";
@@ -7,14 +7,7 @@ import { StorageAccessFramework } from "expo-file-system";
 import * as Notifications from "expo-notifications";
 import * as Updates from "expo-updates";
 import React, { useEffect, useState } from "react";
-import {
-  I18nManager,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import EducationPicker from "@/components/Picker/EducationPicker";
@@ -29,10 +22,6 @@ import { editAppLanguage, logout, updateUser } from "@/redux/User";
 
 import blobTop from "@/assets/images/blobTop.png";
 import Spinner from "@/components/Spinner";
-
-const translateText = (englishText, arabicText) => {
-  return I18nManager.isRTL ? arabicText : englishText;
-};
 
 const Profile = ({ navigation }) => {
   const isFocused = useIsFocused();
@@ -102,14 +91,8 @@ const Profile = ({ navigation }) => {
 
           await Notifications.scheduleNotificationAsync({
             content: {
-              title: translateText(
-                "File Downloaded Successfully",
-                "تم تنزيل الملف بنجاح"
-              ),
-              body: `${name}CV ${translateText(
-                "has been downloaded successfully to",
-                "تم تنزيله بنجاح إلى"
-              )} Documents.`,
+              title: "File Downloaded Successfully",
+              body: `${name}CV $has been downloaded successfully to Documents.`,
             },
             trigger: { seconds: 2 },
           });
@@ -130,12 +113,7 @@ const Profile = ({ navigation }) => {
 
       if (result.canceled === false) {
         if (result.assets[0].size > 1024 * 1024) {
-          alert(
-            translateText(
-              "Selected PDF exceeds the size limit of 1MB.",
-              "الملف المحدد يتجاوز الحد الأقصى لحجم 1 ميجابايت."
-            )
-          );
+          alert("Selected PDF exceeds the size limit of 1MB.");
           return;
         }
 
@@ -152,20 +130,11 @@ const Profile = ({ navigation }) => {
           });
           setPdf(base64Data);
         } catch (error) {
-          console.error(
-            translateText(
-              "Error converting to base64:",
-              "خطأ أثناء التحويل إلى قاعدة 64:"
-            ),
-            error
-          );
+          console.error("Error converting to base64:", error);
         }
       }
     } catch (error) {
-      console.error(
-        translateText("Error picking document:", "خطأ أثناء اختيار المستند:"),
-        error
-      );
+      console.error("Error picking document:", error);
     }
   };
 
@@ -190,7 +159,7 @@ const Profile = ({ navigation }) => {
             textColor={"white"}
             value={name}
             setValue={setName}
-            placeholder={translateText("Full Name", "الاسم الكامل")}
+            placeholder="Full Name"
           />
         </View>
 
@@ -204,22 +173,20 @@ const Profile = ({ navigation }) => {
         <View className="w-[90%]">
           <View className=" my-5 flex-1">
             <GaramondText className=" font-garamond-semibold text-2xl">
-              {translateText("Contact Information", "معلومات الاتصال")}
+              Contact Information
             </GaramondText>
 
             <View className="">
               <View className=" opacity-50 flex flex-row justify-start items-center border-y-[1px] py-4 px-2">
                 <GaramondText className=" font-garamond">
-                  {translateText("Telephone:", "الهاتف:")}
+                  Telephone:
                 </GaramondText>
                 <GaramondText className=" font-garamond">
                   {user?.telephone}
                 </GaramondText>
               </View>
               <View className=" flex flex-row justify-start items-center border-y-[1px] py-4 px-2 my-[1px]">
-                <GaramondText className=" font-garamond">
-                  {translateText("E-Mail:", "البريد الإلكتروني:")}
-                </GaramondText>
+                <GaramondText className=" font-garamond">E-Mail:</GaramondText>
                 <ContactInfoEditor
                   textSize={15}
                   textColor="black"
@@ -229,9 +196,7 @@ const Profile = ({ navigation }) => {
                 />
               </View>
               <View className="flex flex-row justify-start items-center border-b-[1px] py-4 px-2">
-                <GaramondText className=" font-garamond">
-                  {translateText("Address:", "العنوان:")}
-                </GaramondText>
+                <GaramondText className=" font-garamond">Address:</GaramondText>
                 <ContactInfoEditor
                   textSize={15}
                   textColor="black"
@@ -260,7 +225,7 @@ const Profile = ({ navigation }) => {
             textColor={"white"}
             value={name}
             setValue={setName}
-            placeholder={translateText("Full Name", "الاسم الكامل")}
+            placeholder="Full Name"
           />
         </View>
 
@@ -276,7 +241,7 @@ const Profile = ({ navigation }) => {
           textColor={"black"}
           value={profession}
           setValue={setProfession}
-          placeholder={translateText("Professional Title", "اللقب المهني")}
+          placeholder="Professional Title"
         />
 
         <View className="w-[90%]">
@@ -284,14 +249,14 @@ const Profile = ({ navigation }) => {
             <IntroductionPicker
               introduction={introduction}
               setIntroduction={setIntroduction}
-              placeholder={translateText("Introduction", "المقدمة")}
+              placeholder="Introduction"
             />
           </View>
 
           <View className="w-full my-5 flex-1">
             <WorkExperiencePicker
               headerSize={25}
-              headerText={translateText("Work Experience", "خبرة العمل")}
+              headerText="Work Experience"
               workExperience={workExperience}
               setWorkExperience={setWorkExperience}
             />
@@ -300,7 +265,7 @@ const Profile = ({ navigation }) => {
           <View className="w-full my-5 flex-1">
             <EducationPicker
               headerSize={25}
-              headerText={translateText("Education", "التعليم")}
+              headerText="Education"
               education={education}
               setEducation={setEducation}
             />
@@ -309,7 +274,7 @@ const Profile = ({ navigation }) => {
           <View className="w-full my-5 flex-1">
             <LanguagePicker
               headerSize={25}
-              headerText={translateText("Languages", "اللغات")}
+              headerText="Languages"
               languageArr={languageArr}
               setLanguageArr={setLanguageArr}
             />
@@ -317,22 +282,20 @@ const Profile = ({ navigation }) => {
 
           <View className=" my-5 flex-1">
             <GaramondText className=" font-garamond-semibold text-2xl">
-              {translateText("Contact Information", "معلومات الاتصال")}
+              Contact Information
             </GaramondText>
 
             <View className="">
               <View className=" opacity-50 flex flex-row justify-start items-center border-y-[1px] py-4 px-2">
                 <GaramondText className=" font-garamond">
-                  {translateText("Telephone:", "الهاتف:")}
+                  Telephone:
                 </GaramondText>
                 <GaramondText className=" font-garamond">
                   {user?.telephone}
                 </GaramondText>
               </View>
               <View className=" flex flex-row justify-start items-center border-y-[1px] py-4 px-2 my-[1px]">
-                <GaramondText className=" font-garamond">
-                  {translateText("E-Mail:", "البريد الإلكتروني:")}
-                </GaramondText>
+                <GaramondText className=" font-garamond">E-Mail:</GaramondText>
                 <ContactInfoEditor
                   textSize={15}
                   textColor="black"
@@ -342,9 +305,7 @@ const Profile = ({ navigation }) => {
                 />
               </View>
               <View className="flex flex-row justify-start items-center border-b-[1px] py-4 px-2">
-                <GaramondText className=" font-garamond">
-                  {translateText("Address:", "العنوان:")}
-                </GaramondText>
+                <GaramondText className=" font-garamond">Address:</GaramondText>
                 <ContactInfoEditor
                   textSize={15}
                   textColor="black"
@@ -358,7 +319,7 @@ const Profile = ({ navigation }) => {
 
           <View className="my-5">
             <GaramondText className=" font-garamond-semibold text-2xl mb-4">
-              {translateText("My CV", "سيرتي الذاتية")}
+              My CV
             </GaramondText>
 
             <View className="flex flex-row justify-between items-center">
@@ -367,13 +328,11 @@ const Profile = ({ navigation }) => {
                   handlePDF();
                 }}
                 className={`p-2 flex justify-center items-center rounded-xl mr-2 ${
-                  pdf ? "bg-sky-300" : "bg-[#FE6F07]"
+                  pdf ? "bg-sky-300" : `bg-[${Colors.primary}]`
                 }`}
               >
                 <GaramondText className="text-lg text-white">
-                  {pdf === ""
-                    ? translateText("Upload PDF", "تحميل PDF")
-                    : translateText("Download PDF", "تحميل PDF")}
+                  {pdf === "" ? "Upload PDF" : "Download PDF"}
                 </GaramondText>
               </TouchableOpacity>
 
@@ -388,7 +347,7 @@ const Profile = ({ navigation }) => {
                 }`}
               >
                 <GaramondText className=" text-[15px] text-red-500">
-                  {translateText("Remove", "إزالة")}
+                  Remove
                 </GaramondText>
               </TouchableOpacity>
             </View>
@@ -431,10 +390,10 @@ const Profile = ({ navigation }) => {
               onPress={() => {
                 logout(navigation, dispatch);
               }}
-              className="w-full h-12 flex justify-center items-center bottom-0 right-0 bg-white border-[1px] border-[#FE6F07] rounded-xl mb-2"
+              className={`w-full h-12 flex justify-center items-center bottom-0 right-0 bg-white border-[1px] border-[${Colors.primary}] rounded-xl mb-2`}
             >
-              <GaramondText className="text-lg text-[#FE6F07]">
-                {translateText("Log Out", "تسجيل الخروج")}
+              <GaramondText className={`text-lg text-[${Colors.primary}]`}>
+                Log Out
               </GaramondText>
             </TouchableOpacity>
 
@@ -463,25 +422,29 @@ const Profile = ({ navigation }) => {
                 appLanguage !== language &&
                   editAppLanguage(language, null, dispatch);
               }}
-              className="w-full h-12 flex justify-center items-center bottom-0 right-0 bg-[#FE6F07] rounded-xl  mb-8"
+              className={`w-full h-12 flex justify-center items-center bottom-0 right-0 bg-[${Colors.primary}] rounded-xl  mb-8`}
             >
-              <GaramondText className="text-lg text-white">
-                {translateText("Save", "حفظ")}
-              </GaramondText>
+              <GaramondText className="text-lg text-white">Save</GaramondText>
             </TouchableOpacity>
 
-            <View className="w-full border-2 border-[#FE6F07] rounded-2xl flex-row justify-center items-center">
+            <View
+              className={`w-full border-2 border-[${Colors.primary}] rounded-2xl flex-row justify-center items-center`}
+            >
               <TouchableOpacity
                 onPress={() => {
                   setLanguage("english");
                 }}
                 className={`${
-                  language === "english" ? "bg-[#FE6F07] " : "bg-white"
+                  language === "english"
+                    ? `bg-[${Colors.primary}] `
+                    : "bg-white"
                 } rounded-xl  w-[50%] py-5  flex justify-center items-center `}
               >
                 <GaramondText
                   className={`${
-                    language === "english" ? " text-white " : "text-[#FE6F07]"
+                    language === "english"
+                      ? " text-white "
+                      : `text-[${Colors.primary}]`
                   } font-garamond-bold text-xl`}
                 >
                   English
@@ -492,12 +455,14 @@ const Profile = ({ navigation }) => {
                   setLanguage("arabic");
                 }}
                 className={`${
-                  language === "arabic" ? "bg-[#FE6F07] " : "bg-white"
+                  language === "arabic" ? `bg-[${Colors.primary}] ` : "bg-white"
                 } rounded-xl  w-[50%] py-5  flex justify-center items-center`}
               >
                 <GaramondText
                   className={`${
-                    language === "arabic" ? " text-white " : "text-[#FE6F07]"
+                    language === "arabic"
+                      ? " text-white "
+                      : `text-[${Colors.primary}]`
                   } font-garamond-bold text-xl`}
                 >
                   عربي
