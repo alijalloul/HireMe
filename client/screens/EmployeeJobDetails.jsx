@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -23,7 +23,7 @@ const EmployeeJobDetails = ({ route, navigation }) => {
       <View className="flex-1 w-full items-center">
         <View className=" w-[90%] mb-8 ">
           <View className="mb-8">
-            <GaramondText className=" font-garamond-semibold text-4xl">
+            <GaramondText className=" font-garamond-semibold text-5xl">
               {job?.jobTitle}
             </GaramondText>
             <GaramondText className=" text-[15px] opacity-50">

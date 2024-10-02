@@ -99,7 +99,7 @@ const SingleSelectorModal = ({
                 setSearch(text);
               }}
               className=" text-3xl w-[90%]"
-              placeholder={I18nManager.isRTL ? "بحث" : "Search"}
+              placeholder="Search"
             ></TextInput>
 
             <TouchableOpacity

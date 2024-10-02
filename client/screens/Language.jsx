@@ -1,21 +1,13 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useEffect, useState } from "react";
-import {
-  
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
 import LanguagePicker from "@/components/Picker/LanguagePicker";
 import Spinner from "@/components/Spinner";
 import { updateUser } from "@/redux/User";
-
-
 
 const Language = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -25,16 +17,16 @@ const Language = ({ navigation }) => {
   const [languageArr, setLanguageArr] = useState(
     userInfo?.language || [
       {
-        language:"Deutsch",
-        proficiency:"Fluent",
+        language: "Deutsch",
+        proficiency: "Fluent",
       },
       {
-        language:"العربية",
-        proficiency:"Basic",
+        language: "العربية",
+        proficiency: "Basic",
       },
       {
-        language:"English",
-        proficiency:"Intermediate",
+        language: "English",
+        proficiency: "Intermediate",
       },
     ]
   );
@@ -42,10 +34,7 @@ const Language = ({ navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <CustomeBackHeader
-          navigation={navigation}
-          screenName=education
-        />
+        <CustomeBackHeader navigation={navigation} screenName="education" />
       ),
     });
   }, []);
@@ -79,7 +68,7 @@ const Language = ({ navigation }) => {
         <View className="w-[90%] items-center flex-1">
           <LanguagePicker
             headerSize={35}
-            headerText=One last thing. Tell us what languages do you speak.
+            headerText="One last thing. Tell us what languages do you speak."
             languageArr={languageArr}
             setLanguageArr={setLanguageArr}
           />
@@ -98,9 +87,7 @@ const Language = ({ navigation }) => {
           }}
           className={`self-end w-32 h-12 flex justify-center items-center bottom-0 right-0 mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
         >
-          <GaramondText className="text-lg text-white">
-            Next
-          </GaramondText>
+          <GaramondText className="text-lg text-white">Next</GaramondText>
         </TouchableOpacity>
       </ScrollView>
     </View>

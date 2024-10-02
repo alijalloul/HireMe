@@ -81,7 +81,7 @@ const CV = ({ navigation }) => {
       ></View>
       <View className="bg-white flex-1 items-center">
         <View className="w-[90%] h-full">
-          <GaramondText className=" text-4xl mb-5">
+          <GaramondText className=" text-5xl mb-5">
             How would you like to introduce yourself?
           </GaramondText>
           <GaramondText className=" text-[20px] mb-5">

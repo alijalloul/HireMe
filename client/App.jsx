@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import "./global.css";
 

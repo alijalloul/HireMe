@@ -117,7 +117,7 @@ const Choose = ({ navigation }) => {
         <GaramondText className={`text-sm text-red-500 ${!error && "hidden"}`}>
           You need to choose an account type
         </GaramondText>
-        <GaramondText className="text-[40px] font-garamond">
+        <GaramondText className="text-5xl font-garamond">
           I am looking for...
         </GaramondText>
       </View>
@@ -148,10 +148,7 @@ const Choose = ({ navigation }) => {
             }}
             className="w-full h-full flex justify-center items-center"
           >
-            <MotiText
-              state={JobTextBackgroundAnimation}
-              className=" text-[40px]"
-            >
+            <MotiText state={JobTextBackgroundAnimation} className=" text-5xl">
               A Job
             </MotiText>
           </TouchableOpacity>
@@ -185,7 +182,7 @@ const Choose = ({ navigation }) => {
           >
             <MotiText
               state={ClientTextBackgroundAnimation}
-              className=" text-[40px]"
+              className=" text-5xl"
             >
               An Employee
             </MotiText>

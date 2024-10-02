@@ -28,7 +28,7 @@ const CV = ({ navigation }) => {
   return (
     <View className="bg-white flex-1 items-center">
       <View className="w-[90%] flex-1">
-        <GaramondText className=" text-4xl mb-5">
+        <GaramondText className=" text-5xl mb-5">
           {user?.type === "employer"
             ? "First, tell the employee of how they would contact you."
             : "First, tell the employer of how they would contact you."}

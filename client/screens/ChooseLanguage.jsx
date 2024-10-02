@@ -12,14 +12,6 @@ const ChooseLanguage = ({ navigation }) => {
 
   const [language, setLanguage] = useState("english");
 
-  useEffect(() => {
-    if (language === "arabic") {
-      I18nManager.forceRTL(true);
-    } else {
-      I18nManager.forceRTL(false);
-    }
-  }, [language]);
-
   return (
     <View className="bg-white flex-1 justify-center items-center">
       <View className="flex-1 w-full justify-center items-center">

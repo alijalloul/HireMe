@@ -102,7 +102,7 @@ const LogIn = ({ navigation }) => {
               },
               textShadowRadius: 10,
             }}
-            className="relative top-12 text-[40px] text-white font-garamond-bold w-[50%]"
+            className="relative top-12 text-5xl text-white font-garamond-bold w-[50%]"
           >
             Welcome Back
           </GaramondText>

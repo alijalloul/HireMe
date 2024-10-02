@@ -18,7 +18,7 @@ import IntroductionPicker from "@/components/Profile/IntroductionPicker";
 import TextInputEditor from "@/components/Profile/TextInputEditor";
 import UploadImage from "@/components/UploadImage";
 
-import { editAppLanguage, logout, updateUser } from "@/redux/User";
+import { logout, updateUser } from "@/redux/User";
 
 import blobTop from "@/assets/images/blobTop.png";
 import Spinner from "@/components/Spinner";
@@ -29,7 +29,6 @@ const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.userInfo);
   const pending = useSelector((state) => state.user.pending);
-  const appLanguage = useSelector((state) => state.user.appLanguage);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,24 +40,6 @@ const Profile = ({ navigation }) => {
   const [workExperience, setWorkExperience] = useState([]);
   const [education, setEducation] = useState([]);
   const [languageArr, setLanguageArr] = useState([]);
-  const [language, setLanguage] = useState(appLanguage);
-  console.log(appLanguage, " : ", language);
-
-  const reload = async () => {
-    await Updates.reloadAsync();
-  };
-
-  useEffect(() => {
-    if (language === "arabic") {
-      I18nManager.forceRTL(true);
-    } else {
-      I18nManager.forceRTL(false);
-    }
-
-    if (!__DEV__) {
-      reload();
-    }
-  }, [language]);
 
   useEffect(() => {
     if (isFocused) {
@@ -418,57 +399,11 @@ const Profile = ({ navigation }) => {
                   navigation,
                   dispatch
                 );
-
-                appLanguage !== language &&
-                  editAppLanguage(language, null, dispatch);
               }}
               className={`w-full h-12 flex justify-center items-center bottom-0 right-0 bg-[${Colors.primary}] rounded-xl  mb-8`}
             >
               <GaramondText className="text-lg text-white">Save</GaramondText>
             </TouchableOpacity>
-
-            <View
-              className={`w-full border-2 border-[${Colors.primary}] rounded-2xl flex-row justify-center items-center`}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  setLanguage("english");
-                }}
-                className={`${
-                  language === "english"
-                    ? `bg-[${Colors.primary}] `
-                    : "bg-white"
-                } rounded-xl  w-[50%] py-5  flex justify-center items-center `}
-              >
-                <GaramondText
-                  className={`${
-                    language === "english"
-                      ? " text-white "
-                      : `text-[${Colors.primary}]`
-                  } font-garamond-bold text-xl`}
-                >
-                  English
-                </GaramondText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setLanguage("arabic");
-                }}
-                className={`${
-                  language === "arabic" ? `bg-[${Colors.primary}] ` : "bg-white"
-                } rounded-xl  w-[50%] py-5  flex justify-center items-center`}
-              >
-                <GaramondText
-                  className={`${
-                    language === "arabic"
-                      ? " text-white "
-                      : `text-[${Colors.primary}]`
-                  } font-garamond-bold text-xl`}
-                >
-                  عربي
-                </GaramondText>
-              </TouchableOpacity>
-            </View>
           </View>
         </View>
       </ScrollView>

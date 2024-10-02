@@ -25,7 +25,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
       <View className="w-full items-center mb-10">
         <View className="w-[90%] mb-8">
           <View className="mb-8">
-            <GaramondText className="font-garamond-semibold text-4xl">
+            <GaramondText className="font-garamond-semibold text-5xl">
               {job?.jobTitle}
             </GaramondText>
             <GaramondText className="text-[15px] opacity-50">

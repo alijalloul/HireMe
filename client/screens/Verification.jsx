@@ -76,7 +76,7 @@ const Verification = ({ navigation }) => {
 
         <View className="flex justify-center items-center mb-16">
           <GaramondText
-            className={`text-[${Colors.primary}] font-garamond-bold text-4xl`}
+            className={`text-[${Colors.primary}] font-garamond-bold text-5xl`}
           >
             Verification Code
           </GaramondText>

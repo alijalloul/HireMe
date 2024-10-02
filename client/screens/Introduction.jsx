@@ -1,7 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
-import { I18nManager } from "react-native";
 
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,7 +40,7 @@ const Introduction = ({ navigation }) => {
       }}
     >
       <View className="w-[90%] h-full">
-        <GaramondText className="text-4xl mb-5">
+        <GaramondText className="text-5xl mb-5">
           You are one step closer towards finding your perfect job!
         </GaramondText>
         <GaramondText className="text-[20px] mb-5">
