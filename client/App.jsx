@@ -1,3 +1,5 @@
+import { Colors } from '@/constants/Colors'
+import GaramondText from "@/components/GaramondText";
 import "./global.css";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -14,37 +16,39 @@ import { Provider } from "react-redux";
 import "react-native-gesture-handler";
 import "react-native-reanimated";
 
-import Store from "@/redux/Store.js";
+import Store from "@/redux/Store";
 
-import Navbar from "@/components/Navbar.js";
-import CV from "@/screens/CV.js";
-import Choose from "@/screens/Choose.js";
-import Education from "@/screens/Education.js";
-import Home from "@/screens/Home.js";
-import Introduction from "@/screens/Introduction.js";
-import JobPostDetails from "@/screens/JobPostDetails.js";
-import LogIn from "@/screens/LogIn.js";
-import MyJobs from "@/screens/MyJobs.js";
-import OnBoarding from "@/screens/OnBoarding.js";
-import Profile from "@/screens/Profile.js";
-import SignUp from "@/screens/SignUp.js";
-import UserDetails from "@/screens/UserDetails.js";
-import UserJobPostDetails from "@/screens/UserJobPostDetails.js";
-import Verification from "@/screens/Verification.js";
-import Work from "@/screens/Work.js";
+import Navbar from "@/components/Navbar";
+import CV from "@/screens/CV";
+import Choose from "@/screens/Choose";
+import Education from "@/screens/Education";
+import Home from "@/screens/Home";
+import Introduction from "@/screens/Introduction";
+import JobPostDetails from "@/screens/JobPostDetails";
+import LogIn from "@/screens/LogIn";
+import MyJobs from "@/screens/MyJobs";
+import OnBoarding from "@/screens/OnBoarding";
+import Profile from "@/screens/Profile";
+import SignUp from "@/screens/SignUp";
+import UserDetails from "@/screens/UserDetails";
+import UserJobPostDetails from "@/screens/UserJobPostDetails";
+import Verification from "@/screens/Verification";
+import Work from "@/screens/Work";
 
 import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import HeaderRight from "@/components/Header/HeaderRight.js";
-import { editUser } from "@/redux/User.js";
+import HeaderRight from "@/components/Header/HeaderRight";
+import { editUser } from "@/redux/User";
 
-import ContactInfo from "@/screens/ContactInfo.js";
-import EmployeeJobDetails from "@/screens/EmployeeJobDetails.js";
+import ContactInfo from "@/screens/ContactInfo";
+import EmployeeJobDetails from "@/screens/EmployeeJobDetails";
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
+
+SplashScreen.preventAutoHideAsync();
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -187,7 +191,7 @@ const AppContent = () => {
           setScreenName(value2);
         }
       } catch (error) {
-        console.log("error message from App.js: ", error);
+        console.log("error message from App: ", error);
       }
     };
 
@@ -198,153 +202,158 @@ const AppContent = () => {
     editUser({ ...user, pushToken: expoPushToken.data }, null, null, dispatch);
   }, [expoPushToken]);
 
-  const [fontsLoaded] = useFonts({
+  const [loaded, error] = useFonts({
     "EB-Garamond": require("@/assets/fonts/EBGaramond-Medium.ttf"),
     "EB-Garamond-Bold": require("@/assets/fonts/EBGaramond-Bold.ttf"),
     "EB-Garamond-SemiBold": require("@/assets/fonts/EBGaramond-SemiBold.ttf"),
   });
 
-  if (fontsLoaded) {
-    return (
-      <NavigationContainer
-        independent={true}
-        className=" border-box padding-0 margin-0"
-      >
-        <Stack.Navigator initialRouteName="onBoarding">
-          <Stack.Screen
-            name="onBoarding"
-            component={OnBoarding}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
 
-          <Stack.Screen
-            name="HomeTabs"
-            component={HomeTabs}
-            options={{
-              headerShown: false,
-              headerStyle: {
-                height: 100,
-                marginHorizantal: 10,
-              },
-            }}
-          />
-          <Stack.Screen
-            name="CV"
-            component={CV}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-              headerBackVisible: false,
-            }}
-          />
+    console.log("loaded", loaded);
+  }, [loaded, error]);
 
-          <Stack.Screen
-            name="choose"
-            component={Choose}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="employeeJobDetails"
-            component={EmployeeJobDetails}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="JobPostDetails"
-            component={JobPostDetails}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="userDetails"
-            component={UserDetails}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="work"
-            component={Work}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-
-          <Stack.Screen
-            name="UserJobPostDetails"
-            component={UserJobPostDetails}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="introduction"
-            component={Introduction}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="contactInfo"
-            component={ContactInfo}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="education"
-            component={Education}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="login"
-            component={LogIn}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="signUp"
-            component={SignUp}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-          <Stack.Screen
-            name="verification"
-            component={Verification}
-            options={{
-              headerTitle: "",
-              headerShadowVisible: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  } else {
+  if (!loaded && !error) {
     return null;
   }
+
+  return (
+    <NavigationContainer independent={true} className=" border-box p-0 m-0">
+      <Stack.Navigator
+        initialRouteName="onBoarding"
+        screenOptions={{
+          contentStyle: {
+            backgroundColor: "#FBF2E3",
+          },
+        }}
+      >
+        <Stack.Screen
+          name="onBoarding"
+          component={OnBoarding}
+          options={{
+            headerTitle: "",
+            headerStyle: {
+              backgroundColor: "#FBF2E3",
+            },
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="signUp"
+          component={SignUp}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="login"
+          component={LogIn}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="CV"
+          component={CV}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="choose"
+          component={Choose}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="employeeJobDetails"
+          component={EmployeeJobDetails}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="JobPostDetails"
+          component={JobPostDetails}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="userDetails"
+          component={UserDetails}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="work"
+          component={Work}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="UserJobPostDetails"
+          component={UserJobPostDetails}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="introduction"
+          component={Introduction}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="contactInfo"
+          component={ContactInfo}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="education"
+          component={Education}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="HomeTabs"
+          component={HomeTabs}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              height: 100,
+              marginHorizantal: 10,
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };

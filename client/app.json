@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FBF2E3",
+      "resizeMode": "contain"
     },
     "ios": {
       "supportsTablet": true
@@ -17,11 +17,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#FBF2E3"
+      },
+      "package": "com.hireme"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "backgroundColor": "#FBF2E3"
+    },
+    "plugins": []
   }
 }

@@ -7,7 +7,11 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    fontFamily: {
+      garamond: "EB-Garamond",
+      "garamond-semibold": "EB-Garamond-SemiBold",
+      "garamond-bold": "EB-Garamond-Bold",
+    },
   },
   plugins: [],
 };

@@ -52,7 +52,7 @@ export const fetchPosts = async (page, dispatch) => {
       method: "GET",
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {
@@ -65,10 +65,13 @@ export const fetchPostsBySearch = async (searchQuery, page, dispatch) => {
   dispatch(postSlice.actions.startAPI());
 
   try {
-    const res = await fetch(`${BASE_URL}/posts/search/${searchQuery || "none"}/${page}`, {
-      mode: "cors",
-    });
-    const data = await res.json();
+    const res = await fetch(
+      `${BASE_URL}/posts/search/${searchQuery || "none"}/${page}`,
+      {
+        mode: "cors",
+      }
+    );
+    const data = await reson();
 
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {
@@ -77,7 +80,17 @@ export const fetchPostsBySearch = async (searchQuery, page, dispatch) => {
   }
 };
 
-export const fetchPostsByFilter = async (company, location, country, category, skills, jobExperience, jobType, page, dispatch) => {
+export const fetchPostsByFilter = async (
+  company,
+  location,
+  country,
+  category,
+  skills,
+  jobExperience,
+  jobType,
+  page,
+  dispatch
+) => {
   dispatch(postSlice.actions.startAPI());
 
   try {
@@ -97,7 +110,7 @@ export const fetchPostsByFilter = async (company, location, country, category, s
     const res = await fetch(url, {
       mode: "cors",
     });
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {

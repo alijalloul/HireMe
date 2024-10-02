@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import JobPost from "./JobPost.js";
-import User from "./User.js";
+import JobPost from "./JobPost";
+import User from "./User";
 
 export default configureStore({
   reducer: {

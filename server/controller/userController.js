@@ -1,7 +1,7 @@
-import jobPostDB from "@/schema/JobPostSchema.js";
-import applicationDB from "@/schema/applicationSchema.js";
-import employeeDB from "@/schema/employeeSchema.js";
-import employerDB from "@/schema/employerSchema.js";
+import jobPostDB from "@/schema/JobPostSchema";
+import applicationDB from "@/schema/applicationSchema";
+import employeeDB from "@/schema/employeeSchema";
+import employerDB from "@/schema/employerSchema";
 
 import { Expo } from "expo-server-sdk";
 let expo = new Expo({
@@ -30,7 +30,7 @@ export async function getJobPostsPostedByUser(
       .limit(LIMIT)
       .skip(startIndex);
 
-    res.json({
+    reson({
       data: jobPosts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -40,7 +40,7 @@ export async function getJobPostsPostedByUser(
     console.error(error);
     res
       .status(500)
-      .json({
+      on({
         message: "Error fetching job posts",
       });
   }
@@ -85,7 +85,7 @@ export async function getJobPostsAppliedToByUser(
 
     res
       .status(200)
-      .json({
+      on({
         data: jobPosts,
         numberOfPages: Math.ceil(
           totalPosts / LIMIT
@@ -95,7 +95,7 @@ export async function getJobPostsAppliedToByUser(
     console.error(error);
     res
       .status(500)
-      .json({
+      on({
         message: "Error fetching job posts",
       });
   }
@@ -127,12 +127,12 @@ export async function getAppliedEmployees(
       })
     );
 
-    res.status(200).json(employeeData);
+    res.status(200)on(employeeData);
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .json({
+      on({
         message: "Error fetching applications",
       });
   }
@@ -174,7 +174,7 @@ export async function hireEmployee(req, res) {
     console.error(error);
     res
       .status(500)
-      .json({ message: "Error hiring employee" });
+      on({ message: "Error hiring employee" });
   }
 }
 
@@ -186,12 +186,12 @@ export async function createJobPost(req, res) {
     const newJobPost = await jobPostDB.create(
       body
     );
-    res.status(200).json(newJobPost);
+    res.status(200)on(newJobPost);
   } catch (error) {
     console.error(error);
     res
       .status(409)
-      .json({
+      on({
         message: "Error creating job post",
       });
   }
@@ -208,12 +208,12 @@ export async function updateJobPost(req, res) {
         lean: true,
       })
       .exec();
-    res.status(200).json(newJobPost);
+    res.status(200)on(newJobPost);
   } catch (error) {
     console.error(error);
     res
       .status(409)
-      .json({
+      on({
         message: "Error updating job post",
       });
   }
@@ -226,14 +226,14 @@ export async function deleteJobPost(req, res) {
   try {
     await jobPostDB.findByIdAndRemove(id);
 
-    res.json({
+    reson({
       message: "Post deleted successfully!",
     });
   } catch (error) {
     console.error(error);
     res
       .status(500)
-      .json({
+      on({
         message: "Error deleting job post",
       });
   }
@@ -255,7 +255,7 @@ export async function getJobPosts(req, res) {
       .limit(LIMIT)
       .skip(startIndex);
 
-    res.json({
+    reson({
       data: jobPosts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -265,7 +265,7 @@ export async function getJobPosts(req, res) {
     console.error(error);
     res
       .status(500)
-      .json({
+      on({
         message: "Error fetching job posts",
       });
   }
@@ -306,7 +306,7 @@ export async function getJobPostsBySearch(
       .limit(LIMIT)
       .skip(startIndex);
 
-    res.json({
+    reson({
       data: posts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -315,7 +315,7 @@ export async function getJobPostsBySearch(
   } catch (error) {
     res
       .status(409)
-      .json({ message: error.message });
+      on({ message: error.message });
   }
 }
 
@@ -398,7 +398,7 @@ export async function getJobPostsByFilter(
       .limit(LIMIT)
       .skip(startIndex);
 
-    res.json({
+    reson({
       data: posts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -407,7 +407,7 @@ export async function getJobPostsByFilter(
   } catch (err) {
     res
       .status(409)
-      .json({ message: error.message });
+      on({ message: error.message });
   }
 }
 
@@ -445,7 +445,7 @@ export async function applyForJob(req, res) {
     if (applied) {
       return res
         .status(404)
-        .json({
+        on({
           message:
             "You have already applied to this job",
         });
@@ -457,7 +457,7 @@ export async function applyForJob(req, res) {
     console.error(error);
     res
       .status(500)
-      .json({
+      on({
         message: "Error applying for job",
       });
   }

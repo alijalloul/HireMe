@@ -42,11 +42,15 @@ const userSlice = createSlice({
     },
     updatePostSuccess: (state, action) => {
       state.pending = false;
-      state.jobPosts = state.jobPosts.map((job) => (job._id === action.payload._id ? action.payload : job));
+      state.jobPosts = state.jobPosts.map((job) =>
+        job._id === action.payload._id ? action.payload : job
+      );
     },
     deleteSuccess: (state, action) => {
       state.pending = false;
-      state.jobPosts = state.jobPosts?.filter((post) => post._id !== action.payload);
+      state.jobPosts = state.jobPosts?.filter(
+        (post) => post._id !== action.payload
+      );
     },
     editSuccess: (state, action) => {
       state.pending = false;
@@ -69,7 +73,9 @@ const userSlice = createSlice({
     hireSuccess: (state, action) => {
       state.pending = false;
       state.employeesByJobId = [];
-      state.jobPosts = state.jobPosts?.filter((item, index) => item._id !== action.payload);
+      state.jobPosts = state.jobPosts?.filter(
+        (item, index) => item._id !== action.payload
+      );
     },
     errorAPI: (state) => {
       state.pending = null;
@@ -101,7 +107,10 @@ export const editUser = async (userInfo, screenName, navigation, dispatch) => {
 
     if (screenName) {
       const token = JSON.parse(await AsyncStorage.getItem("profile"))?.token;
-      await AsyncStorage.setItem("profile", JSON.stringify({ result: userInfo, token: token }));
+      await AsyncStorage.setItem(
+        "profile",
+        JSON.stringify({ result: userInfo, token: token })
+      );
 
       if (screenName !== "choose") {
         await AsyncStorage.setItem("screenName", screenName);
@@ -127,7 +136,7 @@ export const createJobPost = async (postsInfo, dispatch) => {
       body: JSON.stringify(postsInfo),
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(userSlice.actions.createSuccess(data));
   } catch (error) {
@@ -150,7 +159,7 @@ export const updateJobPost = async (postsInfo, dispatch) => {
       body: JSON.stringify(postsInfo),
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(userSlice.actions.updatePostSuccess(data));
   } catch (error) {
@@ -186,7 +195,7 @@ export const sendotp = async (phoneNumber, navigation, dispatch) => {
     });
 
     if (res.status !== 200) {
-      const data = await res.json();
+      const data = await reson();
 
       dispatch(userSlice.actions.errorAPI());
 
@@ -216,7 +225,7 @@ export const resendotp = async (phoneNumber, dispatch) => {
     });
 
     if (res.status !== 200) {
-      const data = await res.json();
+      const data = await reson();
 
       dispatch(userSlice.actions.errorAPI());
 
@@ -244,7 +253,7 @@ export const signup = async (userInfo, navigation, dispatch) => {
       body: JSON.stringify(userInfo),
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(userSlice.actions.loginSuccess(data));
 
@@ -270,7 +279,7 @@ export const login = async (userInfo, navigation, dispatch) => {
       body: JSON.stringify(userInfo),
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     if (res.status !== 200) {
       dispatch(userSlice.actions.errorAPI());
@@ -319,12 +328,15 @@ export const updateUser = async (newUser, navigation, dispatch) => {
       body: JSON.stringify(newUser),
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     console.log(data);
     dispatch(userSlice.actions.editSuccess(data));
 
-    await AsyncStorage.setItem("profile", JSON.stringify({ result: data, token: token }));
+    await AsyncStorage.setItem(
+      "profile",
+      JSON.stringify({ result: data, token: token })
+    );
 
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
@@ -352,7 +364,7 @@ export const fetchJobsByEmployer = async (userId, page, dispatch) => {
       method: "GET",
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(userSlice.actions.fetchByIdSuccess(data));
   } catch (error) {
@@ -369,7 +381,7 @@ export const fetchPostsAplliedToByUser = async (userId, page, dispatch) => {
       method: "GET",
     });
 
-    const data = await res.json();
+    const data = await reson();
 
     dispatch(userSlice.actions.fetchByIdSuccess(data));
   } catch (error) {
@@ -386,9 +398,11 @@ export const fetchEmployeesByJobId = async (jobId, dispatch) => {
       method: "GET",
     });
 
-    const data = await res.json();
+    const data = await reson();
 
-    dispatch(userSlice.actions.fetchEmployeesSuccess({ data: data, jobId: jobId }));
+    dispatch(
+      userSlice.actions.fetchEmployeesSuccess({ data: data, jobId: jobId })
+    );
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);
@@ -412,14 +426,29 @@ export const hireEmployee = async (jobId, employeeId, navigation, dispatch) => {
   }
 };
 
-export const handleApply = async (job_id, employee_id, employer_id, status, category, coverLetter, navigation) => {
+export const handleApply = async (
+  job_id,
+  employee_id,
+  employer_id,
+  status,
+  category,
+  coverLetter,
+  navigation
+) => {
   try {
     await fetch(`${BASE_URL}/application`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ job_id, employee_id, employer_id, status, category, coverLetter }),
+      body: JSON.stringify({
+        job_id,
+        employee_id,
+        employer_id,
+        status,
+        category,
+        coverLetter,
+      }),
     });
 
     navigation.navigate("HomeTabs");

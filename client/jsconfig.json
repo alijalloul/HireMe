@@ -9,10 +9,10 @@
     }
   },
   "include": [
-    "**/*.js",
-    "**/*.jsx",
-    "./app/App.jsx",
-    ".expo/types/**/*.js",
+    "**/*",
+    "**/*x",
+    "./app/Appx",
+    ".expo/types/**/*",
     "nativewind-env.d.ts"
   ]
 }
