@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
-const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.1.3:5000";
+const BASE_URL =
+  process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.0.115:5000";
 
 const userSlice = createSlice({
   name: "user",
@@ -83,6 +84,58 @@ const userSlice = createSlice({
     },
   },
 });
+
+export const signup = async (userInfo, navigation, dispatch) => {
+  dispatch(userSlice.actions.startAPI());
+
+  try {
+    const res = await fetch(`${BASE_URL}/user/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    const data = await res.json();
+
+    navigation.navigate("onBoarding");
+  } catch (error) {
+    dispatch(userSlice.actions.errorAPI());
+    console.log("error: ", error);
+  }
+};
+
+export const login = async (userInfo, navigation, dispatch) => {
+  dispatch(userSlice.actions.startAPI());
+
+  try {
+    const res = await fetch(`${BASE_URL}/user/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    const data = await res.json();
+
+    if (res.status !== 200) {
+      dispatch(userSlice.actions.errorAPI());
+
+      return data.message;
+    }
+
+    dispatch(userSlice.actions.loginSuccess(data));
+
+    await AsyncStorage.setItem("profile", JSON.stringify(data));
+
+    navigation.navigate("HomeTabs", { screen: "home" });
+  } catch (error) {
+    dispatch(userSlice.actions.errorAPI());
+    console.log("error: ", error);
+  }
+};
 
 export const editAppLanguage = async (language, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
@@ -176,122 +229,6 @@ export const deletePost = async (selectedPostId, dispatch) => {
       method: "DELETE",
     });
     dispatch(userSlice.actions.deleteSuccess(selectedPostId));
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
-export const sendotp = async (phoneNumber, navigation, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  try {
-    const res = await fetch(`${BASE_URL}/send-otp`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ phoneNumber: phoneNumber }),
-    });
-
-    if (res.status !== 200) {
-      const data = await reson();
-
-      dispatch(userSlice.actions.errorAPI());
-
-      return data.message;
-    }
-
-    dispatch(userSlice.actions.sendOtpSuccess());
-    navigation.navigate("verification");
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
-export const resendotp = async (phoneNumber, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  console.log(phoneNumber);
-
-  try {
-    const res = await fetch(`${BASE_URL}/resend-otp`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ phoneNumber: phoneNumber }),
-    });
-
-    if (res.status !== 200) {
-      const data = await reson();
-
-      dispatch(userSlice.actions.errorAPI());
-
-      return data.message;
-    }
-
-    dispatch(userSlice.actions.sendOtpSuccess());
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
-export const signup = async (userInfo, navigation, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  console.log("base URL: ", BASE_URL);
-
-  try {
-    const res = await fetch(`${BASE_URL}/users/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userInfo),
-    });
-
-    const data = await reson();
-
-    dispatch(userSlice.actions.loginSuccess(data));
-
-    await AsyncStorage.setItem("profile", JSON.stringify({ ...data }));
-    await AsyncStorage.setItem("screenName", "choose");
-
-    navigation.navigate("choose");
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
-export const login = async (userInfo, navigation, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  try {
-    const res = await fetch(`${BASE_URL}/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userInfo),
-    });
-
-    const data = await reson();
-
-    if (res.status !== 200) {
-      dispatch(userSlice.actions.errorAPI());
-
-      return data.message;
-    }
-
-    dispatch(userSlice.actions.loginSuccess(data));
-
-    await AsyncStorage.setItem("profile", JSON.stringify({ ...data }));
-
-    navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);

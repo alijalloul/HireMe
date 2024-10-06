@@ -1,7 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { memo, useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import {
   Image,
   RefreshControl,
@@ -134,4 +134,4 @@ const Home = ({ navigation }) => {
   );
 };
 
-export default memo(Home);
+export default Home;

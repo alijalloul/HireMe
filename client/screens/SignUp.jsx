@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import blobright from "@/assets/images/blobright.png";
 import key from "@/assets/images/key.png";
-import phone from "@/assets/images/phone.png";
+import { EmailSVG } from "@/assets/images/svgs"; // Replace with an appropriate email icon
 import user from "@/assets/images/userBlack.png";
 
 import { Colors } from "@/constants/Colors";
@@ -13,7 +13,7 @@ import GaramondText from "@/components/GaramondText";
 import RenderTextInput from "@/components/RenderTextInput";
 import Spinner from "@/components/Spinner";
 
-import { editUser, sendotp } from "@/redux/User";
+import { editUser, sendotp, signup } from "@/redux/User";
 
 const SignUp = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -23,36 +23,35 @@ const SignUp = ({ navigation }) => {
   const [errorType, setErrorType] = useState(null);
 
   const [name, setName] = useState("");
-  const [telephone, setTelephone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [nameError, setNameError] = useState(false);
-  const [telephoneError, setTelephoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-  const [telephoneErrorMessage, setTelephoneErrorMessage] = useState("");
-  const [passwordErroMessager, setPasswordErrorMessage] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
 
   useEffect(() => {
     if (errorType) {
-      setTelephoneError(true);
+      setEmailError(true);
     }
   }, [errorType]);
 
-  const handleNext = async () => {
+  const handleSignUp = async () => {
     let error = false;
 
     if (name === "") {
       setNameError(true);
       error = true;
     }
-    if (telephone === "") {
-      setTelephoneErrorMessage("This field can not be empty");
-      setTelephoneError(true);
+    if (email === "") {
+      setEmailErrorMessage("This field can not be empty");
+      setEmailError(true);
       error = true;
-    } else if (telephone.length < 8) {
-      setTelephoneErrorMessage("Your phone number should be 8 characters long");
-      setTelephoneError(true);
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailErrorMessage("Please enter a valid email address");
+      setEmailError(true);
       error = true;
     }
     if (password === "") {
@@ -61,25 +60,7 @@ const SignUp = ({ navigation }) => {
     }
 
     if (!error) {
-      await editUser(
-        {
-          ...userInfo,
-          name: name,
-          telephone: telephone,
-          password: password,
-        },
-        null,
-        null,
-        dispatch
-      );
-      const res = await sendotp(telephone, navigation, dispatch);
-
-      if (res) {
-        setTelephoneErrorMessage(
-          "This phone number is already in use, try loggin in"
-        );
-        setTelephoneError(true);
-      }
+      await signup({ name, email, password }, navigation, dispatch);
     }
   };
 
@@ -110,8 +91,8 @@ const SignUp = ({ navigation }) => {
       >
         <Image source={blobright} className="absolute -left-12 -top-[310px] " />
 
-        <View className=" w-[90%] ">
-          <View className="border-2 py-24">
+        <View className=" w-[90%] flex flex-col justify-between">
+          <View className="h-[30%]">
             <GaramondText className="text-5xl text-white">
               Create Account
             </GaramondText>
@@ -122,7 +103,6 @@ const SignUp = ({ navigation }) => {
               className="mb-4"
               isNumpad={false}
               isMultiline={false}
-              icon={user}
               value={name}
               setValue={setName}
               placeholder="Full Name"
@@ -133,22 +113,20 @@ const SignUp = ({ navigation }) => {
 
             <RenderTextInput
               className="mb-4"
-              isNumpad={true}
+              isNumpad={false}
               isMultiline={false}
-              icon={phone}
-              value={telephone}
-              setValue={setTelephone}
-              placeholder="Phone Number"
-              isError={telephoneError}
-              setIsError={setTelephoneError}
-              errorMessage={telephoneErrorMessage}
+              value={email}
+              setValue={setEmail}
+              placeholder="Email Address"
+              isError={emailError}
+              setIsError={setEmailError}
+              errorMessage={emailErrorMessage}
             />
 
             <RenderTextInput
               className="mb-4"
               isNumpad={false}
               isMultiline={false}
-              icon={key}
               value={password}
               setValue={setPassword}
               placeholder="Password"
@@ -161,9 +139,9 @@ const SignUp = ({ navigation }) => {
           <View className="w-full">
             <TouchableOpacity
               onPress={() => {
-                handleNext();
+                handleSignUp();
               }}
-              className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center`}
+              className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center `}
             >
               <GaramondText className="text-white font-garamond-bold text-xl">
                 Sign Up
