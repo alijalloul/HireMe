@@ -7,17 +7,17 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
   Dimensions,
   Image,
   Keyboard,
-  Text,
   TouchableOpacity,
   View,
   BackHandler,
-  Platform,
+  UIManager,
+  findNodeHandle,
 } from "react-native";
 import { MotiView, useDynamicAnimation } from "moti";
 import graphOrange from "@/assets/images/graphOrange.png";
@@ -27,12 +27,24 @@ import homeWhite from "@/assets/images/homeWhite.png";
 import userOrange from "@/assets/images/userOrange.png";
 import userWhite from "@/assets/images/userWhite.png";
 
-const Navbar = ({ navigation }) => {
+const Navbar = () => {
   const route = useRoute();
   const focusedRouteName = getFocusedRouteNameFromRoute(route) || "home";
-
   const navigator = useNavigation();
   const isFocused = useIsFocused();
+
+  const containerRef = useRef(null);
+  const homeButtonRef = useRef(null);
+  const jobsButtonRef = useRef(null);
+  const profileButtonRef = useRef(null);
+
+  const [translateX, setTranslateX] = useState(0);
+
+  useEffect(() => {
+    console.log("translateX: ", translateX);
+
+    selectorAnimation.animateTo({ translateX });
+  }, [translateX]);
 
   // Handle navigation with confirmation alert
   const handleNavigation = (screenName) => {
@@ -44,9 +56,7 @@ const Navbar = ({ navigation }) => {
           { text: "NO", style: "cancel" },
           {
             text: "YES",
-            onPress: () => {
-              navigator.navigate(screenName);
-            },
+            onPress: () => navigator.navigate(screenName),
           },
         ]
       );
@@ -65,9 +75,7 @@ const Navbar = ({ navigation }) => {
           { text: "No", style: "cancel" },
           {
             text: "Yes",
-            onPress: () => {
-              BackHandler.exitApp();
-            },
+            onPress: () => BackHandler.exitApp(),
           },
         ]
       );
@@ -79,10 +87,7 @@ const Navbar = ({ navigation }) => {
   // Add back handler hook
   useBackHandler(handleBackPress);
 
-  // Navbar dimensions and layout
   const barHeight = 70;
-  const buttonsMargin = 20;
-  const borderMargin = 70;
   const windowWidth = Dimensions.get("window").width;
   const navBarSpacing = windowWidth / 3;
 
@@ -91,67 +96,37 @@ const Navbar = ({ navigation }) => {
   // Initialize dynamic animations
   const containerAnimation = useDynamicAnimation(() => ({ height: barHeight }));
   const selectorAnimation = useDynamicAnimation(() => ({ translateX: 0 }));
-  const homeAnimation = useDynamicAnimation(() => ({ bottom: 0 }));
-  const graphAnimation = useDynamicAnimation(() => ({ bottom: 0 }));
-  const userAnimation = useDynamicAnimation(() => ({ bottom: 0 }));
 
-  // Animate container height based on keyboard visibility
   const animateContainerHeight = () => {
-    if (containerAnimation && containerAnimation.animateTo) {
-      if (isKeyboardVisible) {
-        containerAnimation.animateTo({ height: 0 });
-      } else {
-        containerAnimation.animateTo({ height: barHeight });
-      }
-    }
+    containerAnimation.animateTo({
+      height: isKeyboardVisible ? 0 : barHeight,
+    });
   };
 
-  // Animate the selector based on the focused route
   const animateSelector = () => {
-    if (selectorAnimation && selectorAnimation.animateTo) {
-      if (focusedRouteName === "home") {
-        selectorAnimation.animateTo({ translateX: navBarSpacing * 0 - 3 });
-      } else if (focusedRouteName === "myJobs") {
-        selectorAnimation.animateTo({ translateX: navBarSpacing * 1 - 3 });
-      } else if (focusedRouteName === "profile") {
-        selectorAnimation.animateTo({ translateX: navBarSpacing * 2 });
-      }
-    }
-  };
-
-  // Animate the buttons based on the focused route
-  const animateButtons = () => {
-    if (homeAnimation && homeAnimation.animateTo) {
-      homeAnimation.animateTo({
-        bottom: focusedRouteName === "home" ? buttonsMargin : 0,
+    if (focusedRouteName === "home" && homeButtonRef.current) {
+      homeButtonRef.current.measureLayout(containerRef.current, (left) => {
+        setTranslateX(Math.floor(left));
       });
-    }
-
-    if (graphAnimation && graphAnimation.animateTo) {
-      graphAnimation.animateTo({
-        bottom: focusedRouteName === "myJobs" ? buttonsMargin : 0,
+    } else if (focusedRouteName === "myJobs" && jobsButtonRef.current) {
+      jobsButtonRef.current.measureLayout(containerRef.current, (left) => {
+        setTranslateX(Math.floor(left));
       });
-    }
-
-    if (userAnimation && userAnimation.animateTo) {
-      userAnimation.animateTo({
-        bottom: focusedRouteName === "profile" ? buttonsMargin : 0,
+    } else if (focusedRouteName === "profile" && profileButtonRef.current) {
+      profileButtonRef.current.measureLayout(containerRef.current, (left) => {
+        setTranslateX(Math.floor(left));
       });
     }
   };
 
-  // Watch for route name changes and trigger animations
   useEffect(() => {
     animateSelector();
-    animateButtons();
   }, [focusedRouteName]);
 
-  // Watch for keyboard visibility changes and adjust navbar height
   useEffect(() => {
     animateContainerHeight();
   }, [isKeyboardVisible]);
 
-  // Listen to keyboard show/hide events
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -170,71 +145,88 @@ const Navbar = ({ navigation }) => {
 
   return (
     <MotiView
+      ref={containerRef}
       state={containerAnimation}
-      transition={{ type: "spring", damping: 300, duration: 100 }}
-      className={`bg-white ${isKeyboardVisible ? "hidden opacity-0" : ""}`}
+      className="bg-white"
     >
-      <View
-        style={{ width: windowWidth }}
-        className="flex flex-row justify-around self-center items-center w-full h-full rounded-t-[50px] bg-[#FFE2CD]"
+      <MotiView
+        state={selectorAnimation}
+        transition={{ type: "spring", damping: 300 }}
+        className="absolute z-10 "
       >
-        <MotiView
-          state={selectorAnimation}
-          transition={{ type: "spring", damping: 300 }}
-          style={{ width: navBarSpacing, bottom: borderMargin }}
-          className="z-10 absolute top-0 left-0 right-0 flex justify-center items-center"
-        >
-          <View
-            className={`z-10 bg-[${Colors.primary}] border-8 border-white rounded-full w-16 aspect-square`}
-          ></View>
-        </MotiView>
+        <View
+          className={`z-10 border-8 border-white rounded-full w-16 aspect-square`}
+          style={{ backgroundColor: Colors.primary }}
+        ></View>
+      </MotiView>
 
+      <View
+        className="flex flex-row justify-around items-center w-full h-full rounded-t-[50px] bg-[#FFE2CD]"
+        style={{ backgroundColor: Colors.primary }}
+      >
         <NavButton
           focused={focusedRouteName === "home"}
           imageWhite={homeWhite}
           imageOrange={homeOrange}
           label="home"
           onPress={() => handleNavigation("home")}
+          ref={homeButtonRef}
         />
-
         <NavButton
           focused={focusedRouteName === "myJobs"}
           imageWhite={graphWhite}
           imageOrange={graphOrange}
           label="myJobs"
           onPress={() => handleNavigation("myJobs")}
+          ref={jobsButtonRef}
         />
-
         <NavButton
           focused={focusedRouteName === "profile"}
           imageWhite={userWhite}
           imageOrange={userOrange}
           label="profile"
           onPress={() => handleNavigation("profile")}
+          ref={profileButtonRef}
         />
       </View>
     </MotiView>
   );
 };
 
-// Reusable NavButton component
-const NavButton = ({ focused, imageWhite, imageOrange, label, onPress }) => (
-  <View className="z-20 relative flex justify-center items-center">
-    <MotiView
-      transition={{ type: "spring", damping: 300 }}
-      className="relative"
-    >
-      <TouchableOpacity onPress={onPress} className="rounded-full">
-        <Image
-          source={focused ? imageWhite : imageOrange}
-          className="w-8 h-8"
-        />
-      </TouchableOpacity>
-    </MotiView>
-    <GaramondText className={`text-[${Colors.primary}] text-lg`}>
-      {label}
-    </GaramondText>
-  </View>
+const NavButton = React.forwardRef(
+  ({ focused, imageWhite, imageOrange, label, onPress }, ref) => {
+    const homeAnimation = useDynamicAnimation(() => ({ bottom: 0 }));
+
+    useEffect(() => {
+      homeAnimation.animateTo({
+        bottom: focused ? 20 : 0,
+      });
+    }, [focused]);
+
+    return (
+      <View className="z-20 relative flex justify-center items-center">
+        <MotiView
+          state={homeAnimation}
+          transition={{ type: "spring", damping: 300 }}
+          className="relative"
+        >
+          <TouchableOpacity
+            ref={ref}
+            onPress={onPress}
+            className="rounded-full"
+          >
+            <Image
+              source={focused ? imageWhite : imageOrange}
+              className="w-8 h-8"
+            />
+          </TouchableOpacity>
+        </MotiView>
+        <GaramondText className={`text-[${Colors.primary}] text-lg`}>
+          {label}
+        </GaramondText>
+      </View>
+    );
+  }
 );
 
 export default Navbar;

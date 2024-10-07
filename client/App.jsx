@@ -9,7 +9,7 @@ import Constants from "expo-constants";
 import * as Device from "expo-device";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 
 import "react-native-gesture-handler";
 import "react-native-reanimated";
@@ -83,6 +83,12 @@ const AppContent = () => {
 
   const [user, setUser] = useState(null);
   const [screenName, setScreenName] = useState(null);
+
+  const pending = useSelector((state) => state.user.pending);
+
+  useEffect(() => {
+    console.log("Pending state changed: ", pending);
+  }, [pending]);
 
   useEffect(() => {
     const getData = async () => {

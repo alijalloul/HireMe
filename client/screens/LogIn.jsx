@@ -49,7 +49,7 @@ const LogIn = ({ navigation }) => {
     }
 
     if (password !== "" && email !== "") {
-      const res = await login(
+      await login(
         {
           email: email,
           password: password,
@@ -57,9 +57,6 @@ const LogIn = ({ navigation }) => {
         navigation,
         dispatch
       );
-
-      console.log("res: ", res);
-      // setErrorType(res);
     }
   };
 
@@ -88,14 +85,10 @@ const LogIn = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Image source={blobleft} className="absolute right-0 -top-72 " />
-
-        <View className=" w-[90%] flex flex-col justify-between ">
-          <View className="h-[30%]">
-            <GaramondText className="text-5xl text-white">
-              Welcome Back
-            </GaramondText>
-          </View>
+        <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
+          <GaramondText className="text-5xl " style={{ color: Colors.primary }}>
+            Welcome Back
+          </GaramondText>
 
           <View className="w-full">
             <RenderTextInput
@@ -135,14 +128,15 @@ const LogIn = ({ navigation }) => {
               onPress={() => {
                 handleLogIn();
               }}
-              className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center `}
+              className=" w-full py-3 rounded-3xl flex justify-center items-center "
+              style={{ backgroundColor: Colors.primary }}
             >
               <GaramondText className="text-white font-garamond-bold text-xl">
                 Log In
               </GaramondText>
             </TouchableOpacity>
 
-            <View className=" relative flex justify-center items-center w-full my-4">
+            <View className=" relative flex justify-center items-center w-full my-2">
               <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
                 or
               </GaramondText>

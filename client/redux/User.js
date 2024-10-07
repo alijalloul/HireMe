@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
+import { useEffect } from "react";
 
 const BASE_URL =
   process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.0.115:5000";
@@ -25,6 +26,9 @@ const userSlice = createSlice({
     editLanguageSuccess: (state, action) => {
       state.pending = false;
       state.appLanguage = action?.payload;
+    },
+    signupSuccess: (state) => {
+      state.pending = false;
     },
     loginSuccess: (state, action) => {
       state.pending = false;
@@ -79,7 +83,7 @@ const userSlice = createSlice({
       );
     },
     errorAPI: (state) => {
-      state.pending = null;
+      state.pending = false;
       state.error = true;
     },
   },
@@ -97,7 +101,7 @@ export const signup = async (userInfo, navigation, dispatch) => {
       body: JSON.stringify(userInfo),
     });
 
-    const data = await res.json();
+    dispatch(userSlice.actions.signupSuccess());
 
     navigation.navigate("onBoarding");
   } catch (error) {
@@ -119,6 +123,8 @@ export const login = async (userInfo, navigation, dispatch) => {
     });
 
     const data = await res.json();
+
+    console.log("data: ", data);
 
     if (res.status !== 200) {
       dispatch(userSlice.actions.errorAPI());

@@ -3,85 +3,75 @@ import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobright from "@/assets/images/blobright.png";
-import key from "@/assets/images/key.png";
-import { EmailSVG } from "@/assets/images/svgs"; // Replace with an appropriate email icon
-import user from "@/assets/images/userBlack.png";
-
-import { Colors } from "@/constants/Colors";
-
+import Spinner from "@/components/Spinner";
 import GaramondText from "@/components/GaramondText";
 import RenderTextInput from "@/components/RenderTextInput";
-import Spinner from "@/components/Spinner";
-
-import { editUser, sendotp, signup } from "@/redux/User";
+import { signup } from "@/redux/User";
+import { Colors } from "@/constants/Colors";
 
 const SignUp = ({ navigation }) => {
   const dispatch = useDispatch();
-
-  const userInfo = useSelector((state) => state.user.userInfo);
   const pending = useSelector((state) => state.user.pending);
-  const [errorType, setErrorType] = useState(null);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // State for form data
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    accountType: "employee",
+  });
 
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  // State for errors
+  const [errors, setErrors] = useState({
+    nameError: false,
+    emailError: false,
+    passwordError: false,
+    emailErrorMessage: "",
+  });
 
   useEffect(() => {
-    if (errorType) {
-      setEmailError(true);
-    }
-  }, [errorType]);
+    console.log(formData.accountType);
+  }, [formData.accountType]);
 
   const handleSignUp = async () => {
     let error = false;
+    let updatedErrors = { ...errors };
 
-    if (name === "") {
-      setNameError(true);
+    if (formData.name === "") {
+      updatedErrors.nameError = true;
       error = true;
     }
-    if (email === "") {
-      setEmailErrorMessage("This field can not be empty");
-      setEmailError(true);
+    if (formData.email === "") {
+      updatedErrors.emailError = true;
+      updatedErrors.emailErrorMessage = "This field cannot be empty";
       error = true;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailErrorMessage("Please enter a valid email address");
-      setEmailError(true);
-      error = true;
-    }
-    if (password === "") {
-      setPasswordError(true);
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      updatedErrors.emailError = true;
+      updatedErrors.emailErrorMessage = "Please enter a valid email address";
       error = true;
     }
+    if (formData.password === "") {
+      updatedErrors.passwordError = true;
+      error = true;
+    }
+
+    setErrors(updatedErrors);
 
     if (!error) {
-      await signup({ name, email, password }, navigation, dispatch);
+      await signup(formData, navigation, dispatch);
     }
   };
 
   return (
     <View className="flex-1 justify-center bg-white">
-      <View
-        className={`${
-          pending
-            ? "z-30 absolute w-full h-full justify-center items-center"
-            : "hidden"
-        }`}
-      >
-        <Spinner />
-      </View>
-      <View
-        className={`${
-          pending
-            ? " bg-white z-20 absolute h-full w-full opacity-50 "
-            : "hidden"
-        }`}
-      ></View>
+      {pending && (
+        <>
+          <View className="z-30 absolute w-full h-full justify-center items-center">
+            <Spinner />
+          </View>
+          <View className=" bg-white z-20 absolute h-full w-full opacity-50 " />
+        </>
+      )}
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -89,79 +79,148 @@ const SignUp = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Image source={blobright} className="absolute -left-12 -top-[310px] " />
+        <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
+          <GaramondText
+            className="text-5xl text-white"
+            style={{ color: Colors.primary }}
+          >
+            Create Account
+          </GaramondText>
 
-        <View className=" w-[90%] flex flex-col justify-between">
-          <View className="h-[30%]">
-            <GaramondText className="text-5xl text-white">
-              Create Account
-            </GaramondText>
-          </View>
-
-          <View className="w-full ">
+          <View className="w-full">
             <RenderTextInput
               className="mb-4"
               isNumpad={false}
               isMultiline={false}
-              value={name}
-              setValue={setName}
+              value={formData.name}
+              setValue={(value) => setFormData({ ...formData, name: value })}
               placeholder="Full Name"
-              isError={nameError}
-              setIsError={setNameError}
-              errorMessage="This field can not be empty"
+              isError={errors.nameError}
+              setIsError={(value) => setErrors({ ...errors, nameError: value })}
+              errorMessage="This field cannot be empty"
             />
 
             <RenderTextInput
               className="mb-4"
               isNumpad={false}
               isMultiline={false}
-              value={email}
-              setValue={setEmail}
+              value={formData.email}
+              setValue={(value) => setFormData({ ...formData, email: value })}
               placeholder="Email Address"
-              isError={emailError}
-              setIsError={setEmailError}
-              errorMessage={emailErrorMessage}
+              isError={errors.emailError}
+              setIsError={(value) =>
+                setErrors({ ...errors, emailError: value })
+              }
+              errorMessage={errors.emailErrorMessage}
             />
 
             <RenderTextInput
               className="mb-4"
               isNumpad={false}
               isMultiline={false}
-              value={password}
-              setValue={setPassword}
+              value={formData.password}
+              setValue={(value) =>
+                setFormData({ ...formData, password: value })
+              }
               placeholder="Password"
-              isError={passwordError}
-              setIsError={setPasswordError}
-              errorMessage="This field can not be empty"
+              isError={errors.passwordError}
+              setIsError={(value) =>
+                setErrors({ ...errors, passwordError: value })
+              }
+              errorMessage="This field cannot be empty"
             />
+
+            <View>
+              <GaramondText>Looking for...</GaramondText>
+
+              <View
+                className="flex flex-row justify-between items-center rounded border overflow-hidden"
+                style={{ borderColor: Colors.primary }}
+              >
+                <TouchableOpacity
+                  className="w-[50%] flex justify-center items-center py-3 border-r"
+                  style={
+                    formData.accountType === "employee"
+                      ? {
+                          backgroundColor: Colors.primary,
+                          borderColor: Colors.primary,
+                        }
+                      : {
+                          backgroundColor: "white",
+                          borderColor: Colors.primary,
+                        }
+                  }
+                  onPress={() =>
+                    setFormData({ ...formData, accountType: "employee" })
+                  }
+                >
+                  <GaramondText
+                    style={
+                      formData.accountType === "employee"
+                        ? { color: "white" }
+                        : { color: "black" }
+                    }
+                  >
+                    Job
+                  </GaramondText>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  className="w-[50%] flex justify-center items-center py-3 border-l"
+                  style={
+                    formData.accountType === "employer"
+                      ? {
+                          backgroundColor: Colors.primary,
+                          color: "white",
+                          borderColor: Colors.primary,
+                        }
+                      : {
+                          backgroundColor: "white",
+                          color: "black",
+                          borderColor: Colors.primary,
+                        }
+                  }
+                  onPress={() =>
+                    setFormData({ ...formData, accountType: "employer" })
+                  }
+                >
+                  <GaramondText
+                    style={
+                      formData.accountType === "employer"
+                        ? { color: "white" }
+                        : { color: "black" }
+                    }
+                  >
+                    Employee
+                  </GaramondText>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
 
           <View className="w-full">
             <TouchableOpacity
-              onPress={() => {
-                handleSignUp();
-              }}
-              className={`bg-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center `}
+              onPress={handleSignUp}
+              className="w-full py-3 rounded-3xl flex justify-center items-center"
+              style={{ backgroundColor: Colors.primary }}
             >
               <GaramondText className="text-white font-garamond-bold text-xl">
                 Sign Up
               </GaramondText>
             </TouchableOpacity>
 
-            <View className=" relative flex justify-center items-center w-full my-4">
+            <View className="relative flex justify-center items-center w-full my-2">
               <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
                 or
               </GaramondText>
-              <View className="opacity-50 absolute w-full border-b-[1px] "></View>
+              <View className="opacity-50 absolute w-full border-b-[1px]" />
             </View>
 
             <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("login");
-              }}
+              onPress={() => navigation.navigate("login")}
               className="bg-white border-[1px] border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center mb-2"
             >
-              <GaramondText className=" font-garamond-bold text-xl">
+              <GaramondText className="font-garamond-bold text-xl">
                 Log In
               </GaramondText>
             </TouchableOpacity>

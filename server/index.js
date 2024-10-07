@@ -1,306 +1,276 @@
-import bcrypt from "bcryptjs";
+import express from "express";
+import mongoose from "mongoose";
 import cors from "cors";
 import * as dotenv from "dotenv";
-import express from "express";
-import https from "https";
-import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
-import employeeDB from "./schema/employeeSchema";
-import employerDB from "./schema/employerSchema";
-import userDB from "./schema/userSchema";
+// import bcrypt from "bcryptjs";
+// import https from "https";
+// import jwt from "jsonwebtoken";
 
-import auth from "./middleware/middleware";
+// import employeeDB from "./schema/employeeSchema";
+// import employerDB from "./schema/employerSchema";
+import userDB from "./schema/userSchema.js";
+
+// import auth from "./middleware/middleware";
+
+import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
-app.use(expresson({ limit: "50mb" }));
+app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
-const atlasURL = process.env.MONGODB_URL;
 
-if (process.env.PORT) {
-  console.log("PORT EXISTS");
-  function pingWebsite() {
-    https
-      .get(
-        "https://aihubcentral-server.onrender.com/",
-        (res) => {
-          console.log(
-            "Website pinged successfully"
-          );
-        }
-      )
-      .on("error", (err) => {
-        console.error(
-          "Error while pinging website:",
-          err
-        );
-      });
-  }
-
-  // Ping website every 14 minutes (840000 milliseconds)
-  setInterval(pingWebsite, 840000);
-}
-
-mongoose
-  .connect(atlasURL)
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(
-        `Successfully connected to port ${PORT}`
-      )
-    )
-  )
-  .catch((error) =>
-    console.log("There was an error: ", error)
-  );
+app.listen(PORT, () => console.log(`Successfully connected to port ${PORT}`));
 
 app.get("/", async (req, res) => {
   res.status(500).send("Server is RUNNING");
 });
 
-app.post("/users/signup", async (req, res) => {
-  console.log("signup user");
-  const { name, telephone, password, pushToken } =
-    req.body;
+app.use("/user", authRoutes);
+app.use("/user", authRoutes);
 
-  try {
-    const existingUser = await userDB.findOne({
-      telephone,
-    });
+// app.post("/users/signup", async (req, res) => {
+//   console.log("signup user");
+//   const { name, telephone, password, pushToken } =
+//     req.body;
 
-    if (existingUser) {
-      console.log("same User");
-      return res.status(400)on({
-        message: "Account already exists.",
-      });
-    }
+//   try {
+//     const existingUser = await userDB.findOne({
+//       telephone,
+//     });
 
-    const hashedPass = await bcrypt.hash(
-      password,
-      12
-    );
+//     if (existingUser) {
+//       console.log("same User");
+//       return res.status(400)on({
+//         message: "Account already exists.",
+//       });
+//     }
 
-    const result = await userDB.create({
-      name,
-      telephone,
-      password: hashedPass,
-      pushToken,
-    });
-    const token = jwt.sign(
-      {
-        telephone: result.telephone,
-        id: result._id,
-      },
-      "sk"
-    );
+//     const hashedPass = await bcrypt.hash(
+//       password,
+//       12
+//     );
 
-    res.status(200)on({ result, token });
-  } catch (error) {
-    console.log(
-      "Error from signup backend: ",
-      error
-    );
-    res.status(500)on({ message: error });
-  }
-});
+//     const result = await userDB.create({
+//       name,
+//       telephone,
+//       password: hashedPass,
+//       pushToken,
+//     });
+//     const token = jwt.sign(
+//       {
+//         telephone: result.telephone,
+//         id: result._id,
+//       },
+//       "sk"
+//     );
 
-app.post("/users/login", async (req, res) => {
-  console.log("login");
-  const { telephone, password } = req.body;
+//     res.status(200)on({ result, token });
+//   } catch (error) {
+//     console.log(
+//       "Error from signup backend: ",
+//       error
+//     );
+//     res.status(500)on({ message: error });
+//   }
+// });
 
-  try {
-    const existingUser = await userDB.findOne({
-      telephone: telephone,
-    });
+// app.post("/users/login", async (req, res) => {
+//   console.log("login");
+//   const { telephone, password } = req.body;
 
-    if (!existingUser)
-      return res
-        .status(404)
-        on({ message: "User doesn't exist" });
+//   try {
+//     const existingUser = await userDB.findOne({
+//       telephone: telephone,
+//     });
 
-    const validPassword = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+//     if (!existingUser)
+//       return res
+//         .status(404)
+//         on({ message: "User doesn't exist" });
 
-    if (!validPassword)
-      return res
-        .status(400)
-        on({ message: "Invalid password" });
+//     const validPassword = await bcrypt.compare(
+//       password,
+//       existingUser.password
+//     );
 
-    const token = jwt.sign(
-      {
-        telephone: existingUser.telephone,
-        id: existingUser._id,
-      },
-      "sk"
-    );
+//     if (!validPassword)
+//       return res
+//         .status(400)
+//         on({ message: "Invalid password" });
 
-    const isEmployee = await employeeDB.findOne({
-      telephone: telephone,
-    });
-    const user = isEmployee
-      ? {
-          ...(
-            await employeeDB.findOne({
-              telephone: telephone,
-            })
-          )._doc,
-          type: "employee",
-        }
-      : {
-          ...(
-            await employerDB.findOne({
-              telephone: telephone,
-            })
-          )._doc,
-          type: "employer",
-        };
+//     const token = jwt.sign(
+//       {
+//         telephone: existingUser.telephone,
+//         id: existingUser._id,
+//       },
+//       "sk"
+//     );
 
-    res.status(200)on({ result: user, token });
-  } catch (error) {
-    res
-      .status(500)
-      on({ message: error.message });
-  }
-});
+//     const isEmployee = await employeeDB.findOne({
+//       telephone: telephone,
+//     });
+//     const user = isEmployee
+//       ? {
+//           ...(
+//             await employeeDB.findOne({
+//               telephone: telephone,
+//             })
+//           )._doc,
+//           type: "employee",
+//         }
+//       : {
+//           ...(
+//             await employerDB.findOne({
+//               telephone: telephone,
+//             })
+//           )._doc,
+//           type: "employer",
+//         };
 
-app.patch("/user", auth, async (req, res) => {
-  console.log("update user");
+//     res.status(200)on({ result: user, token });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       on({ message: error.message });
+//   }
+// });
 
-  const body = req.body;
+// app.patch("/user", auth, async (req, res) => {
+//   console.log("update user");
 
-  try {
-    await userDB.findByIdAndUpdate(
-      body._id,
-      { name: body.name },
-      { new: true }
-    );
+//   const body = req.body;
 
-    let newUser = -1;
-    if (body.type === "employee") {
-      const employeeExists =
-        await employeeDB.findOne({
-          _id: body._id,
-        });
+//   try {
+//     await userDB.findByIdAndUpdate(
+//       body._id,
+//       { name: body.name },
+//       { new: true }
+//     );
 
-      if (employeeExists) {
-        newUser =
-          await employeeDB.findByIdAndUpdate(
-            body._id,
-            body,
-            { new: true }
-          );
-      } else {
-        newUser = await employeeDB.create({
-          ...body,
-          _id: body._id,
-        });
-        await userDB.findByIdAndUpdate(
-          body._id,
-          { type: body.type },
-          { new: true }
-        );
-      }
-    } else {
-      const employerExists =
-        await employerDB.findOne({
-          _id: body._id,
-        });
+//     let newUser = -1;
+//     if (body.type === "employee") {
+//       const employeeExists =
+//         await employeeDB.findOne({
+//           _id: body._id,
+//         });
 
-      if (employerExists) {
-        newUser =
-          await employerDB.findByIdAndUpdate(
-            body._id,
-            body,
-            { new: true }
-          );
-      } else {
-        newUser = await employerDB.create({
-          ...body,
-          _id: body._id,
-        });
-        await userDB.findByIdAndUpdate(
-          body._id,
-          { type: body.type },
-          { new: true }
-        );
-      }
-    }
+//       if (employeeExists) {
+//         newUser =
+//           await employeeDB.findByIdAndUpdate(
+//             body._id,
+//             body,
+//             { new: true }
+//           );
+//       } else {
+//         newUser = await employeeDB.create({
+//           ...body,
+//           _id: body._id,
+//         });
+//         await userDB.findByIdAndUpdate(
+//           body._id,
+//           { type: body.type },
+//           { new: true }
+//         );
+//       }
+//     } else {
+//       const employerExists =
+//         await employerDB.findOne({
+//           _id: body._id,
+//         });
 
-    res
-      .status(200)
-      on({ ...newUser._doc, type: body.type });
-  } catch (error) {
-    res
-      .status(500)
-      on({ message: error.message });
-  }
-});
+//       if (employerExists) {
+//         newUser =
+//           await employerDB.findByIdAndUpdate(
+//             body._id,
+//             body,
+//             { new: true }
+//           );
+//       } else {
+//         newUser = await employerDB.create({
+//           ...body,
+//           _id: body._id,
+//         });
+//         await userDB.findByIdAndUpdate(
+//           body._id,
+//           { type: body.type },
+//           { new: true }
+//         );
+//       }
+//     }
 
-import {
-  applyForJob,
-  createJobPost,
-  deleteJobPost,
-  getAppliedEmployees,
-  getJobPosts,
-  getJobPostsAppliedToByUser,
-  getJobPostsByFilter,
-  getJobPostsBySearch,
-  getJobPostsPostedByUser,
-  hireEmployee,
-  updateJobPost,
-} from "./controller/userController";
+//     res
+//       .status(200)
+//       on({ ...newUser._doc, type: body.type });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       on({ message: error.message });
+//   }
+// });
 
-// Retrieve job posts for a specific employer
-app.get(
-  "/employer/:employerId/:page/posts",
-  getJobPostsPostedByUser
-);
+// import {
+//   applyForJob,
+//   createJobPost,
+//   deleteJobPost,
+//   getAppliedEmployees,
+//   getJobPosts,
+//   getJobPostsAppliedToByUser,
+//   getJobPostsByFilter,
+//   getJobPostsBySearch,
+//   getJobPostsPostedByUser,
+//   hireEmployee,
+//   updateJobPost,
+// } from "./controller/userController";
 
-// Retrieve job posts for a specific employee
-app.get(
-  "/employee/:employeeId/:page/posts",
-  getJobPostsAppliedToByUser
-);
+// // Retrieve job posts for a specific employer
+// app.get(
+//   "/employer/:employerId/:page/posts",
+//   getJobPostsPostedByUser
+// );
 
-// Retrieve data of employees that applied for a specific job
-app.get(
-  "/job/:jobId/employees",
-  getAppliedEmployees
-);
+// // Retrieve job posts for a specific employee
+// app.get(
+//   "/employee/:employeeId/:page/posts",
+//   getJobPostsAppliedToByUser
+// );
 
-// Hire an employee for a specific job post
-app.get(
-  "/job/:jobId/employee/:employeeId",
-  hireEmployee
-);
+// // Retrieve data of employees that applied for a specific job
+// app.get(
+//   "/job/:jobId/employees",
+//   getAppliedEmployees
+// );
 
-// Create a new job post
-app.post("/post", createJobPost);
+// // Hire an employee for a specific job post
+// app.get(
+//   "/job/:jobId/employee/:employeeId",
+//   hireEmployee
+// );
 
-// Update a job post
-app.patch("/post", auth, updateJobPost);
+// // Create a new job post
+// app.post("/post", createJobPost);
 
-// Apply for a job
-app.post("/application", applyForJob);
+// // Update a job post
+// app.patch("/post", auth, updateJobPost);
 
-// Delete a specific job post
-app.delete("/post/:id", deleteJobPost);
+// // Apply for a job
+// app.post("/application", applyForJob);
 
-// Retrieve job posts
-app.get("/posts/:page", getJobPosts);
+// // Delete a specific job post
+// app.delete("/post/:id", deleteJobPost);
 
-// Retrieve job posts by search
-app.get(
-  "/posts/search/:searchQuery/:page",
-  getJobPostsBySearch
-);
+// // Retrieve job posts
+// app.get("/posts/:page", getJobPosts);
 
-// Retrieve job posts by filter
-app.get("/filter", getJobPostsByFilter);
+// // Retrieve job posts by search
+// app.get(
+//   "/posts/search/:searchQuery/:page",
+//   getJobPostsBySearch
+// );
+
+// // Retrieve job posts by filter
+// app.get("/filter", getJobPostsByFilter);
