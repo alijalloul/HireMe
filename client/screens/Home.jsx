@@ -33,6 +33,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     console.log("user: ", user);
   }, [user]);
+
   const page = useSelector((state) => state.jobPosts.currentPage);
   const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
 

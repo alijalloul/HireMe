@@ -133,7 +133,7 @@ const Navbar = () => {
     selectorRef.current.measure((x, y, width, height) => {
       setSelectorBottom(height);
     });
-  }, []);
+  }, [selectorRef.current]);
 
   useEffect(() => {
     animateContainerHeight();

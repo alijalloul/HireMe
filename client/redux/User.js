@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
-import { useEffect } from "react";
 
 const BASE_URL =
   process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.0.115:5000";
@@ -132,7 +131,7 @@ export const login = async (userInfo, navigation, dispatch) => {
 
     dispatch(userSlice.actions.loginSuccess(data.user));
 
-    console.log("data: ", data.user);
+    console.log("data: ", data);
 
     await AsyncStorage.setItem("profile", JSON.stringify(data));
 
@@ -399,4 +398,5 @@ export const handleApply = async (
   }
 };
 
+export const { loginSuccess, errorAPI } = userSlice.actions;
 export default userSlice.reducer;

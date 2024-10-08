@@ -80,34 +80,9 @@ const HomeTabs = () => {
 
 const AppContent = () => {
   const dispatch = useDispatch();
-
-  const [user, setUser] = useState(null);
-  const [screenName, setScreenName] = useState(null);
-
-  const pending = useSelector((state) => state.user.pending);
-
   useEffect(() => {
-    console.log("Pending state changed: ", pending);
-  }, [pending]);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const value = await AsyncStorage.getItem("profile");
-        const value2 = await AsyncStorage.getItem("screenName");
-
-        if (value) {
-          setUser(JSON.parse(value).result);
-          editUser(JSON.parse(value).result, null, null, dispatch);
-          setScreenName(value2);
-        }
-      } catch (error) {
-        console.log("error message from App: ", error);
-      }
-    };
-
-    getData();
-  }, []);
+    dispatch({ type: "CHECK_PROFILE" });
+  }, [dispatch]);
 
   const [loaded, error] = useFonts({
     "EB-Garamond": require("@/assets/fonts/EBGaramond-Medium.ttf"),
