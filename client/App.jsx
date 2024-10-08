@@ -119,8 +119,6 @@ const AppContent = () => {
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
-
-    console.log("loaded", loaded);
   }, [loaded, error]);
 
   if (!loaded && !error) {

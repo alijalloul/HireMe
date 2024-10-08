@@ -6,7 +6,6 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -30,6 +29,10 @@ const Home = ({ navigation }) => {
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const user = useSelector((state) => state.user.userInfo);
+
+  useEffect(() => {
+    console.log("user: ", user);
+  }, [user]);
   const page = useSelector((state) => state.jobPosts.currentPage);
   const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
 
@@ -103,7 +106,8 @@ const Home = ({ navigation }) => {
               onPress={() => {
                 fetchPostsBySearch(search, page, dispatch);
               }}
-              className="w-[15%] p-2 aspect-square rounded-xl bg-orange-400"
+              className="w-[15%] p-2 aspect-square rounded-xl "
+              style={{ backgroundColor: Colors.primary }}
             >
               <Image
                 source={searchIMG}

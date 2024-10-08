@@ -1,7 +1,14 @@
 import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobleft from "@/assets/images/blobleft.png";
@@ -83,6 +90,7 @@ const LogIn = ({ navigation }) => {
           flexGrow: 1,
           justifyContent: "center",
           alignItems: "center",
+          minHeight: 692,
         }}
       >
         <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">

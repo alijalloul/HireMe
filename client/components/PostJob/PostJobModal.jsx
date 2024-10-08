@@ -196,7 +196,6 @@ const PostJobModal = ({
 
   const saveWorkExperience = () => {
     const categoryEN = translateCategoryToEnglish(category);
-    console.log("category in english ", categoryEN);
     const experienceRequiredEN =
       translateExperienceToEnglish(experienceRequired);
     const jobTypeEN = translateTypeToEnglish(jobType);

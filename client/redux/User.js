@@ -32,7 +32,7 @@ const userSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.pending = false;
-      state.userInfo = action?.payload.result;
+      state.userInfo = action?.payload;
     },
     logoutSuccess: (state) => {
       state.pending = false;
@@ -124,15 +124,15 @@ export const login = async (userInfo, navigation, dispatch) => {
 
     const data = await res.json();
 
-    console.log("data: ", data);
-
     if (res.status !== 200) {
       dispatch(userSlice.actions.errorAPI());
 
       return data.message;
     }
 
-    dispatch(userSlice.actions.loginSuccess(data));
+    dispatch(userSlice.actions.loginSuccess(data.user));
+
+    console.log("data: ", data.user);
 
     await AsyncStorage.setItem("profile", JSON.stringify(data));
 
@@ -273,7 +273,6 @@ export const updateUser = async (newUser, navigation, dispatch) => {
 
     const data = await reson();
 
-    console.log(data);
     dispatch(userSlice.actions.editSuccess(data));
 
     await AsyncStorage.setItem(

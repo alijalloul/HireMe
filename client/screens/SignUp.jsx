@@ -29,10 +29,6 @@ const SignUp = ({ navigation }) => {
     emailErrorMessage: "",
   });
 
-  useEffect(() => {
-    console.log(formData.accountType);
-  }, [formData.accountType]);
-
   const handleSignUp = async () => {
     let error = false;
     let updatedErrors = { ...errors };
@@ -77,6 +73,7 @@ const SignUp = ({ navigation }) => {
           flexGrow: 1,
           justifyContent: "center",
           alignItems: "center",
+          minHeight: 692,
         }}
       >
         <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
