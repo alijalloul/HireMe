@@ -8,7 +8,7 @@ const employerSchema = mongoose.Schema({
   image: { type: String },
 
   pushToken: { type: String },
-  _id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 
 const employerDB = mongoose.model("employer", employerSchema);

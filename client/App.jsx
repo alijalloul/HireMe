@@ -24,9 +24,9 @@ import Home from "@/screens/Home";
 import Introduction from "@/screens/Introduction";
 import JobPostDetails from "@/screens/JobPostDetails";
 import LogIn from "@/screens/LogIn";
-import MyJobs from "@/screens/MyJobs";
+import MyJobs from "@/screens/MyJobs/MyJobs";
 import OnBoarding from "@/screens/OnBoarding";
-import Profile from "@/screens/Profile";
+import Profile from "@/screens/Profile/Profile";
 import SignUp from "@/screens/SignUp";
 import UserDetails from "@/screens/UserDetails";
 import UserJobPostDetails from "@/screens/UserJobPostDetails";
@@ -101,7 +101,7 @@ const AppContent = () => {
   }
 
   return (
-    <NavigationContainer independent={true} className=" border-box p-0 m-0">
+    <NavigationContainer independent={true}>
       <Stack.Navigator
         initialRouteName="HomeTabs"
         screenOptions={{

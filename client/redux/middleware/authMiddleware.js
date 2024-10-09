@@ -5,14 +5,10 @@ import { jwtDecode } from "jwt-decode"; // Use jwt-decode for decoding
 export const authMiddleware = (store) => (next) => async (action) => {
   if (action.type === "CHECK_PROFILE") {
     try {
-      // Retrieve profile from AsyncStorage
       const profile = await AsyncStorage.getItem("profile");
 
       if (profile) {
         const parsedProfile = JSON.parse(profile);
-        console.log("profile: ", parsedProfile.token);
-
-        // Decode the token to extract user information
         const decodedToken = jwtDecode(parsedProfile.token);
 
         if (decodedToken) {

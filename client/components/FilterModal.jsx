@@ -11,7 +11,7 @@ import RenderTextInput from "./RenderTextInput";
 import check from "@/assets/images/checkWhite.png";
 
 import { fetchPosts, fetchPostsByFilter } from "@/redux/JobPost";
-import SkillModal from "./PostJob/SkillModal";
+import SkillModal from "./PostJob/components/SkillModal";
 import SingleSelectorModal from "./SingleSelectorModal";
 
 const FilterModal = ({

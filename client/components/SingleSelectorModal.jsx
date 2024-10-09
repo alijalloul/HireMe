@@ -15,6 +15,7 @@ import downVector from "@/assets/images/downVector.png";
 import downVectorRed from "@/assets/images/downVectorRed.png";
 
 const SingleSelectorModal = ({
+  className,
   title,
   data,
   value,
@@ -49,7 +50,7 @@ const SingleSelectorModal = ({
   );
 
   return (
-    <View className="flex w-full">
+    <View className={className}>
       <GaramondText
         className={`text-[20px] mb-2 ${isError && "text-red-500"} ${
           !title && "hidden"
@@ -126,4 +127,4 @@ const SingleSelectorModal = ({
   );
 };
 
-export default memo(SingleSelectorModal);
+export default SingleSelectorModal;

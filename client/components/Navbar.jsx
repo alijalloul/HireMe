@@ -25,6 +25,8 @@ import userOrange from "@/assets/images/userOrange.png";
 import userWhite from "@/assets/images/userWhite.png";
 
 const Navbar = () => {
+  const [hideNav, setHideNav] = useState(false);
+
   const paddingHorizontal = 40;
   const selectedButtonBottom = 20;
 
@@ -39,11 +41,7 @@ const Navbar = () => {
   const jobsButtonRef = useRef(null);
   const profileButtonRef = useRef(null);
 
-  const [translateX, setTranslateX] = useState(0);
-
-  useEffect(() => {
-    selectorAnimation.animateTo({ translateX });
-  }, [translateX]);
+  const barHeight = 70;
 
   // Handle navigation with confirmation alert
   const handleNavigation = (screenName) => {
@@ -86,19 +84,11 @@ const Navbar = () => {
   // Add back handler hook
   useBackHandler(handleBackPress);
 
-  const barHeight = 70;
-
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
   // Initialize dynamic animations
   const containerAnimation = useDynamicAnimation(() => ({ height: barHeight }));
-  const selectorAnimation = useDynamicAnimation(() => ({ translateX: 0 }));
-
-  const animateContainerHeight = () => {
-    containerAnimation.animateTo({
-      height: isKeyboardVisible ? 0 : barHeight,
-    });
-  };
+  const selectorAnimation = useDynamicAnimation(() => ({
+    translateX: 0,
+  }));
 
   useEffect(() => {
     const animateSelector = () => {
@@ -110,14 +100,14 @@ const Navbar = () => {
 
       const buttonRef = buttonRefs[focusedRouteName];
 
-      if (buttonRef && buttonRef.current) {
+      if (selectorRef.current && buttonRef.current) {
         selectorRef.current.measure((x1, y1, selectorWidth) => {
           buttonRef.current.measureLayout(
             containerRef.current,
             (x2, y2, buttonWidth) => {
               // Subtract half of the selector width from the left value
               const adjustedLeft = x2 - (selectorWidth - buttonWidth) / 2;
-              setTranslateX(Math.floor(adjustedLeft));
+              selectorAnimation.animateTo({ translateX: adjustedLeft });
             }
           );
         });
@@ -130,23 +120,23 @@ const Navbar = () => {
   const [selectorBottom, setSelectorBottom] = useState(0);
 
   useEffect(() => {
-    selectorRef.current.measure((x, y, width, height) => {
-      setSelectorBottom(height);
-    });
+    if (selectorRef.current) {
+      selectorRef.current.measure((x, y, width, height) => {
+        setSelectorBottom(height);
+      });
+    }
   }, [selectorRef.current]);
-
-  useEffect(() => {
-    animateContainerHeight();
-  }, [isKeyboardVisible]);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
-      () => setKeyboardVisible(true)
+      () => {
+        setHideNav(true);
+      }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
-      () => setKeyboardVisible(false)
+      () => setHideNav(false)
     );
 
     return () => {
@@ -156,7 +146,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <MotiView state={containerAnimation} className="bg-white">
+    <View
+      className="bg-white"
+      style={{ display: hideNav ? "none" : "block", height: barHeight }}
+    >
       <View
         ref={containerRef}
         className="relative z-0 flex flex-row justify-between items-center w-full h-full rounded-t-[50px] "
@@ -205,7 +198,7 @@ const Navbar = () => {
           selectedButtonBottom={selectedButtonBottom}
         />
       </View>
-    </MotiView>
+    </View>
   );
 };
 

@@ -8,7 +8,7 @@ const RenderTextInput = ({
   isMultiline,
   isNumpad,
   title,
-  SVG,
+  label,
   value,
   setValue,
   placeholder,
@@ -18,19 +18,23 @@ const RenderTextInput = ({
 }) => {
   return (
     <View className={className}>
-      <GaramondText
-        className={`text-sm ${isError ? "text-red-500" : "text-gray-600"}`}
-      >
-        {placeholder}
-      </GaramondText>
+      {title && (
+        <GaramondText
+          className="text-lg mb-2 "
+          style={{ color: isError ? "red" : "black" }}
+        >
+          {title}
+        </GaramondText>
+      )}
 
-      <GaramondText
-        className={`text-[20px] mb-2 ${!title && "hidden"} ${
-          isError && "text-red-500"
-        }`}
-      >
-        {title}
-      </GaramondText>
+      {label && (
+        <GaramondText
+          className="text-sm"
+          style={isError ? { color: "red" } : { color: "black" }}
+        >
+          {label}
+        </GaramondText>
+      )}
 
       <View
         className={`bg-white w-full border-[1px] overflow-hidden ${
@@ -47,6 +51,7 @@ const RenderTextInput = ({
           }}
           textAlignVertical={isMultiline ? "top" : "center"}
           className="flex-1 p-2 min-h-[40px] "
+          placeholder={placeholder}
         />
       </View>
 

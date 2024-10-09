@@ -12,15 +12,15 @@ const JobPostDetails = ({ route, navigation }) => {
 
   const accountType = useSelector((state) => state.user.userInfo).type;
   const post = useSelector((state) => state.jobPosts.postsInfo)?.filter(
-    (item) => item._id === jobId && item
+    (item) => item.id === jobId && item
   )[0];
-  const job_id = jobId;
-  const employee_id = useSelector((state) => state.user.userInfo)?._id;
-  const employer_id = employerId;
+  const jobid = jobId;
+  const employeeid = useSelector((state) => state.user.userInfo)?.id;
+  const employerid = employerId;
   const status = "pending";
   const category = post?.category || "";
   const applied = useSelector((state) => state.user.jobPosts).some(
-    (item) => item._id === jobId
+    (item) => item.id === jobId
   );
 
   const [coverLetter, setCoverLetter] = useState("");
@@ -28,9 +28,9 @@ const JobPostDetails = ({ route, navigation }) => {
 
   const handleApplyButton = () => {
     handleApply(
-      job_id,
-      employee_id,
-      employer_id,
+      jobid,
+      employeeid,
+      employerid,
       status,
       category,
       coverLetter,

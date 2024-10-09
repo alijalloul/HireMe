@@ -2,10 +2,15 @@ import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import moment from "moment";
 import React, { memo, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  Modal,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
-import Modal from "react-native-modal";
 
 import RenderTextInput from "../RenderTextInput";
 
@@ -14,7 +19,15 @@ import pen from "@/assets/images/pen.png";
 import trash from "@/assets/images/trash.png";
 
 import SingleSelectorModal from "../SingleSelectorModal";
-import SkillModal from "./SkillModal";
+import SkillModal from "./components/SkillModal";
+
+import CheckMarkForm from "./components/CheMarkForm";
+
+import {
+  categories,
+  experienceLevels,
+  employmentTypes,
+} from "@/constants/JobData";
 
 import {
   createJobPost,
@@ -30,298 +43,85 @@ const PostJobModal = ({
   jobsStatus,
 }) => {
   const dispatch = useDispatch();
-  const employerID = useSelector((state) => state?.user.userInfo)?._id;
+  const employerID = useSelector((state) => state?.user.userInfo)?.id;
   const jobs = useSelector((state) => state.user.jobPosts)?.filter(
     (job) => job.status === jobsStatus
   );
 
   const [id, setId] = useState(null);
 
-  const [jobTitle, setJobTitle] = useState("Software Engineer");
-  const [company, setCompany] = useState("TechCo");
-  const [location, setLocation] = useState("San Francisco");
-  const [country, setCountry] = useState("United States");
-  const [category, setCategory] = useState("Information Technology");
-  const [skills, setSkills] = useState(["JavaScript", "React", "Node"]);
-  const [experienceRequired, setExperienceRequired] = useState("3-4 years");
-  const [jobType, setJobType] = useState("Full-Time");
-  const [description, setDescription] = useState(
-    "We are looking for a skilled Software Engineer to join our dynamic team..."
-  );
+  // Consolidate all state into formData
+  const [formData, setFormData] = useState({
+    jobTitle: "Software Engineer",
+    company: "TechCo",
+    location: "San Francisco",
+    country: "United States",
+    category: "Information Technology",
+    skills: ["JavaScript", "React", "Node"],
+    experienceRequired: "3-4 years",
+    jobType: "Full-Time",
+    description:
+      "We are looking for a skilled Software Engineer to join our dynamic team...",
+  });
 
-  const [jobTitleError, setJobTitleError] = useState(false);
-  const [companyError, setCompanyError] = useState(false);
-  const [locationError, setLocationError] = useState(false);
-  const [countryError, setCountryError] = useState(false);
-  const [categoryError, setCategoryError] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    jobTitle: false,
+    company: false,
+    location: false,
+    country: false,
+    category: false,
+  });
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const translateCategoryToEnglish = (arabicCategory) => {
-    const categoryTranslations = {
-      تكنولوجيا: "Technology",
-      "الرعاىة الصحية": "Healthcare",
-      تمويل: "Finance",
-      تعليم: "Education",
-      تسويق: "Marketing",
-      مبيعات: "Sales",
-      تصميم: "Design",
-      هندسة: "Engineering",
-      "خدمة الزبائن": "Customer Service",
-      "الموارد البشرية": "Human Resources",
-      إداري: "Administrative",
-      قانوني: "Legal",
-      كتابة: "Writing",
-      فن: "Art",
-      ترفيه: "Entertainment",
-      علوم: "Science",
-      "بيع بالتجزئة": "Retail",
-      "خدمة الطعام": "Food Service",
-      بناء: "Construction",
-      مواصلات: "Transportation",
-      "خدمات اجتماعية": "Social Services",
-      تصنيع: "Manufacturing",
-      وسائط: "Media",
-      بحث: "Research",
-      بنيان: "Architecture",
-      البيئية: "Environmental",
-      ضيافة: "Hospitality",
-      العقارات: "Real Estate",
-      زراعة: "Agriculture",
-      "لياقة بدنية": "Fitness",
-      موضة: "Fashion",
-      السيارات: "Automotive",
-      آخر: "Other",
-    };
-
-    return categoryTranslations[arabicCategory] || arabicCategory;
-  };
-
-  const translateExperienceToEnglish = (arabicCategory) => {
-    const experienceTranslations = {
-      "لا تجربة": "No Experience",
-      "1-2 سنوات": "1-2 years",
-      "3-4 سنوات": "3-4 years",
-      "5+ سنوات": "5+ years",
-    };
-
-    return experienceTranslations[arabicCategory] || arabicCategory;
-  };
-
-  const translateTypeToEnglish = (arabicCategory) => {
-    const typeTranslations = {
-      "دوام كامل": "Full-Time",
-      "دوام جزئي": "Part-Time",
-      عقد: "Contract",
-    };
-
-    return typeTranslations[arabicCategory] || arabicCategory;
-  };
-
-  const translateCategoryToArabic = (englishCategory) => {
-    const categoryTranslations = {
-      Technology: "تكنولوجيا",
-      Healthcare: "الرعاية الصحية",
-      Finance: "تمويل",
-      Education: "تعليم",
-      Marketing: "تسويق",
-      Sales: "مبيعات",
-      Design: "تصميم",
-      Engineering: "هندسة",
-      "Customer Service": "خدمة الزبائن",
-      "Human Resources": "الموارد البشرية",
-      Administrative: "إداري",
-      Legal: "قانوني",
-      Writing: "كتابة",
-      Art: "فن",
-      Entertainment: "ترفيه",
-      Science: "علوم",
-      Retail: "بيع بالتجزئة",
-      "Food Service": "خدمة الطعام",
-      Construction: "بناء",
-      Transportation: "مواصلات",
-      "Social Services": "خدمات اجتماعية",
-      Manufacturing: "تصنيع",
-      Media: "وسائط",
-      Research: "بحث",
-      Architecture: "بنيان",
-      Environmental: "البيئية",
-      Hospitality: "ضيافة",
-      "Real Estate": "العقارات",
-      Agriculture: "زراعة",
-      Fitness: "لياقة بدنية",
-      Fashion: "موضة",
-      Automotive: "السيارات",
-      Other: "آخر",
-    };
-
-    return categoryTranslations[englishCategory] || englishCategory;
-  };
-
-  const translateExperienceToArabic = (englishCategory) => {
-    const experienceTranslations = {
-      "No Experience": "لا تجربة",
-      "1-2 years": "1-2 سنوات",
-      "3-4 years": "3-4 سنوات",
-      "5+ years": "5+ سنوات",
-    };
-
-    return experienceTranslations[englishCategory] || englishCategory;
-  };
-
-  const translateTypeToArabic = (englishCategory) => {
-    const typeTranslations = {
-      "Full-Time": "دوام كامل",
-      "Part-Time": "دوام جزئي",
-      Contract: "عقد",
-    };
-
-    return typeTranslations[englishCategory] || englishCategory;
-  };
 
   const closeModal = () => {
     setBottomSheetVisible(false);
     setIsEditing(false);
-
-    setJobTitle("");
-    setCompany("");
-    setLocation("");
-    setCountry("");
-    setCategory("");
-    setSkills([]);
-    setExperienceRequired("");
-    setJobType("");
-    setDescription("");
+    setFormData({
+      jobTitle: "",
+      company: "",
+      location: "",
+      country: "",
+      category: "",
+      skills: [],
+      experienceRequired: "",
+      jobType: "",
+      description: "",
+    });
   };
 
   const saveWorkExperience = () => {
-    const categoryEN = translateCategoryToEnglish(category);
-    const experienceRequiredEN =
-      translateExperienceToEnglish(experienceRequired);
-    const jobTypeEN = translateTypeToEnglish(jobType);
-
     let error = false;
 
-    if (jobTitle.trim() === "") {
-      setJobTitleError(true);
-      error = true;
-    }
-    if (company.trim() === "") {
-      setCompanyError(true);
-      error = true;
-    }
-    if (location.trim() === "") {
-      setLocationError(true);
-      error = true;
-    }
-    if (country.trim() === "") {
-      setCountryError(true);
-      error = true;
-    }
-    if (category.trim() === "") {
-      setCategoryError(true);
-      error = true;
-    }
+    // Validate formData and set errors
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      if (formData[key].trim() === "") {
+        newErrors[key] = true;
+        error = true;
+      } else {
+        newErrors[key] = false;
+      }
+    });
+    setFormErrors(newErrors);
 
     if (!error) {
-      isEditing
-        ? updateJobPost(
-            {
-              jobTitle,
-              company,
-              location,
-              country,
-              category: categoryEN,
-              skills,
-              experienceRequired: experienceRequiredEN,
-              jobType: jobTypeEN,
-              description,
-              date: new Date(),
-              employer_id: employerID,
-              status: "pending",
-              _id: id,
-            },
-            dispatch
-          )
-        : createJobPost(
-            {
-              jobTitle,
-              company,
-              location,
-              country,
-              category: categoryEN,
-              skills,
-              experienceRequired: experienceRequiredEN,
-              jobType: jobTypeEN,
-              description,
-              date: new Date(),
-              employer_id: employerID,
-              status: "pending",
-            },
-            dispatch
-          );
+      const jobData = {
+        ...formData,
+        date: new Date(),
+        employerid: employerID,
+        status: "pending",
+        id: id,
+      };
+
+      if (isEditing) {
+        updateJobPost(jobData, dispatch);
+      } else {
+        createJobPost(jobData, dispatch);
+      }
 
       closeModal();
     }
-  };
-
-  const categories = [
-    "Technology",
-    "Healthcare",
-    "Finance",
-    "Education",
-    "Marketing",
-    "Sales",
-    "Design",
-    "Engineering",
-    "Customer Service",
-    "Human Resources",
-    "Administrative",
-    "Legal",
-    "Writing",
-    "Art",
-    "Entertainment",
-    "Science",
-    "Retail",
-    "Food Service",
-    "Construction",
-    "Transportation",
-    "Social Services",
-    "Manufacturing",
-    "Media",
-    "Research",
-    "Architecture",
-    "Environmental",
-    "Hospitality",
-    "Real Estate",
-    "Agriculture",
-    "Fitness",
-    "Fashion",
-    "Automotive",
-    "Other",
-  ];
-
-  const CheckMarkForm = ({ value, setValue, conditional }) => {
-    return (
-      <View className="flex flex-row  items-center mb-4">
-        <TouchableOpacity
-          onPress={() => {
-            setValue(conditional);
-          }}
-          className={`h-8 w-8 p-2 rounded-lg mr-3 ${
-            value === conditional
-              ? `bg-[${Colors.primary}]`
-              : "bg-white border-[1px]"
-          }`}
-        >
-          {value === conditional && (
-            <Image source={check} className="w-full h-full" />
-          )}
-        </TouchableOpacity>
-
-        <GaramondText className="text-lg ">{conditional}</GaramondText>
-      </View>
-    );
   };
 
   const EditBtn = ({ index }) => {
@@ -329,19 +129,18 @@ const PostJobModal = ({
       <TouchableOpacity
         onPress={() => {
           setIsEditing(true);
-
-          setJobTitle(jobs[index].jobTitle);
-          setCompany(jobs[index].company);
-          setLocation(jobs[index].location);
-          setCountry(jobs[index].country);
-          setCategory(jobs[index].category);
-          setSkills(jobs[index].skills);
-          setExperienceRequired(jobs[index].experienceRequired);
-          setJobType(jobs[index].jobType);
-          setDescription(jobs[index].description);
-
-          setId(jobs[index]._id);
-
+          setFormData({
+            jobTitle: jobs[index].jobTitle,
+            company: jobs[index].company,
+            location: jobs[index].location,
+            country: jobs[index].country,
+            category: jobs[index].category,
+            skills: jobs[index].skills,
+            experienceRequired: jobs[index].experienceRequired,
+            jobType: jobs[index].jobType,
+            description: jobs[index].description,
+          });
+          setId(jobs[index].id);
           setBottomSheetVisible(true);
         }}
         className="border-[1px] border-gray-400 rounded-full p-[6px] mr-2"
@@ -355,7 +154,7 @@ const PostJobModal = ({
     return (
       <TouchableOpacity
         onPress={() => {
-          deletePost(jobs[index]._id, dispatch);
+          deletePost(jobs[index].id, dispatch);
         }}
         className="border-[1px] border-gray-400 rounded-full p-[6px]"
       >
@@ -363,6 +162,7 @@ const PostJobModal = ({
       </TouchableOpacity>
     );
   };
+
   return (
     <View className="flex-1 w-[90%]">
       <View
@@ -379,8 +179,8 @@ const PostJobModal = ({
           jobs?.map((job, index) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("UserJobPostDetails", { itemId: job?._id });
-                fetchEmployeesByJobId(job?._id, dispatch);
+                navigation.navigate("UserJobPostDetails", { itemId: job?.id });
+                fetchEmployeesByJobId(job?.id, dispatch);
               }}
               key={index}
               className="flex justify-center w-full border-[1px] rounded-2xl p-5 mb-4 h-64"
@@ -426,18 +226,18 @@ const PostJobModal = ({
       </View>
 
       <Modal
-        isVisible={isBottomSheetVisible}
-        animationInTiming={700}
-        className=" m-0 mt-10 rounded-t-xl"
+        visible={isBottomSheetVisible}
+        animationType="slide"
+        transparent={true}
       >
-        <View className="flex-1 justify-center bg-white">
+        <View className="flex-1 justify-center bg-white py-5">
           <View
             className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
               isBottomSheetVisible && "border-b-[1px]"
             }`}
           >
             <GaramondText className=" text-3xl font-garamond">
-              {isEditing ? Edit : "Post a Job"}
+              {isEditing ? "Edit" : "Post a Job"}
             </GaramondText>
 
             <TouchableOpacity onPress={() => closeModal()}>
@@ -450,170 +250,107 @@ const PostJobModal = ({
           <ScrollView
             contentContainerStyle={{
               alignItems: "center",
+
               justifyContent: "center",
             }}
-            className=""
           >
-            <View className="w-[90%] flex-1">
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title="Job Title *"
-                  value={jobTitle}
-                  setValue={setJobTitle}
-                  placeholder="Ex: Accountant"
-                  isError={jobTitleError}
-                  setIsError={setJobTitleError}
-                  errorMessage="This field can not be empty"
-                />
-              </View>
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title="Company *"
-                  value={company}
-                  setValue={setCompany}
-                  placeholder="Ex: Amazon"
-                  isError={companyError}
-                  setIsError={setCategoryError}
-                  errorMessage="This field can not be empty"
-                />
-              </View>
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title="Location *"
-                  value={location}
-                  setValue={setLocation}
-                  placeholder="Ex: Beirut"
-                  isError={locationError}
-                  setIsError={setLocationError}
-                  errorMessage="This field can not be empty"
-                />
-              </View>
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={false}
-                  title="Country *"
-                  value={country}
-                  setValue={setCountry}
-                  placeholder="Ex: Lebanon"
-                  isError={countryError}
-                  setIsError={setCountryError}
-                  errorMessage="This field can not be empty"
-                />
-              </View>
+            <View className="w-[90%] ">
+              <RenderTextInput
+                className="mb-3"
+                label="Job Title"
+                value={formData.jobTitle}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, jobTitle: text })
+                }
+                error={formErrors.jobTitle}
+              />
 
-              <View className="mb-5">
-                <SingleSelectorModal
-                  title="Category *"
-                  data={categories}
-                  value={category}
-                  setValue={setCategory}
-                  isError={categoryError}
-                  setIsError={setCategoryError}
-                  errorMessage="This field can not be empty"
-                />
-              </View>
+              <RenderTextInput
+                className="mb-3"
+                label="Company"
+                value={formData.company}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, company: text })
+                }
+                error={formErrors.company}
+              />
 
-              <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">Skills</GaramondText>
+              <RenderTextInput
+                className="mb-3"
+                label="Location"
+                value={formData.location}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, location: text })
+                }
+                error={formErrors.location}
+              />
 
-                <SkillModal value={skills} setValue={setSkills} />
-              </View>
+              <RenderTextInput
+                className="mb-3"
+                label="Country"
+                value={formData.country}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, country: text })
+                }
+                error={formErrors.country}
+              />
 
-              <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  Job Experience
+              <SingleSelectorModal
+                className="mb-3"
+                data={categories}
+                title="Category"
+                selectedValue={formData.category}
+                setSelectedValue={(value) =>
+                  setFormData({ ...formData, category: value })
+                }
+              />
+
+              <SkillModal
+                className="mb-3"
+                value={formData.skills}
+                setValue={(skills) => setFormData({ ...formData, skills })}
+              />
+
+              <SingleSelectorModal
+                className="mb-3"
+                data={experienceLevels}
+                title="Experience Required"
+                selectedValue={formData.experienceRequired}
+                setSelectedValue={(value) =>
+                  setFormData({ ...formData, experienceRequired: value })
+                }
+              />
+
+              <SingleSelectorModal
+                className="mb-3"
+                data={employmentTypes}
+                title="Job Type"
+                selectedValue={formData.jobType}
+                setSelectedValue={(value) =>
+                  setFormData({ ...formData, jobType: value })
+                }
+              />
+
+              <RenderTextInput
+                className="mb-3"
+                label="Description"
+                value={formData.description}
+                onChangeText={(text) =>
+                  setFormData({ ...formData, description: text })
+                }
+                error={false}
+                multiline
+              />
+
+              <TouchableOpacity
+                onPress={() => saveWorkExperience()}
+                className=" self-end w-32 h-12 flex justify-center items-center rounded-lg"
+                style={{ backgroundColor: Colors.primary }}
+              >
+                <GaramondText className=" text-center text-white text-lg">
+                  Post
                 </GaramondText>
-
-                <View>
-                  {
-                    <CheckMarkForm
-                      value={experienceRequired}
-                      setValue={setExperienceRequired}
-                      conditional="No Experience"
-                    />
-                  }
-
-                  {
-                    <CheckMarkForm
-                      value={experienceRequired}
-                      setValue={setExperienceRequired}
-                      conditional="1-2 years"
-                    />
-                  }
-
-                  {
-                    <CheckMarkForm
-                      value={experienceRequired}
-                      setValue={setExperienceRequired}
-                      conditional="3-4 years"
-                    />
-                  }
-
-                  {
-                    <CheckMarkForm
-                      value={experienceRequired}
-                      setValue={setExperienceRequired}
-                      conditional="5+ years"
-                    />
-                  }
-                </View>
-              </View>
-
-              <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  Job Type
-                </GaramondText>
-
-                <View>
-                  {
-                    <CheckMarkForm
-                      value={jobType}
-                      setValue={setJobType}
-                      conditional="Full-Time"
-                    />
-                  }
-
-                  {
-                    <CheckMarkForm
-                      value={jobType}
-                      setValue={setJobType}
-                      conditional="Part-Time"
-                    />
-                  }
-
-                  {
-                    <CheckMarkForm
-                      value={jobType}
-                      setValue={setJobType}
-                      conditional="Contract"
-                    />
-                  }
-                </View>
-              </View>
-
-              <View className="mb-5">
-                <RenderTextInput
-                  isMultiline={true}
-                  title="Description"
-                  value={description}
-                  setValue={setDescription}
-                  placeholder="Ex: I count money"
-                />
-              </View>
-
-              <View className="w-full flex justify-center items-end mb-8">
-                <TouchableOpacity
-                  onPress={() => saveWorkExperience()}
-                  className={`w-32 bottom-0 right-0 bg-[${Colors.primary}] rounded-xl px-10 py-2`}
-                >
-                  <GaramondText className="text-lg fontW-garamond text-white">
-                    {isEditing ? Edit : "Post"}
-                  </GaramondText>
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

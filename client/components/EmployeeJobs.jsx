@@ -26,7 +26,7 @@ const EmployeeJobs = ({ navigation, jobsStatus }) => {
           jobs?.map((job, index) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("employeeJobDetails", { jobId: job._id });
+                navigation.navigate("employeeJobDetails", { jobId: job.id });
               }}
               key={index}
               className="flex justify-center w-full border-[1px] rounded-2xl p-5 mb-4"

@@ -13,7 +13,7 @@ const UserDetails = ({ route, navigation }) => {
   const { userId } = route.params;
   const jobPostId = useSelector((state) => state.user?.jobPostId);
   const user = useSelector((state) => state.user?.employeesByJobId)?.filter(
-    (item) => item._id === userId && item
+    (item) => item.id === userId && item
   )[0];
 
   const handleHire = () => {

@@ -8,7 +8,7 @@ const EmployeeJobDetails = ({ route, navigation }) => {
   const { jobId } = route.params;
 
   const job = useSelector((state) => state.user.jobPosts)?.filter(
-    (item) => item._id === jobId && item
+    (item) => item.id === jobId && item
   )[0];
 
   return (

@@ -30,10 +30,6 @@ const Home = ({ navigation }) => {
 
   const user = useSelector((state) => state.user.userInfo);
 
-  useEffect(() => {
-    console.log("user: ", user);
-  }, [user]);
-
   const page = useSelector((state) => state.jobPosts.currentPage);
   const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
 
@@ -85,7 +81,7 @@ const Home = ({ navigation }) => {
           </GaramondText>
           <GaramondText
             className={`font-garamond-bold text-2xl ${
-              user?.type === "employer" && "hidden"
+              user?.accountType === "employer" && "hidden"
             }`}
           >
             Find your perfect job

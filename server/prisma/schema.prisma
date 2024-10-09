@@ -14,10 +14,17 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   
-  email       String   @unique
-  password    String   
-  accountType String
-  pushToken   String?
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  email          String   @unique
+  password       String
+  name           String
+  accountType    String
+  image          String?
+  introduction   String?
+  profession     String?
+  address        String?
+  languageArr    String[]
+  education      Json[]
+  workExperience Json[]
+  pushToken      String?
 }

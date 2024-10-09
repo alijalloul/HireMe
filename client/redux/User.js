@@ -47,13 +47,13 @@ const userSlice = createSlice({
     updatePostSuccess: (state, action) => {
       state.pending = false;
       state.jobPosts = state.jobPosts.map((job) =>
-        job._id === action.payload._id ? action.payload : job
+        job.id === action.payload.id ? action.payload : job
       );
     },
     deleteSuccess: (state, action) => {
       state.pending = false;
       state.jobPosts = state.jobPosts?.filter(
-        (post) => post._id !== action.payload
+        (post) => post.id !== action.payload
       );
     },
     editSuccess: (state, action) => {
@@ -78,7 +78,7 @@ const userSlice = createSlice({
       state.pending = false;
       state.employeesByJobId = [];
       state.jobPosts = state.jobPosts?.filter(
-        (item, index) => item._id !== action.payload
+        (item, index) => item.id !== action.payload
       );
     },
     errorAPI: (state) => {
@@ -131,9 +131,55 @@ export const login = async (userInfo, navigation, dispatch) => {
 
     dispatch(userSlice.actions.loginSuccess(data.user));
 
+    await AsyncStorage.setItem("profile", JSON.stringify(data));
+
+    navigation.navigate("HomeTabs", { screen: "home" });
+  } catch (error) {
+    dispatch(userSlice.actions.errorAPI());
+    console.log("error: ", error);
+  }
+};
+
+export const logout = async (navigation, dispatch) => {
+  dispatch(userSlice.actions.startAPI());
+
+  try {
+    dispatch(userSlice.actions.logoutSuccess());
+
+    await AsyncStorage.removeItem("profile");
+
+    navigation.navigate("onBoarding");
+  } catch (error) {
+    dispatch(userSlice.actions.errorAPI());
+    console.log("error: ", error);
+  }
+};
+
+export const updateUser = async (newUser, navigation, dispatch) => {
+  dispatch(userSlice.actions.startAPI());
+
+  try {
+    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+
+    const res = await fetch(`${BASE_URL}/user/update`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    const data = await res.json();
+
     console.log("data: ", data);
 
-    await AsyncStorage.setItem("profile", JSON.stringify(data));
+    dispatch(userSlice.actions.editSuccess(data));
+
+    await AsyncStorage.setItem(
+      "profile",
+      JSON.stringify({ user: data, token: token })
+    );
 
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
@@ -240,52 +286,6 @@ export const deletePost = async (selectedPostId, dispatch) => {
   }
 };
 
-export const logout = async (navigation, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  try {
-    dispatch(userSlice.actions.logoutSuccess());
-
-    await AsyncStorage.removeItem("profile");
-
-    navigation.navigate("onBoarding");
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
-export const updateUser = async (newUser, navigation, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  try {
-    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
-
-    const res = await fetch(`${BASE_URL}/user`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(newUser),
-    });
-
-    const data = await reson();
-
-    dispatch(userSlice.actions.editSuccess(data));
-
-    await AsyncStorage.setItem(
-      "profile",
-      JSON.stringify({ result: data, token: token })
-    );
-
-    navigation.navigate("HomeTabs", { screen: "home" });
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
 export const changePage = async (page, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
@@ -368,9 +368,9 @@ export const hireEmployee = async (jobId, employeeId, navigation, dispatch) => {
 };
 
 export const handleApply = async (
-  job_id,
-  employee_id,
-  employer_id,
+  jobid,
+  employeeid,
+  employerid,
   status,
   category,
   coverLetter,
@@ -383,9 +383,9 @@ export const handleApply = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        job_id,
-        employee_id,
-        employer_id,
+        jobid,
+        employeeid,
+        employerid,
         status,
         category,
         coverLetter,

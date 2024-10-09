@@ -5,6 +5,8 @@ import * as dotenv from "dotenv";
 
 import db from "../db/db.js";
 
+import auth from "../middleware/middleware.js";
+
 dotenv.config();
 
 const router = express.Router();
@@ -62,10 +64,18 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
-    console.log(JWT_SECRET);
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        accountType: user.accountType,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     return res.status(200).json({
       user,
@@ -74,6 +84,25 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log("error: ", error);
     return res.status(400).json({ error: "Login failed" });
+  }
+});
+
+router.patch("/update", auth, async (req, res) => {
+  const userInfo = req.body;
+
+  try {
+    const user = await db.user.update({
+      where: {
+        id: userInfo.id,
+      },
+      data: {
+        name: userInfo.name,
+      },
+    });
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

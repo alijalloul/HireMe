@@ -14,7 +14,7 @@ const employeeSchema = mongoose.Schema({
   language: [],
 
   pushToken: { type: String },
-  _id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+  id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
 });
 
 const employeeDB = mongoose.model("employee", employeeSchema);

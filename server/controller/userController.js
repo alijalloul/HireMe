@@ -21,12 +21,12 @@ export async function getJobPostsPostedByUser(
     const startIndex = (page - 1) * LIMIT;
     const totalPosts =
       await jobPostDB.countDocuments({
-        employer_id: employerId,
+        employerid: employerId,
       });
 
     const jobPosts = await jobPostDB
-      .find({ employer_id: employerId })
-      .sort({ _id: -1 })
+      .find({ employerid: employerId })
+      .sort({ id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
 
@@ -58,13 +58,13 @@ export async function getJobPostsAppliedToByUser(
     const LIMIT = 8;
     const startIndex = (page - 1) * LIMIT;
     const totalPosts = await applicationDB
-      .find({ employee_id: employeeId })
-      .populate("job_id")
+      .find({ employeeid: employeeId })
+      .populate("jobid")
       .countDocuments();
 
     const applications = await applicationDB
-      .find({ employee_id: employeeId })
-      .sort({ _id: -1 })
+      .find({ employeeid: employeeId })
+      .sort({ id: -1 })
       .limit(LIMIT)
       .skip(startIndex)
       .exec();
@@ -72,7 +72,7 @@ export async function getJobPostsAppliedToByUser(
     const jobPosts = await Promise.all(
       applications.map(async (application) => {
         let jobPost = await jobPostDB.findOne({
-          _id: application.job_id,
+          id: application.jobid,
         });
         if (jobPost) {
           jobPost._doc.coverLetter =
@@ -110,13 +110,13 @@ export async function getAppliedEmployees(
 
   try {
     const applications = await applicationDB
-      .find({ job_id: jobId })
-      .sort({ _id: -1 });
+      .find({ jobid: jobId })
+      .sort({ id: -1 });
 
     const employeeData = await Promise.all(
       applications.map(async (application) => {
         let employee = await employeeDB.findOne({
-          _id: application.employee_id,
+          id: application.employeeid,
         });
         if (employee) {
           employee._doc.coverLetter =
@@ -159,12 +159,12 @@ export async function hireEmployee(req, res) {
     ]);
 
     await jobPostDB.findOneAndUpdate(
-      { _id: jobId },
+      { id: jobId },
       { status: "hired" },
       { new: true, lean: true }
     );
     await applicationDB.findOneAndUpdate(
-      { job_id: jobId, employee_id: employeeId },
+      { jobid: jobId, employeeid: employeeId },
       { status: "hired" },
       { new: true, lean: true }
     );
@@ -203,7 +203,7 @@ export async function updateJobPost(req, res) {
 
   try {
     const newJobPost = await jobPostDB
-      .findByIdAndUpdate(body._id, body, {
+      .findByIdAndUpdate(body.id, body, {
         new: true,
         lean: true,
       })
@@ -251,7 +251,7 @@ export async function getJobPosts(req, res) {
 
     const jobPosts = await jobPostDB
       .find({ status: "pending" })
-      .sort({ _id: -1 })
+      .sort({ id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
 
@@ -302,7 +302,7 @@ export async function getJobPostsBySearch(
           { description: searchRegex },
         ],
       })
-      .sort({ _id: -1 })
+      .sort({ id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
 
@@ -394,7 +394,7 @@ export async function getJobPostsByFilter(
 
     const posts = await jobPostDB
       .find(filter)
-      .sort({ _id: -1 })
+      .sort({ id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
 
@@ -417,18 +417,18 @@ export async function applyForJob(req, res) {
 
   try {
     const applied = await applicationDB.findOne({
-      employee_id: body.employee_id,
-      job_id: body.job_id,
+      employeeid: body.employeeid,
+      jobid: body.jobid,
     });
 
     const employerPushToken = (
-      await employerDB.findById(body.employer_id)
+      await employerDB.findById(body.employerid)
     ).pushToken;
     const employeeName = (
-      await employeeDB.findById(body.employee_id)
+      await employeeDB.findById(body.employeeid)
     ).name;
     const jobTitle = (
-      await jobPostDB.findById(body.job_id)
+      await jobPostDB.findById(body.jobid)
     ).jobTitle;
 
     const message = {

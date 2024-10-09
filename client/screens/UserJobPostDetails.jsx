@@ -10,7 +10,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
 
   const employees = useSelector((state) => state.user.employeesByJobId);
   const job = useSelector((state) => state.user.jobPosts)?.filter(
-    (item) => item._id === itemId && item
+    (item) => item.id === itemId && item
   )[0];
 
   return (
@@ -82,7 +82,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
           employees?.map((employee, index) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("userDetails", { userId: employee?._id });
+                navigation.navigate("userDetails", { userId: employee?.id });
               }}
               key={index}
               className="w-[90%] px-4 flex-row items-center rounded-full border-[1px] h-32 mb-3"

@@ -149,9 +149,9 @@ const CV = ({ navigation }) => {
                 {
                   name: user.name,
                   telephone: user.telephone,
-                  type: user.type,
+                  type: user.accountType,
                   pushToken: user.pushToken,
-                  _id: user._id,
+                  id: user.id,
                   pdf: pdf,
                 },
                 navigation,

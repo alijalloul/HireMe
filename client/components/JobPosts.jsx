@@ -13,11 +13,11 @@ const JobPosts = ({ navigation }) => {
       {posts?.length > 0 ? (
         posts?.map((job, index) => (
           <TouchableOpacity
-            key={job?._id}
+            key={job?.id}
             onPress={() => {
               navigation.navigate("JobPostDetails", {
-                jobId: job?._id,
-                employerId: job?.employer_id,
+                jobId: job?.id,
+                employerId: job?.employerid,
               });
             }}
             className={`flex justify-center w-full border-t-[1px] ${

@@ -1,195 +1,58 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
 import {
   Image,
   ScrollView,
   Text,
+  Modal,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import Modal from "react-native-modal";
 
-import downVector from "@/assets/images/downVector.png";
+import SkillsData from "@/constants/Skills";
 
-const SkillModal = ({ value, setValue }) => {
+const SkillModal = ({ value, setValue, className }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState("");
 
   const [skills, setSkills] = useState(value);
 
-  const data = [
-    // Software Development
-    "JavaScript",
-    "React",
-    "Angular",
-    "Vue",
-    "Node",
-    "Python",
-    "Java",
-    "C++",
-    "C#",
-    "Ruby",
-    "PHP",
-    "HTML",
-    "CSS",
-    "Git",
-    "Redux",
-    "Webpack",
-    "REST",
-    "GraphQL",
-    "MongoDB",
-    "PostgreSQL",
-
-    // Data Analysis & Database
-    "SQL",
-    "Data Mining",
-    "Data Visualization",
-    "Tableau",
-    "Power BI",
-    "Excel",
-    "Pandas",
-    "NumPy",
-    "Matplotlib",
-    "D3",
-    "NoSQL",
-    "ETL",
-
-    // Machine Learning & AI
-    "Machine Learning",
-    "Deep Learning",
-    "TensorFlow",
-    "PyTorch",
-    "NLP",
-    "Computer Vision",
-    "Natural Language Processing",
-    "Reinforcement Learning",
-
-    // DevOps & Cloud
-    "Docker",
-    "Kubernetes",
-    "AWS",
-    "Azure",
-    "Google Cloud",
-    "CI/CD",
-    "Jenkins",
-    "Ansible",
-    "Terraform",
-
-    // Project Management
-    "Agile",
-    "Scrum",
-    "Kanban",
-    "JIRA",
-    "Asana",
-    "Trello",
-    "Project Planning",
-    "Resource Management",
-
-    // Design & Creativity
-    "UI/UX Design",
-    "Adobe Creative Suite",
-    "Photoshop",
-    "Illustrator",
-    "Sketch",
-    "Figma",
-    "InDesign",
-    "Prototyping",
-
-    // Marketing & SEO
-    "Digital Marketing",
-    "SEO",
-    "Content Marketing",
-    "Social Media Management",
-    "Google Analytics",
-    "SEM",
-    "Email Marketing",
-    "PPC",
-
-    // Communication
-    "Communication Skills",
-    "Presentation",
-    "Negotiation",
-    "Active Listening",
-    "Public Speaking",
-    "Interpersonal Skills",
-
-    // Sales & Customer Service
-    "Salesforce",
-    "Cold Calling",
-    "Relationship Management",
-    "Customer Support",
-    "CRM",
-    "Upselling",
-
-    // Financial & Business
-    "Financial Analysis",
-    "Budgeting",
-    "Business Strategy",
-    "Market Research",
-    "Accounting",
-    "Entrepreneurship",
-    "Risk Management",
-
-    // Writing & Editing
-    "Content Writing",
-    "Copywriting",
-    "Editing",
-    "Proofreading",
-    "Technical Writing",
-    "Blogging",
-
-    // Languages
-    "Foreign Languages",
-    "Translation",
-    "Interpretation",
-    "Linguistics",
-    "Language Teaching",
-  ];
-
   const filteredSkills =
     search !== ""
-      ? data?.filter((item) =>
+      ? SkillsData?.filter((item) =>
           item.toLowerCase().includes(search.toLowerCase())
         )
       : [];
 
   return (
-    <View className="flex justify-between w-full">
+    <View className={className}>
+      <GaramondText className="text-[20px] mb-2">Skills</GaramondText>
       <View className="flex flex-row flex-wrap">
-        {skills.length > 0 ? (
-          skills.map((skill, index) => (
-            <TouchableOpacity
-              onPress={() => {
-                setIsVisible(true);
-              }}
-              className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 bg-[#ff8d3c]"
-              key={index.toString()}
-            >
-              <GaramondText className="text-white">{skill}</GaramondText>
-            </TouchableOpacity>
-          ))
-        ) : (
+        {skills?.map((skill, index) => (
           <TouchableOpacity
             onPress={() => {
               setIsVisible(true);
             }}
-            className="border-[1px] p-2 w-full rounded-lg flex flex-row justify-between items-center"
+            className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 bg-[#ff8d3c]"
+            key={index.toString()}
           >
-            <GaramondText className="text-[20px] font-garamond">
-              _ _ _
-            </GaramondText>
-            <Image source={downVector} className="w-5 aspect-[2/1]" />
+            <GaramondText className="text-white">{skill}</GaramondText>
           </TouchableOpacity>
-        )}
+        ))}
+
+        <TouchableOpacity
+          onPress={() => {
+            setIsVisible(true);
+          }}
+          className="inline-block justify-center items-center aspect-square rounded-2xl mr-2 mb-2 border border-gray-300"
+        >
+          <GaramondText className="text-gray-300 ">+</GaramondText>
+        </TouchableOpacity>
       </View>
 
-      <Modal
-        isVisible={isVisible}
-        animationInTiming={700}
-        className="m-0 mt-10 rounded-t-xl"
-      >
+      <Modal visible={isVisible} animationType="slide">
         <View className="flex-1 justify-center bg-white">
           <View
             className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
@@ -202,7 +65,7 @@ const SkillModal = ({ value, setValue }) => {
                 setSearch(text);
               }}
               className="text-3xl w-[90%]"
-              placeholder="بحث"
+              placeholder="Search"
             ></TextInput>
 
             <TouchableOpacity
@@ -224,7 +87,7 @@ const SkillModal = ({ value, setValue }) => {
             }}
           >
             <View className="flex flex-row flex-wrap border-b-[1px] mb-5 pb-5">
-              {skills.length > 0 ? (
+              {skills?.length > 0 ? (
                 skills.map((skill, index) => (
                   <TouchableOpacity
                     onPress={() => {
@@ -238,7 +101,7 @@ const SkillModal = ({ value, setValue }) => {
                 ))
               ) : (
                 <GaramondText className="opacity-60 text-xl">
-                  ابحث للعثور على مهارات
+                  Search to find skills
                 </GaramondText>
               )}
             </View>
@@ -274,7 +137,7 @@ const SkillModal = ({ value, setValue }) => {
                 }}
                 className={`w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
               >
-                <GaramondText className="text-lg text-white">حفظ</GaramondText>
+                <GaramondText className="text-lg text-white">Save</GaramondText>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -284,4 +147,4 @@ const SkillModal = ({ value, setValue }) => {
   );
 };
 
-export default memo(SkillModal);
+export default SkillModal;
