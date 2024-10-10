@@ -1,8 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
-const BASE_URL =
-  process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.0.101:5000";
+import BASE_URL_LOCAL from "./BASE_URL_LOCAL";
+
+const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || BASE_URL_LOCAL;
 
 const userSlice = createSlice({
   name: "user",
@@ -12,7 +13,6 @@ const userSlice = createSlice({
     jobPosts: [],
     employeesByJobId: [],
     jobPostId: null,
-    currentPage: 1,
     numberOfPages: null,
     pending: false,
     error: false,
@@ -60,14 +60,12 @@ const userSlice = createSlice({
       state.pending = false;
       state.userInfo = action.payload;
     },
-    changePageSuccess: (state, action) => {
-      state.pending = false;
-      state.currentPage = action.payload;
-    },
+
     fetchByIdSuccess: (state, action) => {
       state.pending = false;
-      state.jobPosts = action.payload.data;
-      state.numberOfPages = action.payload.numberOfPages;
+
+      console.log("action payload: ", action.payload);
+      state.jobPosts = action.payload;
     },
     fetchEmployeesSuccess: (state, action) => {
       state.pending = false;
@@ -94,7 +92,7 @@ export const signup = async (userInfo, navigation, dispatch) => {
   console.log(userInfo);
 
   try {
-    const res = await fetch(`${BASE_URL}/user/signup`, {
+    const res = await fetch(`${BASE_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -115,7 +113,7 @@ export const login = async (userInfo, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const res = await fetch(`${BASE_URL}/user/login`, {
+    const res = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -163,7 +161,7 @@ export const updateUser = async (newUser, navigation, dispatch) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
 
-    const res = await fetch(`${BASE_URL}/user/${newUser.id}`, {
+    const res = await fetch(`${BASE_URL}/users/${newUser.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -173,8 +171,6 @@ export const updateUser = async (newUser, navigation, dispatch) => {
     });
 
     const data = await res.json();
-
-    console.log("data: ", data);
 
     dispatch(userSlice.actions.editSuccess(data));
 
@@ -221,7 +217,7 @@ export const createJobPost = async (postsInfo, dispatch) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
 
-    const res = await fetch(`${BASE_URL}/jobPost/`, {
+    const res = await fetch(`${BASE_URL}/jobPosts/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -276,26 +272,21 @@ export const deletePost = async (selectedPostId, dispatch) => {
   }
 };
 
-export const changePage = async (page, dispatch) => {
+export const fetchJobsByEmployer = async (userId, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    dispatch(userSlice.actions.changePageSuccess(page));
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
+    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
 
-export const fetchJobsByEmployer = async (userId, page, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  try {
-    const res = await fetch(`${BASE_URL}/employer/${userId}/${page}/posts`, {
+    console.log("userId: ", userId);
+    const res = await fetch(`${BASE_URL}/users/${userId}/jobPosts`, {
       method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
-    const data = await reson();
+    const data = await res.json();
 
     dispatch(userSlice.actions.fetchByIdSuccess(data));
   } catch (error) {

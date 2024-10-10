@@ -13,11 +13,7 @@ import EmployeeMyJobs from "./components/EmployeeMyJobs";
 import EmployerMyJobs from "./components/EmployerMyJobs/EmployerMyJobs.jsx";
 
 const MyJobs = ({ navigation }) => {
-  const dispatch = useDispatch();
-
   const user = useSelector((state) => state.user.userInfo);
-  const page = useSelector((state) => state.user.currentPage);
-  const numberOfPages = useSelector((state) => state.user.numberOfPages);
 
   const [jobsStatus, setJobsStatus] = useState("pending");
 

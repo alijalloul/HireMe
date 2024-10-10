@@ -1,4 +1,4 @@
-import jobPostDB from "@/schema/JobPostSchema";
+import jobPostDB from "@/schema/jobPostsSchema";
 import applicationDB from "@/schema/applicationSchema";
 import employeeDB from "@/schema/employeeSchema";
 import employerDB from "@/schema/employerSchema";

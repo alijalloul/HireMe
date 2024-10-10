@@ -1,58 +1,36 @@
-import { Colors } from '@/constants/Colors'
+import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import { useIsFocused } from "@react-navigation/native";
 import React, { memo, useEffect, useState } from "react";
 import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import chevronLeft from "@/assets/images/chevronLeft.png";
 import chevronRight from "@/assets/images/chevronRight.png";
 import doubleChevronLeft from "@/assets/images/doubleChevronLeft.png";
 import doubleChevronRight from "@/assets/images/doubleChevronRight.png";
-import { changePage, fetchPosts } from "@/redux/JobPost";
-import {
-  changeUserPostsPage,
-  fetchJobsByEmployer,
-  fetchPostsAplliedToByUser,
-} from "@/redux/User";
+import { fetchPosts } from "@/redux/JobPost.js";
+import { fetchJobsByEmployer, fetchPostsAplliedToByUser } from "@/redux/User";
 
-const Pagination = ({ fetchType, userId, page, numberOfPages }) => {
+const Pagination = ({ fetchType }) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const userId = useSelector((state) => state.user.userInfo)?.id;
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1);
 
   useEffect(() => {
-    if (fetchType === "postsById") {
-      fetchJobsByEmployer(userId, page, dispatch);
-    } else if (fetchType === "posts") {
-      fetchPosts(page, dispatch);
-    } else if (fetchType === "postsByEmployeeId") {
-      fetchPostsAplliedToByUser(userId, page, dispatch);
-    }
-  }, [page, isFocused]);
-  useEffect(() => {
-    if (currentPage !== page) {
-      if (fetchType === "postsById") {
-        changeUserPostsPage(currentPage, dispatch);
+    if (userId) {
+      if (fetchType === "postsByUserId") {
+        fetchJobsByEmployer(userId, dispatch);
+      } else if (fetchType === "postsByEmployeeId") {
+        fetchPostsAplliedToByUser(userId, currentPage, dispatch);
       } else if (fetchType === "posts") {
-        changePage(currentPage, dispatch);
+        fetchPosts(currentPage, dispatch);
       }
     }
-  }, [currentPage]);
-
-  const Chevron = ({ image, value }) => {
-    return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          setCurrentPage(value);
-        }}
-        className=""
-      >
-        <Image source={image} className="w-5 h-5" />
-      </TouchableWithoutFeedback>
-    );
-  };
+  }, [currentPage, isFocused]);
 
   return (
     <View
@@ -61,14 +39,19 @@ const Pagination = ({ fetchType, userId, page, numberOfPages }) => {
       }`}
     >
       <View className="flex flex-row justify-center items-center">
-        {<Chevron image={doubleChevronLeft} value={1} />}
+        <Chevron
+          image={doubleChevronLeft}
+          value={1}
+          setCurrentPage={setCurrentPage}
+        />
+
         <View className="mx-4"></View>
-        {
-          <Chevron
-            image={chevronLeft}
-            value={currentPage - 1 > 0 && currentPage - 1}
-          />
-        }
+
+        <Chevron
+          image={chevronLeft}
+          value={currentPage - 1 > 0 && currentPage - 1}
+          setCurrentPage={setCurrentPage}
+        />
       </View>
 
       <GaramondText className=" font-garamond-bold text-xl">
@@ -76,17 +59,35 @@ const Pagination = ({ fetchType, userId, page, numberOfPages }) => {
       </GaramondText>
 
       <View className="flex flex-row justify-center items-center">
-        {
-          <Chevron
-            image={chevronRight}
-            value={currentPage < numberOfPages && currentPage + 1}
-          />
-        }
+        <Chevron
+          image={chevronRight}
+          value={currentPage < numberOfPages && currentPage + 1}
+          setCurrentPage={setCurrentPage}
+        />
+
         <View className="mx-4"></View>
-        {<Chevron image={doubleChevronRight} value={numberOfPages} />}
+
+        <Chevron
+          image={doubleChevronRight}
+          value={numberOfPages}
+          setCurrentPage={setCurrentPage}
+        />
       </View>
     </View>
   );
 };
 
-export default memo(Pagination);
+export default Pagination;
+
+const Chevron = ({ image, value, setCurrentPage }) => {
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        setCurrentPage(value);
+      }}
+      className=""
+    >
+      <Image source={image} className="w-5 h-5" />
+    </TouchableWithoutFeedback>
+  );
+};

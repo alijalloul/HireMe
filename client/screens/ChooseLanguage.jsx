@@ -49,24 +49,6 @@ const ChooseLanguage = ({ navigation }) => {
                 English
               </GaramondText>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setLanguage("arabic");
-              }}
-              className={`${
-                language === "arabic" ? `bg-[${Colors.primary}] ` : "bg-white"
-              } rounded-xl  w-[50%] py-5  flex justify-center items-center`}
-            >
-              <GaramondText
-                className={`${
-                  language === "arabic"
-                    ? " text-white "
-                    : `text-[${Colors.primary}]`
-                } font-garamond-bold text-xl`}
-              >
-                عربي
-              </GaramondText>
-            </TouchableOpacity>
           </View>
         </View>
       </View>

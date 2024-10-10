@@ -87,24 +87,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.patch("/:id", auth, async (req, res) => {
-  const { id } = req.params;
-  const userInfo = req.body;
-
-  try {
-    const user = await db.user.update({
-      where: {
-        id,
-      },
-      data: {
-        name: userInfo.name,
-      },
-    });
-
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
 export default router;

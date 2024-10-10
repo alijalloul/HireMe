@@ -10,8 +10,6 @@ const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.userInfo);
-  const page = useSelector((state) => state.user.currentPage);
-  const numberOfPages = useSelector((state) => state.user.numberOfPages);
 
   const jobs = useSelector((state) => state.user.jobPosts)?.filter(
     (job) => job.status === jobsStatus
@@ -74,12 +72,7 @@ const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
             ))}
         </View>
       </View>
-      <Pagination
-        fetchType="postsByEmployeeId"
-        userId={user?.id}
-        page={page}
-        numberOfPages={numberOfPages}
-      />
+      <Pagination fetchType="postsByEmployeeId" />
     </View>
   );
 };

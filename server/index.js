@@ -14,7 +14,8 @@ import userDB from "./schema/userSchema.js";
 // import auth from "./middleware/middleware";
 
 import authRoute from "./routes/auth.js";
-import jobPostRoute from "./routes/jobPost.js";
+import usersRouter from "./routes/users.js";
+import jobPostsRoute from "./routes/jobPosts.js";
 
 dotenv.config();
 
@@ -31,8 +32,9 @@ app.get("/", async (req, res) => {
   res.status(500).send("Server is RUNNING");
 });
 
-app.use("/user", authRoute);
-app.use("/jobPost", jobPostRoute);
+app.use("/auth", authRoute);
+app.use("/users", usersRouter);
+app.use("/jobPosts", jobPostsRoute);
 
 // import {
 //   applyForJob,

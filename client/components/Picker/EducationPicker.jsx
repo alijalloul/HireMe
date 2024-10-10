@@ -143,13 +143,6 @@ const EducationPicker = ({
     "Philosophy",
   ];
 
-  const convertToArabicNumerals = (number) => {
-    const arabicNumerals = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-    return number
-      .toString()
-      .replace(/[0-9]/g, (match) => arabicNumerals[parseInt(match)]);
-  };
-
   const startYearN = 1990;
   const endYearN = 2023;
   const years = Array.from({ length: endYearN - startYearN + 1 }, (_, index) =>

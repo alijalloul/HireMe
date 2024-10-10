@@ -211,10 +211,10 @@ const PostJobModal = ({
 
               <View className="mb-3 flex flex-row justify-between">
                 <GaramondText className=" text-[15px] ">
-                  {translateExperienceToArabic(job?.experienceRequired)}
+                  {job?.experienceRequired}
                 </GaramondText>
                 <GaramondText className=" text-[15px] ">
-                  {translateTypeToArabic(job?.jobType)}
+                  {job?.jobType}
                 </GaramondText>
               </View>
 

@@ -30,9 +30,6 @@ const Home = ({ navigation }) => {
 
   const user = useSelector((state) => state.user.userInfo);
 
-  const page = useSelector((state) => state.jobPosts.currentPage);
-  const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -101,7 +98,7 @@ const Home = ({ navigation }) => {
 
             <TouchableOpacity
               onPress={() => {
-                fetchPostsBySearch(search, page, dispatch);
+                fetchPostsBySearch(search, dispatch);
               }}
               className="w-[15%] p-2 aspect-square rounded-xl "
               style={{ backgroundColor: Colors.primary }}
@@ -118,17 +115,12 @@ const Home = ({ navigation }) => {
 
       <JobPosts navigation={navigation} />
 
-      <Pagination
-        fetchType={"posts"}
-        page={page}
-        numberOfPages={numberOfPages}
-      />
+      <Pagination fetchType={"posts"} />
 
       <FilterModal
         bottomSheetVisible={bottomSheetVisible}
         setBottomSheetVisible={setBottomSheetVisible}
         navigation={navigation}
-        page={page}
         setNumberOfFilters={setNumberOfFilters}
       />
     </ScrollView>

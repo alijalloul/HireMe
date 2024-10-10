@@ -1,13 +1,15 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
-const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.1.3:5000";
+import BASE_URL_LOCAL from "./BASE_URL_LOCAL";
+
+const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || BASE_URL_LOCAL;
 
 const postSlice = createSlice({
   name: "post",
   initialState: {
     postInfoById: null,
     postsInfo: [],
-    currentPage: 1,
     numberOfPages: null,
     pending: false,
     error: false,
@@ -15,10 +17,6 @@ const postSlice = createSlice({
   reducers: {
     startAPI: (state) => {
       state.pending = true;
-    },
-    changePageSuccess: (state, action) => {
-      state.pending = false;
-      state.currentPage = action.payload;
     },
 
     fetchSuccess: (state, action) => {
@@ -33,26 +31,20 @@ const postSlice = createSlice({
   },
 });
 
-export const changePage = async (page, dispatch) => {
-  dispatch(postSlice.actions.startAPI());
-
-  try {
-    dispatch(postSlice.actions.changePageSuccess(page));
-  } catch (error) {
-    dispatch(postSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
 export const fetchPosts = async (page, dispatch) => {
   dispatch(postSlice.actions.startAPI());
 
   try {
-    const res = await fetch(`${BASE_URL}/posts/${page}`, {
+    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+
+    const res = await fetch(`${BASE_URL}/jobPosts/${page}`, {
       method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
-    const data = await reson();
+    const data = await res.json();
 
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {

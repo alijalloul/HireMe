@@ -40,13 +40,12 @@ const PostJobModal = ({
   isBottomSheetVisible,
   setBottomSheetVisible,
   navigation,
-  jobsStatus,
 }) => {
   const dispatch = useDispatch();
   const employerId = useSelector((state) => state?.user.userInfo)?.id;
-  const jobs = useSelector((state) => state.user.jobPosts)?.filter(
-    (job) => job.status === jobsStatus
-  );
+  const jobs = useSelector((state) => state.user.jobPosts);
+
+  console.log("jobs: ", jobs);
 
   const [formData, setFormData] = useState({
     jobTitle: "Software Engineer",
@@ -212,10 +211,10 @@ const PostJobModal = ({
 
               <View className="mb-3 flex flex-row justify-between">
                 <GaramondText className=" text-[15px] ">
-                  {translateExperienceToArabic(job?.experienceRequired)}
+                  {job?.experienceRequired}
                 </GaramondText>
                 <GaramondText className=" text-[15px] ">
-                  {translateTypeToArabic(job?.jobType)}
+                  {job?.jobType}
                 </GaramondText>
               </View>
 

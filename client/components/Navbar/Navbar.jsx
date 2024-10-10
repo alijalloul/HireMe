@@ -161,9 +161,11 @@ const Navbar = () => {
           onLayout={() => {
             animateSelector();
 
-            selectorRef.current.measure((x, y, width, height) => {
-              setSelectorBottom(height);
-            });
+            if (selectorRef.current) {
+              selectorRef.current.measure((x, y, width, height) => {
+                setSelectorBottom(height);
+              });
+            }
           }}
         >
           <View

@@ -65,4 +65,36 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+router.get("/:page", auth, async (req, res) => {
+  const { page } = req.params;
+
+  try {
+    const LIMIT = 8;
+    const startIndex = (page - 1) * LIMIT;
+    const totalPosts = await db.jobPost.count();
+
+    const jobPosts = await db.jobPost.findMany({
+      where: {
+        status: "pending",
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      skip: startIndex,
+      take: LIMIT,
+    });
+
+    res.json({
+      data: jobPosts,
+      numberOfPages: Math.ceil(totalPosts / LIMIT),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+    on({
+      message: "Error fetching job posts",
+    });
+  }
+});
+
 export default router;
