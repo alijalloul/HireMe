@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import EmployeeMyJobs from "./components/EmployeeMyJobs";
-import EmployerMyJobs from "./components/EmployerMyJobs";
+import EmployerMyJobs from "./components/EmployerMyJobs/EmployerMyJobs.jsx";
 
 const MyJobs = ({ navigation }) => {
   const dispatch = useDispatch();

@@ -27,24 +27,6 @@ const SingleSelectorModal = ({
   const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState("");
 
-  const renderList = ({ item }) => {
-    return (
-      <View className="flex flex-row justify-start items-center pb-4 mb-4 border-b-[1px]">
-        <TouchableOpacity
-          onPress={() => {
-            setValue(item);
-            isError && setIsError(false);
-            setIsVisible(false);
-            setSearch("");
-          }}
-          className="flex justify-start items-start w-full"
-        >
-          <GaramondText className="text-2xl">{item}</GaramondText>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
   const filteredData = data?.filter((item) =>
     item.toLowerCase().includes(search.toLowerCase())
   );
@@ -118,7 +100,9 @@ const SingleSelectorModal = ({
           <FlatList
             data={filteredData}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => renderList({ item })}
+            renderItem={({ item }) =>
+              renderList({ item, setValue, setIsVisible, setSearch })
+            }
             className="w-[90%] self-center"
           />
         </View>
@@ -128,3 +112,21 @@ const SingleSelectorModal = ({
 };
 
 export default SingleSelectorModal;
+
+const renderList = ({ item, setValue, setIsVisible, setSearch }) => {
+  return (
+    <View className="flex flex-row justify-start items-center pb-4 mb-4 border-b-[1px]">
+      <TouchableOpacity
+        onPress={() => {
+          setValue(item);
+          isError && setIsError(false);
+          setIsVisible(false);
+          setSearch("");
+        }}
+        className="flex justify-start items-start w-full"
+      >
+        <GaramondText className="text-2xl">{item}</GaramondText>
+      </TouchableOpacity>
+    </View>
+  );
+};

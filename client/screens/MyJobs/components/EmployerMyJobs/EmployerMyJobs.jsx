@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import GaramondText from "@/components/GaramondText";
 import Pagination from "@/components/Pagination";
-import PostJobModal from "@/components/PostJob/PostJobModal";
+import PostJobModal from "./PostJob/PostJobModal";
 
 import { Colors } from "@/constants/Colors";
 

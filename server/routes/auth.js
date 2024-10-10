@@ -87,13 +87,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.patch("/update", auth, async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
+  const { id } = req.params;
   const userInfo = req.body;
 
   try {
     const user = await db.user.update({
       where: {
-        id: userInfo.id,
+        id,
       },
       data: {
         name: userInfo.name,

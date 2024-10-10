@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
 const BASE_URL =
-  process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.0.115:5000";
+  process.env.EXPO_PUBLIC_BASE_URL || "http://192.168.0.101:5000";
 
 const userSlice = createSlice({
   name: "user",
@@ -91,6 +91,8 @@ const userSlice = createSlice({
 export const signup = async (userInfo, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
+  console.log(userInfo);
+
   try {
     const res = await fetch(`${BASE_URL}/user/signup`, {
       method: "POST",
@@ -161,7 +163,7 @@ export const updateUser = async (newUser, navigation, dispatch) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
 
-    const res = await fetch(`${BASE_URL}/user/update`, {
+    const res = await fetch(`${BASE_URL}/user/${newUser.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -182,21 +184,6 @@ export const updateUser = async (newUser, navigation, dispatch) => {
     );
 
     navigation.navigate("HomeTabs", { screen: "home" });
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
-
-export const editAppLanguage = async (language, navigation, dispatch) => {
-  dispatch(userSlice.actions.startAPI());
-
-  try {
-    dispatch(userSlice.actions.editLanguageSuccess(language));
-
-    await AsyncStorage.setItem("language", language);
-
-    navigation?.navigate("onBoarding");
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);
@@ -232,15 +219,18 @@ export const createJobPost = async (postsInfo, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const res = await fetch(`${BASE_URL}/post`, {
+    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+
+    const res = await fetch(`${BASE_URL}/jobPost/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(postsInfo),
     });
 
-    const data = await reson();
+    const data = await res.json();
 
     dispatch(userSlice.actions.createSuccess(data));
   } catch (error) {

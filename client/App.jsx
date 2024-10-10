@@ -16,7 +16,7 @@ import "react-native-reanimated";
 
 import Store from "@/redux/Store";
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 import CV from "@/screens/CV";
 import Choose from "@/screens/Choose";
 import Education from "@/screens/Education";
@@ -79,6 +79,20 @@ const HomeTabs = () => {
 };
 
 const AppContent = () => {
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedProfile = await AsyncStorage.getItem("profile");
+      if (storedProfile) {
+        const parsedProfile = JSON.parse(storedProfile);
+        setToken(parsedProfile.token);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: "CHECK_PROFILE" });
@@ -103,7 +117,7 @@ const AppContent = () => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-        initialRouteName="HomeTabs"
+        initialRouteName={token ? "HomeTabs" : "onBoarding"}
         screenOptions={{
           contentStyle: {
             backgroundColor: "#FBF2E3",

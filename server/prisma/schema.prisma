@@ -27,4 +27,28 @@ model User {
   education      Json[]
   workExperience Json[]
   pushToken      String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  JobPost   JobPost[]
+}
+
+model JobPost {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  jobTitle           String
+  company            String
+  location           String
+  country            String
+  category           String
+  skills             String[]
+  experienceRequired String?
+  jobType            String?
+  description        String?
+  date               DateTime @default(now())
+  status             String
+  employerId         String   @db.ObjectId
+  employer           User     @relation(fields: [employerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

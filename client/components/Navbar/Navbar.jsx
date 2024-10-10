@@ -24,8 +24,11 @@ import homeWhite from "@/assets/images/homeWhite.png";
 import userOrange from "@/assets/images/userOrange.png";
 import userWhite from "@/assets/images/userWhite.png";
 
+import NavButton from "./components/NavButton";
+
 const Navbar = () => {
   const [hideNav, setHideNav] = useState(false);
+  const [selectorBottom, setSelectorBottom] = useState(0);
 
   const paddingHorizontal = 40;
   const selectedButtonBottom = 20;
@@ -90,42 +93,33 @@ const Navbar = () => {
     translateX: 0,
   }));
 
-  useEffect(() => {
-    const animateSelector = () => {
-      const buttonRefs = {
-        home: homeButtonRef,
-        myJobs: jobsButtonRef,
-        profile: profileButtonRef,
-      };
-
-      const buttonRef = buttonRefs[focusedRouteName];
-
-      if (selectorRef.current && buttonRef.current) {
-        selectorRef.current.measure((x1, y1, selectorWidth) => {
-          buttonRef.current.measureLayout(
-            containerRef.current,
-            (x2, y2, buttonWidth) => {
-              // Subtract half of the selector width from the left value
-              const adjustedLeft = x2 - (selectorWidth - buttonWidth) / 2;
-              selectorAnimation.animateTo({ translateX: adjustedLeft });
-            }
-          );
-        });
-      }
+  function animateSelector() {
+    const buttonRefs = {
+      home: homeButtonRef,
+      myJobs: jobsButtonRef,
+      profile: profileButtonRef,
     };
 
-    animateSelector();
-  }, [focusedRouteName]);
+    const buttonRef = buttonRefs[focusedRouteName];
 
-  const [selectorBottom, setSelectorBottom] = useState(0);
+    if (selectorRef.current && buttonRef.current) {
+      selectorRef.current.measure((x1, y1, selectorWidth) => {
+        buttonRef.current.measureLayout(
+          containerRef.current,
+          (x2, y2, buttonWidth) => {
+            const adjustedLeft =
+              Math.floor(x2 - (selectorWidth - buttonWidth) / 2) || 0;
 
-  useEffect(() => {
-    if (selectorRef.current) {
-      selectorRef.current.measure((x, y, width, height) => {
-        setSelectorBottom(height);
+            selectorAnimation.animateTo({ translateX: adjustedLeft });
+          }
+        );
       });
     }
-  }, [selectorRef.current]);
+  }
+
+  useEffect(() => {
+    animateSelector();
+  }, [focusedRouteName]);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -164,6 +158,13 @@ const Navbar = () => {
           transition={{ type: "spring", damping: 300 }}
           className="absolute z-10 "
           style={{ bottom: selectorBottom / 2 }}
+          onLayout={() => {
+            animateSelector();
+
+            selectorRef.current.measure((x, y, width, height) => {
+              setSelectorBottom(height);
+            });
+          }}
         >
           <View
             className="border-8 border-white rounded-full w-20  aspect-square"
@@ -201,40 +202,5 @@ const Navbar = () => {
     </View>
   );
 };
-
-const NavButton = React.forwardRef(
-  ({ focused, imageWhite, label, onPress, selectedButtonBottom }, ref) => {
-    const homeAnimation = useDynamicAnimation(() => ({ bottom: 0 }));
-
-    useEffect(() => {
-      homeAnimation.animateTo({
-        bottom: focused ? selectedButtonBottom : 0,
-      });
-    }, [focused]);
-
-    return (
-      <View
-        ref={ref}
-        className="z-20 relative flex justify-center items-center"
-      >
-        <MotiView
-          state={homeAnimation}
-          transition={{ type: "spring", damping: 300 }}
-        >
-          <TouchableOpacity onPress={onPress} className="rounded-full">
-            <Image
-              source={imageWhite}
-              className="w-8 h-8 "
-              tintColor={focused ? "white" : Colors.primary}
-            />
-          </TouchableOpacity>
-        </MotiView>
-        <GaramondText className="text-lg" style={{ color: Colors.primary }}>
-          {label}
-        </GaramondText>
-      </View>
-    );
-  }
-);
 
 export default Navbar;
