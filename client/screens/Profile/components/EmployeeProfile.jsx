@@ -3,9 +3,9 @@ import GaramondText from "@/components/GaramondText";
 
 import { Image, TouchableOpacity, View } from "react-native";
 
-import EducationPicker from "@/components/Picker/EducationPicker";
-import LanguagePicker from "@/components/Picker/LanguagePicker";
-import WorkExperiencePicker from "@/components/Picker/WorkExperiencePicker";
+import EducationPicker from "@/components/Picker/EducationPicker/EducationPicker";
+import LanguagePicker from "@/components/Picker/LanguagePicker/LanguagePicker";
+import WorkExperiencePicker from "@/components/Picker/WorkExperiencePicker/WorkExperiencePicker";
 import IntroductionPicker from "@/screens/Profile/components/IntroductionPicker";
 import TextInputEditor from "@/screens/Profile/components/TextInputEditor";
 import UploadImage from "@/components/UploadImage";
@@ -75,7 +75,7 @@ const EmployeeProfile = ({ formData, handleInputChange }) => {
           <LanguagePicker
             headerSize={25}
             headerText="Languages"
-            languageArr={languageArr}
+            language={language}
             setLanguageArr={setLanguageArr}
           />
         </View>
@@ -87,13 +87,11 @@ const EmployeeProfile = ({ formData, handleInputChange }) => {
 
           <View className="">
             <View className=" opacity-50 flex flex-row justify-start items-center border-y-[1px] py-4 px-2">
-              <GaramondText className=" font-garamond">Telephone:</GaramondText>
-              <GaramondText className=" font-garamond">
-                {user?.telephone}
-              </GaramondText>
+              <GaramondText className=" ">Telephone:</GaramondText>
+              <GaramondText className=" ">{user?.telephone}</GaramondText>
             </View>
             <View className=" flex flex-row justify-start items-center border-y-[1px] py-4 px-2 my-[1px]">
-              <GaramondText className=" font-garamond">E-Mail:</GaramondText>
+              <GaramondText className=" ">E-Mail:</GaramondText>
               <TextInputEditor
                 textSize={15}
                 textColor="black"
@@ -103,7 +101,7 @@ const EmployeeProfile = ({ formData, handleInputChange }) => {
               />
             </View>
             <View className="flex flex-row justify-start items-center border-b-[1px] py-4 px-2">
-              <GaramondText className=" font-garamond">Address:</GaramondText>
+              <GaramondText className=" ">Address:</GaramondText>
               <TextInputEditor
                 textSize={15}
                 textColor="black"

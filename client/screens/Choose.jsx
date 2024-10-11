@@ -117,14 +117,14 @@ const Choose = ({ navigation }) => {
         <GaramondText className={`text-sm text-red-500 ${!error && "hidden"}`}>
           You need to choose an account type
         </GaramondText>
-        <GaramondText className="text-5xl font-garamond">
+        <GaramondText className="text-4xl font-garamond-semibold ">
           I am looking for...
         </GaramondText>
       </View>
 
       <MotiView
         state={JobCardBackgroundAnimation}
-        className={`mb-10 w-[85%] h-[33%] border-[1px] rounded-lg `}
+        className={`mb-10 w-[85%] h-[33%] border rounded-lg `}
       >
         <View className="w-full h-full ">
           <View
@@ -148,7 +148,10 @@ const Choose = ({ navigation }) => {
             }}
             className="w-full h-full flex justify-center items-center"
           >
-            <MotiText state={JobTextBackgroundAnimation} className=" text-5xl">
+            <MotiText
+              state={JobTextBackgroundAnimation}
+              className=" text-4xl font-garamond-semibold"
+            >
               A Job
             </MotiText>
           </TouchableOpacity>
@@ -157,7 +160,7 @@ const Choose = ({ navigation }) => {
 
       <MotiView
         state={ClientCardBackgroundAnimation}
-        className={`mb-10 w-[85%] h-[33%] border-[1px] rounded-lg `}
+        className={`mb-10 w-[85%] h-[33%] border rounded-lg `}
       >
         <View className="w-full h-full">
           <View
@@ -182,7 +185,7 @@ const Choose = ({ navigation }) => {
           >
             <MotiText
               state={ClientTextBackgroundAnimation}
-              className=" text-5xl"
+              className=" text-4xl font-garamond-semibold"
             >
               An Employee
             </MotiText>
@@ -193,7 +196,7 @@ const Choose = ({ navigation }) => {
       <TouchableOpacity
         onPress={() => {
           type
-            ? editUser({ ...userInfo, type: type }, "CV", navigation, dispatch)
+            ? editUser(dispatch, { ...userInfo, type: type }, "CV", navigation)
             : setError(true);
         }}
         className={`absolute bottom-0 right-0 mb-3 mr-3 bg-[${Colors.primary}] rounded-xl px-10 py-2`}

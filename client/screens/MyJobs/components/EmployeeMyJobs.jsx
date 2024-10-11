@@ -35,7 +35,7 @@ const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
                   navigation.navigate("employeeJobDetails", { jobId: job.id });
                 }}
                 key={index}
-                className="flex justify-center w-full border-[1px] rounded-2xl p-5 mb-4"
+                className="flex justify-center w-full border rounded-2xl p-5 mb-4"
               >
                 <View className="flex flex-row justify-between items-center">
                   <GaramondText className=" text-3xl">

@@ -37,7 +37,7 @@ const RenderTextInput = ({
       )}
 
       <View
-        className={`bg-white w-full border-[1px] overflow-hidden ${
+        className={`bg-white w-full border overflow-hidden ${
           isError ? "border-red-500" : "border-gray-500 "
         }  rounded-lg flex  flex-row items-center`}
       >

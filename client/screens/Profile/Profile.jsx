@@ -24,7 +24,7 @@ const Profile = ({ navigation }) => {
     introduction: "",
     workExperience: [],
     education: [],
-    languageArr: [],
+    language: [],
   });
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Profile = ({ navigation }) => {
         introduction: user.introduction || "",
         workExperience: user.workExperience || [],
         education: user.education || [],
-        languageArr: user.language || [],
+        language: user.language || [],
       });
     }
   }, [user, isFocused]);
@@ -82,7 +82,7 @@ const Profile = ({ navigation }) => {
               onPress={() => {
                 logout(navigation, dispatch);
               }}
-              className="w-full h-12 flex justify-center items-center bottom-0 right-0 bg-white border-[1px] rounded-xl mb-2"
+              className="w-full h-12 flex justify-center items-center bottom-0 right-0 bg-white border rounded-xl mb-2"
               style={{ borderColor: Colors.primary }}
             >
               <GaramondText

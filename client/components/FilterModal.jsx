@@ -132,9 +132,7 @@ const FilterModal = ({
             setValue(conditional);
           }}
           className={`h-8 w-8 p-2 rounded-lg mr-3 ${
-            value === conditional
-              ? `bg-[${Colors.primary}]`
-              : "bg-white border-[1px]"
+            value === conditional ? `bg-[${Colors.primary}]` : "bg-white border"
           }`}
         >
           {value === conditional && (
@@ -160,12 +158,10 @@ const FilterModal = ({
               bottomSheetVisible && "border-b-[1px]"
             }`}
           >
-            <GaramondText className=" text-3xl font-garamond">
-              Filter
-            </GaramondText>
+            <GaramondText className=" text-3xl ">Filter</GaramondText>
 
             <TouchableOpacity onPress={() => closeModal()}>
-              <GaramondText className=" text-5xl font-garamond-bold">
+              <GaramondText className=" text-4xl font-garamond-semibold font-garamond-bold">
                 ×
               </GaramondText>
             </TouchableOpacity>
@@ -217,13 +213,13 @@ const FilterModal = ({
               </View>
 
               <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">Skills</GaramondText>
+                <GaramondText className="text-xl mb-2">Skills</GaramondText>
 
                 <SkillModal value={skills} setValue={setSkills} />
               </View>
 
               <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
+                <GaramondText className="text-xl mb-2">
                   Job Experience
                 </GaramondText>
 
@@ -263,9 +259,7 @@ const FilterModal = ({
               </View>
 
               <View className="mb-5">
-                <GaramondText className="text-[20px] mb-2">
-                  Job Type
-                </GaramondText>
+                <GaramondText className="text-xl mb-2">Job Type</GaramondText>
 
                 <View>
                   {
@@ -297,7 +291,7 @@ const FilterModal = ({
               <View className="w-full flex-row justify-between items-end mb-8">
                 <TouchableOpacity
                   onPress={() => clear()}
-                  className={`flex justify-center items-center w-32 bottom-0 right-0 border-[1px] border-[${Colors.primary}] bg-white rounded-xl py-2`}
+                  className={`flex justify-center items-center w-32 bottom-0 right-0 border border-[${Colors.primary}] bg-white rounded-xl py-2`}
                 >
                   <GaramondText
                     className={`text-lg fontW-garamond text-[${Colors.primary}]`}

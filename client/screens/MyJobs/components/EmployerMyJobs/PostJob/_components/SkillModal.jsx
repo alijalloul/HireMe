@@ -28,7 +28,7 @@ const SkillModal = ({ value, setValue, className }) => {
 
   return (
     <View className={className}>
-      <GaramondText className="text-[20px] mb-2">Skills</GaramondText>
+      <GaramondText className="text-xl mb-2">Skills</GaramondText>
       <View className="flex flex-row flex-wrap">
         {skills?.map((skill, index) => (
           <TouchableOpacity
@@ -74,7 +74,7 @@ const SkillModal = ({ value, setValue, className }) => {
                 setSearch("");
               }}
             >
-              <GaramondText className="text-5xl font-garamond-bold">
+              <GaramondText className="text-4xl font-garamond-semibold font-garamond-bold">
                 ×
               </GaramondText>
             </TouchableOpacity>

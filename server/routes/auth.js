@@ -32,7 +32,7 @@ router.post("/signup", async (req, res) => {
 
   try {
     // Create a new user
-    await db.user.create({
+    const user = await db.user.create({
       data: {
         name,
         email,
@@ -41,7 +41,25 @@ router.post("/signup", async (req, res) => {
       },
     });
 
-    return res.status(200).json({ message: "Signup successful." });
+    const token = jwt.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        accountType: user.accountType,
+      },
+      JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    console.log(token);
+
+    return res.status(200).json({
+      user,
+      token,
+    });
   } catch (error) {
     console.error("MongoDB Error:", error);
     return res.status(400).json({ error: "Signup failed" });

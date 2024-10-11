@@ -43,7 +43,7 @@ const MyJobs = ({ navigation }) => {
           onPress={() => {
             setJobsStatus("pending");
           }}
-          className="flex justify-center items-center rounded-xl border-[1px]  rounded-r-none w-[20%] p-2"
+          className="flex justify-center items-center rounded-xl border  rounded-r-none w-[20%] p-2"
           style={
             jobsStatus === "pending"
               ? { backgroundColor: Colors.primary, borderColor: Colors.primary }
@@ -65,7 +65,7 @@ const MyJobs = ({ navigation }) => {
           onPress={() => {
             setJobsStatus("hired");
           }}
-          className="flex justify-center items-center rounded-xl border-[1px]  rounded-l-none w-[20%] p-2"
+          className="flex justify-center items-center rounded-xl border  rounded-l-none w-[20%] p-2"
           style={
             jobsStatus !== "pending"
               ? { backgroundColor: Colors.primary, borderColor: Colors.primary }

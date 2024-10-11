@@ -12,8 +12,6 @@ const router = express.Router();
 router.post("/", auth, async (req, res) => {
   const body = req.body;
 
-  console.log(body);
-
   try {
     const newJobPost = await db.jobPost.create({
       data: body,
@@ -83,8 +81,6 @@ router.get("/", auth, async (req, res) => {
       },
     });
 
-    console.log("searchQuery: ", searchQuery);
-
     const jobPosts = await db.jobPost.findMany({
       where: {
         status: "pending",
@@ -109,8 +105,6 @@ router.get("/", auth, async (req, res) => {
       skip: startIndex,
       take: LIMIT,
     });
-
-    console.log("jobPosts: ", jobPosts);
 
     res.json({
       data: jobPosts,

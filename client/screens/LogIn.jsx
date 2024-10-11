@@ -94,7 +94,10 @@ const LogIn = ({ navigation }) => {
         }}
       >
         <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
-          <GaramondText className="text-5xl " style={{ color: Colors.primary }}>
+          <GaramondText
+            className="text-4xl font-garamond-semibold "
+            style={{ color: Colors.primary }}
+          >
             Welcome Back
           </GaramondText>
 
@@ -155,7 +158,7 @@ const LogIn = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate("signUp");
               }}
-              className="bg-white border-[1px] border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center"
+              className="bg-white border border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center"
             >
               <GaramondText className=" font-garamond-bold text-xl">
                 Sign Up

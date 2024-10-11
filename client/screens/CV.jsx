@@ -38,10 +38,10 @@ const CV = ({ navigation }) => {
       ></View>
       <View className="bg-white flex-1 items-center">
         <View className="w-[90%] h-full">
-          <GaramondText className=" text-5xl mb-5">
+          <GaramondText className=" text-4xl font-garamond-semibold mb-5">
             How would you like to introduce yourself?
           </GaramondText>
-          <GaramondText className=" text-[20px] mb-5">
+          <GaramondText className=" text-xl mb-5">
             It is important to express your education, previous work experience
             and skills to your potential employer as clearly as possible, as
             this will set you on the top of your competition.
@@ -51,7 +51,7 @@ const CV = ({ navigation }) => {
             onPress={() => {
               navigation.navigate("contactInfo");
             }}
-            className="bg-white border-[1px] w-full py-3 rounded-3xl flex justify-center items-center opacity-1 mb-5"
+            className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center opacity-1 mb-5"
             style={{ borderColor: Colors.primary }}
           >
             <GaramondText
@@ -66,7 +66,7 @@ const CV = ({ navigation }) => {
             onPress={() => {
               pickDocument();
             }}
-            className={`bg-white border-[1px] border-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-2`}
+            className={`bg-white border border-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-2`}
           >
             <GaramondText
               className={`text-[${Colors.primary}] font-garamond-bold text-xl`}

@@ -49,36 +49,32 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
           {image && <Image source={{ uri: image }} className="w-full h-full" />}
         </View>
       </TouchableWithoutFeedback>
-      <View className="flex flex-row mb-2">
-        <TouchableOpacity
-          onPress={() => {
-            addImage();
-          }}
-          className={`${
-            isButton
-              ? `flex items-center justify-center bg-white border-[1px] border-[${Colors.primary}] w-24 py-2 rounded-xl mr-2 `
-              : "hidden"
-          }`}
-        >
-          <GaramondText className={`text-[15px] text-[${Colors.primary}]`}>
-            {image ? Edit : "+ Add Image"}
-          </GaramondText>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
-            removeImage();
-          }}
-          className={` ${
-            image
-              ? "flex items-center justify-center bg-white border-[1px] border-red-500 w-24 py-2 rounded-xl"
-              : "hidden"
-          }`}
-        >
-          <GaramondText className="text-[15px] text-red-500">
-            Remove
-          </GaramondText>
-        </TouchableOpacity>
+      <View className="flex flex-row mb-2">
+        {isButton && (
+          <TouchableOpacity
+            onPress={() => {
+              addImage();
+            }}
+            className="flex items-center justify-center bg-white border w-24 py-2 rounded-xl mr-2"
+            style={{ borderColor: Colors.primary }}
+          >
+            <GaramondText style={{ color: Colors.primary }}>
+              {image ? "Edit" : "+ Add Image"}
+            </GaramondText>
+          </TouchableOpacity>
+        )}
+
+        {image && (
+          <TouchableOpacity
+            onPress={() => {
+              removeImage();
+            }}
+            className="flex items-center justify-center bg-white border border-red-500 w-24 py-2 rounded-xl"
+          >
+            <GaramondText className=" text-red-500">Remove</GaramondText>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

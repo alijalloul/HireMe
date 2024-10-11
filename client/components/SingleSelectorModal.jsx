@@ -1,4 +1,3 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import React, { memo, useState } from "react";
 import {
@@ -6,24 +5,14 @@ import {
   Image,
   Text,
   TextInput,
+  Modal,
   TouchableOpacity,
   View,
 } from "react-native";
-import Modal from "react-native-modal";
 
 import downVector from "@/assets/images/downVector.png";
-import downVectorRed from "@/assets/images/downVectorRed.png";
 
-const SingleSelectorModal = ({
-  className,
-  title,
-  data,
-  value,
-  setValue,
-  isError,
-  setIsError,
-  errorMessage,
-}) => {
+const SingleSelectorModal = ({ className, title, value, setValue, data }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -33,43 +22,22 @@ const SingleSelectorModal = ({
 
   return (
     <View className={className}>
-      <GaramondText
-        className={`text-[20px] mb-2 ${isError && "text-red-500"} ${
-          !title && "hidden"
-        }`}
-      >
-        {title}
-      </GaramondText>
+      {title && <GaramondText className="text-xl mb-2 ">{title}</GaramondText>}
 
       <View className="w-full">
         <TouchableOpacity
           onPress={() => {
             setIsVisible(true);
           }}
-          className={`${
-            isError && "border-red-500"
-          } border-[1px] p-2 w-full rounded-lg flex flex-row justify-between items-center`}
+          className="border p-2 w-full rounded-lg flex flex-row justify-between items-center"
         >
-          <GaramondText className={`text-[20px] ${isError && "text-red-500"}`}>
+          <GaramondText className="text-xl">
             {value ? value : "_ _ _"}
           </GaramondText>
-          <Image
-            source={isError ? downVectorRed : downVector}
-            className=" w-5 aspect-[2/1]"
-          />
+          <Image source={downVector} className=" w-5 aspect-[2/1]" />
         </TouchableOpacity>
-
-        <GaramondText
-          className={` text-sm text-red-500 ${!isError && "hidden"}`}
-        >
-          {errorMessage}
-        </GaramondText>
       </View>
-      <Modal
-        isVisible={isVisible}
-        animationInTiming={700}
-        className="m-0 mt-10 rounded-t-xl"
-      >
+      <Modal visible={isVisible} animationType="slide">
         <View className=" flex-1 justify-center bg-white">
           <View
             className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
@@ -91,7 +59,7 @@ const SingleSelectorModal = ({
                 setSearch("");
               }}
             >
-              <GaramondText className=" text-5xl font-garamond-bold">
+              <GaramondText className=" text-4xl  font-garamond-bold">
                 ×
               </GaramondText>
             </TouchableOpacity>
@@ -115,15 +83,14 @@ export default SingleSelectorModal;
 
 const renderList = ({ item, setValue, setIsVisible, setSearch }) => {
   return (
-    <View className="flex flex-row justify-start items-center pb-4 mb-4 border-b-[1px]">
+    <View className="flex flex-row justify-start items-center mb-4 ">
       <TouchableOpacity
         onPress={() => {
           setValue(item);
-          isError && setIsError(false);
           setIsVisible(false);
           setSearch("");
         }}
-        className="flex justify-start items-start w-full"
+        className="flex justify-start items-start w-full pb-4  border-b"
       >
         <GaramondText className="text-2xl">{item}</GaramondText>
       </TouchableOpacity>

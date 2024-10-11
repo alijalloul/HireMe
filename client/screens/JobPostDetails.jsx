@@ -50,7 +50,7 @@ const JobPostDetails = ({ route, navigation }) => {
       <View className="flex-1 w-full items-center">
         <View className="w-[90%] mb-8 ">
           <View className="mb-8">
-            <GaramondText className="font-garamond-semibold text-5xl">
+            <GaramondText className="font-garamond-semibold text-4xl font-garamond-semibold">
               {post?.jobTitle}
             </GaramondText>
             <GaramondText className="text-[15px] opacity-50">

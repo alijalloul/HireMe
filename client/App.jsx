@@ -41,6 +41,7 @@ import { editUser } from "@/redux/User";
 
 import ContactInfo from "@/screens/ContactInfo";
 import EmployeeJobDetails from "@/screens/EmployeeJobDetails";
+import Language from "./screens/Language";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -117,7 +118,7 @@ const AppContent = () => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-        initialRouteName={token ? "contactInfo" : "onBoarding"}
+        initialRouteName={token ? "onBoarding" : "onBoarding"}
         screenOptions={{
           contentStyle: {
             backgroundColor: "#FBF2E3",
@@ -163,14 +164,64 @@ const AppContent = () => {
             headerBackVisible: false,
           }}
         />
+
         <Stack.Screen
-          name="choose"
-          component={Choose}
+          name="contactInfo"
+          component={ContactInfo}
           options={{
             headerTitle: "",
             headerShadowVisible: false,
           }}
         />
+
+        <Stack.Screen
+          name="introduction"
+          component={Introduction}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="work"
+          component={Work}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="education"
+          component={Education}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="language"
+          component={Language}
+          options={{
+            headerTitle: "",
+            headerShadowVisible: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="HomeTabs"
+          component={HomeTabs}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              height: 100,
+              marginHorizantal: 10,
+            },
+          }}
+        />
+
         <Stack.Screen
           name="employeeJobDetails"
           component={EmployeeJobDetails}
@@ -195,56 +246,13 @@ const AppContent = () => {
             headerShadowVisible: false,
           }}
         />
-        <Stack.Screen
-          name="work"
-          component={Work}
-          options={{
-            headerTitle: "",
-            headerShadowVisible: false,
-          }}
-        />
+
         <Stack.Screen
           name="UserJobPostDetails"
           component={UserJobPostDetails}
           options={{
             headerTitle: "",
             headerShadowVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="introduction"
-          component={Introduction}
-          options={{
-            headerTitle: "",
-            headerShadowVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="contactInfo"
-          component={ContactInfo}
-          options={{
-            headerTitle: "",
-            headerShadowVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="education"
-          component={Education}
-          options={{
-            headerTitle: "",
-            headerShadowVisible: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="HomeTabs"
-          component={HomeTabs}
-          options={{
-            headerShown: false,
-            headerStyle: {
-              height: 100,
-              marginHorizantal: 10,
-            },
           }}
         />
       </Stack.Navigator>

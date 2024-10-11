@@ -6,9 +6,7 @@ const CheckMarkForm = ({ value, setValue, conditional }) => {
           setValue(conditional);
         }}
         className={`h-8 w-8 p-2 rounded-lg mr-3 ${
-          value === conditional
-            ? `bg-[${Colors.primary}]`
-            : "bg-white border-[1px]"
+          value === conditional ? `bg-[${Colors.primary}]` : "bg-white border"
         }`}
       >
         {value === conditional && (

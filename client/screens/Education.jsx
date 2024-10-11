@@ -5,9 +5,10 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
-import EducationPicker from "@/components/Picker/EducationPicker";
+import EducationPicker from "@/components/Picker/EducationPicker/EducationPicker";
 
 import { editUser } from "@/redux/User";
+import Container from "@/components/Container";
 
 const Education = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -51,37 +52,19 @@ const Education = ({ navigation }) => {
   }, []);
 
   return (
-    <ScrollView
-      className=" bg-white"
-      contentContainerStyle={{
-        flexGrow: 1,
-        justifyContent: "center",
-        alignItems: "center",
+    <Container
+      userInfo={{
+        education: education,
       }}
+      screenName="language"
+      navigation={navigation}
     >
-      <View className="w-[90%] items-center flex-1">
-        <EducationPicker
-          headerSize={35}
-          headerText="Your education is very important to the client"
-          education={education}
-          setEducation={setEducation}
-        />
-      </View>
-
-      <TouchableOpacity
-        onPress={() => {
-          editUser(
-            { ...userInfo, education: education },
-            "language",
-            navigation,
-            dispatch
-          );
-        }}
-        className={`self-end w-32 h-12 flex justify-center items-center bottom-0 right-0 mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
-      >
-        <GaramondText className="text-lg text-white">Next</GaramondText>
-      </TouchableOpacity>
-    </ScrollView>
+      <EducationPicker
+        headerText="Your education is very important to the client"
+        education={education}
+        setEducation={setEducation}
+      />
+    </Container>
   );
 };
 

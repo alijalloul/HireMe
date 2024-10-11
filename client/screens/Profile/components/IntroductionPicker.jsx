@@ -32,7 +32,7 @@ const IntroductionPicker = ({ introduction, setIntroduction, placeholder }) => {
           onPress={() => {
             toggleVisibility();
           }}
-          className=" border-[1px] border-gray-400 p-[6px] rounded-full bg-white"
+          className=" border border-gray-400 p-[6px] rounded-full bg-white"
         >
           <Image
             source={isEditing ? check : pen}

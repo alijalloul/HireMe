@@ -37,7 +37,7 @@ const EmployerProfile = ({ formData, handleInputChange }) => {
 
           <View>
             <View className="w-full flex flex-row justify-start items-center border-y border-gray-500 py-3 px-2 ">
-              <GaramondText className="font-garamond">E-Mail:</GaramondText>
+              <GaramondText className="">E-Mail:</GaramondText>
               <TextInputEditor
                 className="flex-1"
                 textSize={15}
@@ -49,7 +49,7 @@ const EmployerProfile = ({ formData, handleInputChange }) => {
             </View>
 
             <View className="w-full flex flex-row justify-start items-center border-b border-gray-500 py-3 px-2 ">
-              <GaramondText className="font-garamond">Address:</GaramondText>
+              <GaramondText className="">Address:</GaramondText>
               <TextInputEditor
                 className="flex-1"
                 textSize={15}

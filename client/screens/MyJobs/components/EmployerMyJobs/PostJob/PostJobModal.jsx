@@ -147,7 +147,7 @@ const PostJobModal = ({
           setId(jobs[index].id);
           setBottomSheetVisible(true);
         }}
-        className="border-[1px] border-gray-400 rounded-full p-[6px] mr-2"
+        className="border border-gray-400 rounded-full p-[6px] mr-2"
       >
         <Image source={pen} className="w-5 h-5 aspect-square" />
       </TouchableOpacity>
@@ -160,7 +160,7 @@ const PostJobModal = ({
         onPress={() => {
           deletePost(jobs[index].id, dispatch);
         }}
-        className="border-[1px] border-gray-400 rounded-full p-[6px]"
+        className="border border-gray-400 rounded-full p-[6px]"
       >
         <Image source={trash} className="w-5 h-5 aspect-square" />
       </TouchableOpacity>
@@ -187,7 +187,7 @@ const PostJobModal = ({
                 fetchEmployeesByJobId(job?.id, dispatch);
               }}
               key={index}
-              className="flex justify-center w-full border-[1px] rounded-2xl p-5 mb-4 h-64"
+              className="flex justify-center w-full border rounded-2xl p-5 mb-4 h-64"
             >
               <View className="flex flex-row justify-between items-center">
                 <GaramondText className=" text-3xl">
@@ -240,12 +240,12 @@ const PostJobModal = ({
               isBottomSheetVisible && "border-b-[1px]"
             }`}
           >
-            <GaramondText className=" text-3xl font-garamond">
+            <GaramondText className=" text-3xl ">
               {isEditing ? "Edit" : "Post a Job"}
             </GaramondText>
 
             <TouchableOpacity onPress={() => closeModal()}>
-              <GaramondText className=" text-5xl font-garamond-bold">
+              <GaramondText className=" text-4xl font-garamond-semibold font-garamond-bold">
                 ×
               </GaramondText>
             </TouchableOpacity>

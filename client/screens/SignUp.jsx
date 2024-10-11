@@ -78,7 +78,7 @@ const SignUp = ({ navigation }) => {
       >
         <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
           <GaramondText
-            className="text-5xl text-white"
+            className="text-4xl font-garamond-semibold text-white"
             style={{ color: Colors.primary }}
           >
             Create Account
@@ -215,7 +215,7 @@ const SignUp = ({ navigation }) => {
 
             <TouchableOpacity
               onPress={() => navigation.navigate("login")}
-              className="bg-white border-[1px] border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center mb-2"
+              className="bg-white border border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center mb-2"
             >
               <GaramondText className="font-garamond-bold text-xl">
                 Log In

@@ -4,9 +4,14 @@ import { jwtDecode } from "jwt-decode"; // Use jwt-decode for decoding
 import { CommonActions } from "@react-navigation/native"; // To reset navigation state
 
 export const authMiddleware = (store) => (next) => async (action) => {
+  console.log("Action type:", action.type);
+
   if (action.type === "CHECK_PROFILE") {
     try {
       const profile = await AsyncStorage.getItem("profile");
+      await AsyncStorage.removeItem("profile");
+
+      console.log("profile: ", profile);
 
       if (profile) {
         const parsedProfile = JSON.parse(profile);
@@ -17,8 +22,6 @@ export const authMiddleware = (store) => (next) => async (action) => {
 
           if (decodedToken.exp > currentTime) {
             store.dispatch(loginSuccess(decodedToken));
-
-            console.log("decodedToken: ", decodedToken);
           } else {
             await AsyncStorage.removeItem("profile");
 

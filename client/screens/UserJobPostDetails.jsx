@@ -25,7 +25,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
       <View className="w-full items-center mb-10">
         <View className="w-[90%] mb-8">
           <View className="mb-8">
-            <GaramondText className="font-garamond-semibold text-5xl">
+            <GaramondText className="font-garamond-semibold text-4xl font-garamond-semibold">
               {job?.jobTitle}
             </GaramondText>
             <GaramondText className="text-[15px] opacity-50">
@@ -85,7 +85,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
                 navigation.navigate("userDetails", { userId: employee?.id });
               }}
               key={index}
-              className="w-[90%] px-4 flex-row items-center rounded-full border-[1px] h-32 mb-3"
+              className="w-[90%] px-4 flex-row items-center rounded-full border h-32 mb-3"
             >
               <View className="w-20 h-20 mr-2">
                 <Image
@@ -106,9 +106,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
                   </GaramondText>
                 </View>
 
-                <GaramondText className="font-garamond">
-                  {employee.coverLetter}
-                </GaramondText>
+                <GaramondText className="">{employee.coverLetter}</GaramondText>
               </View>
             </TouchableOpacity>
           ))

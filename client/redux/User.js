@@ -8,8 +8,68 @@ const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || BASE_URL_LOCAL;
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    appLanguage: null,
-    userInfo: {},
+    userInfo: {
+      telephone: "76131445",
+      address: "lebanon",
+      introduction: "wassup",
+      profession: "web dev",
+      workExperience: [
+        {
+          title: "Software Engineer",
+          company: "TechCo Inc.",
+          location: "San Francisco",
+          country: "United States",
+          startMonth: "January",
+          startYear: "2018",
+          endMonth: "December",
+          endYear: "2022",
+          description: "Developed web applications using React and Node.",
+        },
+        {
+          title: "Product Manager",
+          company: "Globex Corporation",
+          location: "New York",
+          country: "United States",
+          startMonth: "March",
+          startYear: "2015",
+          endMonth: "January",
+          endYear: "2018",
+          description: "Led product development and strategy.",
+        },
+        {
+          title: "UX Designer",
+          company: "DesignTech Solutions",
+          location: "London",
+          country: "United Kingdom",
+          startMonth: "July",
+          startYear: "2013",
+          endMonth: "December",
+          endYear: "2014",
+          description:
+            "Designed user interfaces for mobile and web applications.",
+        },
+      ],
+      education: [
+        {
+          degree: "Doctor of Philosophy (PHD)",
+          major: "Computer Science",
+          school: "University of Harvard",
+          startYear: "2010",
+          endYear: "2021",
+          note: "Graduated with honors",
+        },
+        {
+          degree: "Bachelor of Science (BS)",
+          major: "Art and Design",
+          school: "University of Tokyo",
+          startYear: "2013",
+          endYear: "2023",
+          note: "Excellent student",
+        },
+      ],
+      language: [{ language: "English", proficiency: "Native" }],
+      accountType: "employee",
+    },
     jobPosts: [],
     employeesByJobId: [],
     jobPostId: null,
@@ -58,7 +118,9 @@ const userSlice = createSlice({
     },
     editSuccess: (state, action) => {
       state.pending = false;
-      state.userInfo = action.payload;
+
+      // console.log("payload: ", { ...state.userInfo, ...action.payload });
+      state.userInfo = { ...state.userInfo, ...action.payload };
     },
 
     fetchByIdSuccess: (state, action) => {
@@ -87,8 +149,6 @@ const userSlice = createSlice({
 export const signup = async (userInfo, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
-  console.log(userInfo);
-
   try {
     const res = await fetch(`${BASE_URL}/auth/signup`, {
       method: "POST",
@@ -98,9 +158,17 @@ export const signup = async (userInfo, navigation, dispatch) => {
       body: JSON.stringify(userInfo),
     });
 
-    dispatch(userSlice.actions.signupSuccess());
+    if (res.status === 200) {
+      const data = await res.json();
 
-    navigation.navigate("CV");
+      dispatch(userSlice.actions.loginSuccess(data.user));
+
+      await AsyncStorage.setItem("profile", JSON.stringify(data));
+
+      navigation.navigate("CV");
+    } else {
+      dispatch(userSlice.actions.errorAPI());
+    }
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);
@@ -184,25 +252,29 @@ export const updateUser = async (newUser, navigation, dispatch) => {
   }
 };
 
-export const editUser = async (userInfo, screenName, navigation, dispatch) => {
+export const editUser = async (dispatch, userInfo, screenName, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
     dispatch(userSlice.actions.editSuccess(userInfo));
 
-    if (screenName) {
-      const token = JSON.parse(await AsyncStorage.getItem("profile"))?.token;
-      await AsyncStorage.setItem(
-        "profile",
-        JSON.stringify({ result: userInfo, token: token })
-      );
-
-      if (screenName !== "choose") {
-        await AsyncStorage.setItem("screenName", screenName);
-      }
-
-      navigation?.navigate(screenName);
+    if (navigation) {
+      navigation.navigate(screenName);
     }
+
+    // if (screenName) {
+    //   const token = JSON.parse(await AsyncStorage.getItem("profile"))?.token;
+
+    //   await AsyncStorage.setItem(
+    //     "profile",
+    //     JSON.stringify({ user: userInfo, token: token })
+    //   );
+
+    //   if (screenName !== "choose") {
+    //     await AsyncStorage.setItem("screenName", screenName);
+    //   }
+
+    // }
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);

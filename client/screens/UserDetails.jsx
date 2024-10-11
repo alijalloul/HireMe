@@ -31,7 +31,7 @@ const UserDetails = ({ route, navigation }) => {
       <Image source={blobTop} className="absolute -top-72 opacity-90" />
 
       <View className="my-8 w-full">
-        <GaramondText className="text-center text-5xl text-white">
+        <GaramondText className="text-center text-4xl font-garamond-semibold text-white">
           {user?.name}
         </GaramondText>
       </View>
@@ -66,7 +66,7 @@ const UserDetails = ({ route, navigation }) => {
               user?.workExperience.map((work, index) => (
                 <View
                   key={index}
-                  className="relative w-full border-[1px] rounded-2xl p-5 pt-3 pr-3 mb-4"
+                  className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4"
                 >
                   <View className="flex flex-row w-full justify-end items-center"></View>
                   <GaramondText className="text-3xl">{work.title}</GaramondText>
@@ -91,7 +91,7 @@ const UserDetails = ({ route, navigation }) => {
                 </View>
               ))
             ) : (
-              <GaramondText className="text-center opacity-50 font-garamond">
+              <GaramondText className="text-center opacity-50 ">
                 no work experience
               </GaramondText>
             )}
@@ -113,7 +113,7 @@ const UserDetails = ({ route, navigation }) => {
               user?.education?.map((educ, index) => (
                 <View
                   key={index}
-                  className="relative w-full border-[1px] rounded-2xl p-5 pt-3 pr-3 mb-4"
+                  className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4"
                 >
                   <View className="flex flex-row w-full justify-end items-center"></View>
                   <GaramondText className="text-3xl">
@@ -134,7 +134,7 @@ const UserDetails = ({ route, navigation }) => {
                 </View>
               ))
             ) : (
-              <GaramondText className="text-center opacity-50 font-garamond">
+              <GaramondText className="text-center opacity-50 ">
                 no education
               </GaramondText>
             )}
@@ -168,7 +168,7 @@ const UserDetails = ({ route, navigation }) => {
 
                         setBottomSheetVisible(true);
                       }}
-                      className="border-[1px] rounded-2xl px-2 py-2 mr-2 w-[35%] flex flex-row justify-between items-center"
+                      className="border rounded-2xl px-2 py-2 mr-2 w-[35%] flex flex-row justify-between items-center"
                     >
                       <GaramondText className="text-xl">
                         {langArr.language}
@@ -184,7 +184,7 @@ const UserDetails = ({ route, navigation }) => {
 
                         setBottomSheetVisible(true);
                       }}
-                      className="border-[1px] rounded-2xl px-2 py-2 mr-3 w-[45%] flex flex-row justify-between items-center"
+                      className="border rounded-2xl px-2 py-2 mr-3 w-[45%] flex flex-row justify-between items-center"
                     >
                       <GaramondText className="text-xl">
                         {langArr.proficiency}
@@ -194,7 +194,7 @@ const UserDetails = ({ route, navigation }) => {
                 </View>
               ))
             ) : (
-              <GaramondText className="text-center opacity-50 font-garamond">
+              <GaramondText className="text-center opacity-50 ">
                 no languages
               </GaramondText>
             )}
@@ -204,10 +204,8 @@ const UserDetails = ({ route, navigation }) => {
         <View className="w-[90%] flex self-center">
           <GaramondText className="text-2xl mb-4">Cover Letter</GaramondText>
 
-          <View className="border-[1px] rounded-xl p-5">
-            <GaramondText className="font-garamond">
-              {user?.coverLetter}
-            </GaramondText>
+          <View className="border rounded-xl p-5">
+            <GaramondText className="">{user?.coverLetter}</GaramondText>
           </View>
         </View>
       </View>
