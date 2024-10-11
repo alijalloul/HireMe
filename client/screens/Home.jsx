@@ -18,7 +18,7 @@ import FilterModal from "@/components/FilterModal";
 import HeaderLeft from "@/components/Header/HeaderLeft";
 import JobPosts from "@/components/JobPosts";
 import Pagination from "@/components/Pagination";
-import { fetchPostsBySearch } from "@/redux/JobPost";
+import { fetchPosts } from "@/redux/JobPost";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -98,7 +98,7 @@ const Home = ({ navigation }) => {
 
             <TouchableOpacity
               onPress={() => {
-                fetchPostsBySearch(search, dispatch);
+                fetchPosts(dispatch, 1, search);
               }}
               className="w-[15%] p-2 aspect-square rounded-xl "
               style={{ backgroundColor: Colors.primary }}

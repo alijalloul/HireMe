@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
       },
       JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "1d",
       }
     );
 

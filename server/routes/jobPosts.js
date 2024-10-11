@@ -65,17 +65,43 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-router.get("/:page", auth, async (req, res) => {
-  const { page } = req.params;
+router.get("/", auth, async (req, res) => {
+  const searchQuery = req.query.search || ""; // Search query from the query string, default to an empty string if not provided
+  const page = parseInt(req.query.page) || 1; // Get page number from query string, default to 1 if not provided
+  const LIMIT = 8; // Set limit for pagination
 
   try {
-    const LIMIT = 8;
-    const startIndex = (page - 1) * LIMIT;
-    const totalPosts = await db.jobPost.count();
+    const startIndex = (page - 1) * LIMIT; // Calculate the starting index for pagination
+
+    // Get the total count of job posts that match the search criteria
+    const totalPosts = await db.jobPost.count({
+      where: {
+        status: "pending",
+        jobTitle: {
+          contains: searchQuery, // Perform a case-insensitive search on job titles
+        },
+      },
+    });
+
+    console.log("searchQuery: ", searchQuery);
 
     const jobPosts = await db.jobPost.findMany({
       where: {
         status: "pending",
+        ...(searchQuery !== "none" && {
+          OR: [
+            {
+              jobTitle: {
+                contains: searchQuery,
+              },
+            },
+            {
+              description: {
+                contains: searchQuery,
+              },
+            },
+          ],
+        }),
       },
       orderBy: {
         createdAt: "desc",
@@ -84,14 +110,15 @@ router.get("/:page", auth, async (req, res) => {
       take: LIMIT,
     });
 
+    console.log("jobPosts: ", jobPosts);
+
     res.json({
       data: jobPosts,
       numberOfPages: Math.ceil(totalPosts / LIMIT),
     });
   } catch (error) {
     console.error(error);
-    res.status(500);
-    on({
+    res.status(500).json({
       message: "Error fetching job posts",
     });
   }

@@ -66,4 +66,4 @@ const JobPosts = ({ navigation }) => {
   );
 };
 
-export default memo(JobPosts);
+export default JobPosts;

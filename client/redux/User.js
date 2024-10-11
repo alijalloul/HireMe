@@ -63,8 +63,6 @@ const userSlice = createSlice({
 
     fetchByIdSuccess: (state, action) => {
       state.pending = false;
-
-      console.log("action payload: ", action.payload);
       state.jobPosts = action.payload;
     },
     fetchEmployeesSuccess: (state, action) => {
@@ -102,7 +100,7 @@ export const signup = async (userInfo, navigation, dispatch) => {
 
     dispatch(userSlice.actions.signupSuccess());
 
-    navigation.navigate("onBoarding");
+    navigation.navigate("CV");
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);
@@ -278,7 +276,6 @@ export const fetchJobsByEmployer = async (userId, dispatch) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
 
-    console.log("userId: ", userId);
     const res = await fetch(`${BASE_URL}/users/${userId}/jobPosts`, {
       method: "GET",
       headers: {

@@ -84,4 +84,4 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
   );
 };
 
-export default memo(UploadImage);
+export default UploadImage;

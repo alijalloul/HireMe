@@ -157,7 +157,7 @@ const Navbar = () => {
           state={selectorAnimation}
           transition={{ type: "spring", damping: 300 }}
           className="absolute z-10 "
-          style={{ bottom: selectorBottom / 2 }}
+          style={{ bottom: selectorBottom ? selectorBottom / 2 : 0 }}
           onLayout={() => {
             animateSelector();
 

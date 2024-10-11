@@ -31,18 +31,21 @@ const postSlice = createSlice({
   },
 });
 
-export const fetchPosts = async (page, dispatch) => {
+export const fetchPosts = async (dispatch, page, searchQuery) => {
   dispatch(postSlice.actions.startAPI());
 
   try {
     const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
 
-    const res = await fetch(`${BASE_URL}/jobPosts/${page}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await fetch(
+      `${BASE_URL}/jobPosts?search=${searchQuery || "none"}&page=${page}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const data = await res.json();
 
@@ -53,62 +56,43 @@ export const fetchPosts = async (page, dispatch) => {
   }
 };
 
-export const fetchPostsBySearch = async (searchQuery, page, dispatch) => {
-  dispatch(postSlice.actions.startAPI());
+// export const fetchPostsByFilter = async (
+//   company,
+//   location,
+//   country,
+//   category,
+//   skills,
+//   jobExperience,
+//   jobType,
+//   page,
+//   dispatch
+// ) => {
+//   dispatch(postSlice.actions.startAPI());
 
-  try {
-    const res = await fetch(
-      `${BASE_URL}/posts/search/${searchQuery || "none"}/${page}`,
-      {
-        mode: "cors",
-      }
-    );
-    const data = await reson();
+//   try {
+//     const queryParams = new URLSearchParams({
+//       company: company || "none",
+//       location: location || "none",
+//       country: country || "none",
+//       category: category || "none",
+//       skills: skills || "none",
+//       jobExperience: jobExperience || "none",
+//       jobType: jobType || "none",
+//       page: page || "1", // Set a default value for page if it's not provided
+//     });
 
-    dispatch(postSlice.actions.fetchSuccess(data));
-  } catch (error) {
-    dispatch(postSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
+//     const url = `${BASE_URL}/filter?${queryParams.toString()}`;
 
-export const fetchPostsByFilter = async (
-  company,
-  location,
-  country,
-  category,
-  skills,
-  jobExperience,
-  jobType,
-  page,
-  dispatch
-) => {
-  dispatch(postSlice.actions.startAPI());
+//     const res = await fetch(url, {
+//       mode: "cors",
+//     });
+//     const data = await reson();
 
-  try {
-    const queryParams = new URLSearchParams({
-      company: company || "none",
-      location: location || "none",
-      country: country || "none",
-      category: category || "none",
-      skills: skills || "none",
-      jobExperience: jobExperience || "none",
-      jobType: jobType || "none",
-      page: page || "1", // Set a default value for page if it's not provided
-    });
-
-    const url = `${BASE_URL}/filter?${queryParams.toString()}`;
-
-    const res = await fetch(url, {
-      mode: "cors",
-    });
-    const data = await reson();
-
-    dispatch(postSlice.actions.fetchSuccess(data));
-  } catch (error) {
-    dispatch(postSlice.actions.errorAPI());
-    console.log("error: ", error);
-  }
-};
+//     dispatch(postSlice.actions.fetchSuccess(data));
+//   } catch (error) {
+//     dispatch(postSlice.actions.errorAPI());
+//     console.log("error: ", error);
+//   }
+// };
 
 export default postSlice.reducer;

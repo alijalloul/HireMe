@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loginSuccess, errorAPI } from "../User"; // Adjust the import path
 import { jwtDecode } from "jwt-decode"; // Use jwt-decode for decoding
+import { CommonActions } from "@react-navigation/native"; // To reset navigation state
 
 export const authMiddleware = (store) => (next) => async (action) => {
   if (action.type === "CHECK_PROFILE") {
@@ -12,18 +13,33 @@ export const authMiddleware = (store) => (next) => async (action) => {
         const decodedToken = jwtDecode(parsedProfile.token);
 
         if (decodedToken) {
-          store.dispatch(loginSuccess(decodedToken)); // Dispatch success action
+          const currentTime = Math.floor(Date.now() / 1000);
+
+          if (decodedToken.exp > currentTime) {
+            store.dispatch(loginSuccess(decodedToken));
+
+            console.log("decodedToken: ", decodedToken);
+          } else {
+            await AsyncStorage.removeItem("profile");
+
+            store.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: "onBoarding" }],
+              })
+            );
+          }
         } else {
-          store.dispatch(errorAPI()); // Dispatch error action
+          store.dispatch(errorAPI());
         }
       } else {
-        store.dispatch(errorAPI()); // No profile found, dispatch error
+        store.dispatch(errorAPI());
       }
     } catch (error) {
       console.error("Error retrieving profile:", error);
-      store.dispatch(errorAPI()); // Handle errors
+      store.dispatch(errorAPI());
     }
   }
 
-  return next(action); // Pass the action to the next middleware or reducer
+  return next(action);
 };

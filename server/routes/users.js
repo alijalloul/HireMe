@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.patch("/:id", auth, async (req, res) => {
   const { id } = req.params;
-  const userInfo = req.body;
+  const data = req.body;
 
   try {
     const user = await db.user.update({
@@ -15,7 +15,8 @@ router.patch("/:id", auth, async (req, res) => {
         id,
       },
       data: {
-        name: userInfo.name,
+        email: data.email,
+        name: data.name,
       },
     });
 
@@ -37,8 +38,6 @@ router.get("/:employerId/jobPosts", auth, async (req, res) => {
         createdAt: "desc",
       },
     });
-
-    console.log("data: ", data);
 
     res.status(200).json(data);
   } catch (error) {

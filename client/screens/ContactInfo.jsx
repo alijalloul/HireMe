@@ -14,7 +14,7 @@ const CV = ({ navigation }) => {
   const user = useSelector((state) => state.user.userInfo);
 
   const [image, setImage] = useState(user?.image || "");
-  const [email, setEmail] = useState(user?.email || "");
+  const [telephone, setTelephone] = useState(user?.telephone || "");
   const [address, setAddress] = useState(user?.address || "");
 
   useEffect(() => {
@@ -49,10 +49,10 @@ const CV = ({ navigation }) => {
 
         <RenderTextInput
           isMultiline={false}
-          title="E-Mail"
-          value={email}
-          setValue={setEmail}
-          placeholder="Ex: mohammed.h@hotmail.com"
+          title="Mobile Number"
+          value={telephone}
+          setValue={setTelephone}
+          placeholder="Ex: +961 76 812 345"
         />
 
         <View className="my-2"></View>
@@ -72,7 +72,7 @@ const CV = ({ navigation }) => {
             ? editUser(
                 {
                   ...user,
-                  email: email,
+                  telephone: telephone,
                   address: address,
                 },
                 "introduction",
@@ -83,14 +83,15 @@ const CV = ({ navigation }) => {
                 {
                   ...user,
                   image: image,
-                  email: email,
+                  telephone: telephone,
                   address: address,
                 },
                 navigation,
                 dispatch
               );
         }}
-        className={`self-end w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
+        className="self-end w-32 h-12 flex justify-center items-center mr-3 mb-3 rounded-xl"
+        style={{ backgroundColor: Colors.primary }}
       >
         <GaramondText className="text-lg text-white">Next</GaramondText>
       </TouchableOpacity>

@@ -45,19 +45,23 @@ const PostJobModal = ({
   const employerId = useSelector((state) => state?.user.userInfo)?.id;
   const jobs = useSelector((state) => state.user.jobPosts);
 
-  console.log("jobs: ", jobs);
-
   const [formData, setFormData] = useState({
-    jobTitle: "Software Engineer",
-    company: "TechCo",
-    location: "San Francisco",
-    country: "United States",
-    category: "Information Technology",
-    skills: ["JavaScript", "React", "Node"],
-    experienceRequired: "3-4 years",
-    jobType: "Full-Time",
+    jobTitle: "UI/UX Designer",
+    company: "Creative Studios",
+    location: "London",
+    country: "United Kingdom",
+    category: "Design",
+    skills: [
+      "UI/UX Design",
+      "Figma",
+      "Adobe Creative Suite",
+      "Prototyping",
+      "Sketch",
+    ],
+    experienceRequired: "1-2 years",
+    jobType: "Part-Time",
     description:
-      "We are looking for a skilled Software Engineer to join our dynamic team...",
+      "We are looking for a talented UI/UX Designer to create engaging and intuitive designs for web and mobile applications...",
   });
 
   const [id, setId] = useState(null);

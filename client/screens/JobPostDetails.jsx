@@ -10,7 +10,7 @@ import { handleApply } from "@/redux/User";
 const JobPostDetails = ({ route, navigation }) => {
   const { jobId, employerId } = route.params;
 
-  const accountType = useSelector((state) => state.user.userInfo).type;
+  const accountType = useSelector((state) => state.user.userInfo).accountType;
   const post = useSelector((state) => state.jobPosts.postsInfo)?.filter(
     (item) => item.id === jobId && item
   )[0];
@@ -121,30 +121,34 @@ const JobPostDetails = ({ route, navigation }) => {
         </View>
       </View>
 
-      <TouchableOpacity
-        onPress={() => {
-          coverLetter.trim() === ""
-            ? setCoverLetterError(true)
-            : handleApplyButton();
-        }}
-        className={` ${
-          accountType === "employer" || applied
-            ? "hidden"
-            : `self-end justify-self-end w-32 h-12 flex justify-center items-center mr-3 my-3 bg-[${Colors.primary}] rounded-xl`
-        }`}
-      >
-        <GaramondText className="text-lg text-white">Apply</GaramondText>
-      </TouchableOpacity>
+      {accountType !== "employer" && (
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              coverLetter.trim() === ""
+                ? setCoverLetterError(true)
+                : handleApplyButton();
+            }}
+            className={` ${
+              applied
+                ? "hidden"
+                : `self-end justify-self-end w-32 h-12 flex justify-center items-center mr-3 my-3 bg-[${Colors.primary}] rounded-xl`
+            }`}
+          >
+            <GaramondText className="text-lg text-white">Apply</GaramondText>
+          </TouchableOpacity>
 
-      <View
-        className={`${
-          applied ? "flex-1 justify-center items-center w-full " : "hidden"
-        }`}
-      >
-        <GaramondText className="text-sm opacity-50 ">
-          You have already applied for this job.
-        </GaramondText>
-      </View>
+          <View
+            className={`${
+              applied ? "flex-1 justify-center items-center w-full " : "hidden"
+            }`}
+          >
+            <GaramondText className="text-sm opacity-50 ">
+              You have already applied for this job.
+            </GaramondText>
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 };

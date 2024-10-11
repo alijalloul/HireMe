@@ -83,7 +83,7 @@ const FilterModal = ({
 
   const clear = () => {
     setNumberOfFilters(0);
-    fetchPosts(page, dispatch);
+    fetchPosts(dispatch, page);
 
     closeModal();
   };

@@ -27,7 +27,7 @@ const Pagination = ({ fetchType }) => {
       } else if (fetchType === "postsByEmployeeId") {
         fetchPostsAplliedToByUser(userId, currentPage, dispatch);
       } else if (fetchType === "posts") {
-        fetchPosts(currentPage, dispatch);
+        fetchPosts(dispatch, currentPage);
       }
     }
   }, [currentPage, isFocused]);

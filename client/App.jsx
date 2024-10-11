@@ -117,7 +117,7 @@ const AppContent = () => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator
-        initialRouteName={token ? "HomeTabs" : "onBoarding"}
+        initialRouteName={token ? "contactInfo" : "onBoarding"}
         screenOptions={{
           contentStyle: {
             backgroundColor: "#FBF2E3",
