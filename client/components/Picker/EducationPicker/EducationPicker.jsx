@@ -4,7 +4,12 @@ import { View } from "react-native";
 import EducationModal from "./components/EducationModal";
 import EducationDisplayer from "./components/EducationDisplayer";
 
-const EducationPicker = ({ headerSize, headerText }) => {
+const EducationPicker = ({
+  education,
+  setEducation,
+  headerSize,
+  headerText,
+}) => {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [postIndex, setPostIndex] = useState(null);
 
@@ -12,6 +17,8 @@ const EducationPicker = ({ headerSize, headerText }) => {
     <View className="flex-1">
       <View className="flex-1 self-center w-full ">
         <EducationDisplayer
+          education={education}
+          setEducation={setEducation}
           headerSize={headerSize}
           headerText={headerText}
           setPostIndex={setPostIndex}
@@ -19,6 +26,8 @@ const EducationPicker = ({ headerSize, headerText }) => {
         />
 
         <EducationModal
+          education={education}
+          setEducation={setEducation}
           isBottomSheetVisible={isBottomSheetVisible}
           setBottomSheetVisible={setBottomSheetVisible}
           postIndex={postIndex}

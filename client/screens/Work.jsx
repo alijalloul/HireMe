@@ -1,17 +1,11 @@
-import { Colors } from "@/constants/Colors";
-import GaramondText from "@/components/GaramondText";
 import React, { memo, useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-
-import { editUser } from "@/redux/User";
+import { useSelector } from "react-redux";
 
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
 import WorkExperiencePicker from "@/components/Picker/WorkExperiencePicker/WorkExperiencePicker";
 import Container from "@/components/Container";
 
 const Work = ({ navigation }) => {
-  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   const [workExperience, setWorkExperience] = useState(

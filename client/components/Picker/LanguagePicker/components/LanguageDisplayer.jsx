@@ -4,18 +4,15 @@ import { Image, TouchableOpacity, View } from "react-native";
 
 import downVector from "@/assets/images/downVector.png";
 import trash from "@/assets/images/trash.png";
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "@/redux/User";
 
 const LanguageDisplayer = ({
+  language,
+  setLanguage,
   headerSize,
   headerText,
   setPostIndex,
   setBottomSheetVisible,
 }) => {
-  const language = useSelector((state) => state.user.userInfo).language;
-  const dispatch = useDispatch();
-
   const handleEdit = (index) => {
     setPostIndex(index);
     setBottomSheetVisible(true);
@@ -63,11 +60,9 @@ const LanguageDisplayer = ({
 
                 <TouchableOpacity
                   onPress={() => {
-                    editUser(dispatch, {
-                      language: language?.filter(
-                        (item, index2) => index2 !== index
-                      ),
-                    });
+                    setLanguage(
+                      language?.filter((item, index2) => index2 !== index)
+                    );
                   }}
                   className="flex justify-center items-center border border-gray-400 rounded-full w-10 aspect-square"
                 >

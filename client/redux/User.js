@@ -68,7 +68,6 @@ const userSlice = createSlice({
         },
       ],
       language: [{ language: "English", proficiency: "Native" }],
-      accountType: "employee",
     },
     jobPosts: [],
     employeesByJobId: [],
@@ -86,12 +85,11 @@ const userSlice = createSlice({
       state.pending = false;
       state.appLanguage = action?.payload;
     },
-    signupSuccess: (state) => {
-      state.pending = false;
-    },
+
     loginSuccess: (state, action) => {
       state.pending = false;
-      state.userInfo = action?.payload;
+
+      state.userInfo = { ...action?.payload, ...state.userInfo };
     },
     logoutSuccess: (state) => {
       state.pending = false;
@@ -119,7 +117,8 @@ const userSlice = createSlice({
     editSuccess: (state, action) => {
       state.pending = false;
 
-      // console.log("payload: ", { ...state.userInfo, ...action.payload });
+      console.log("edit payload: ", { ...state.userInfo, ...action.payload });
+
       state.userInfo = { ...state.userInfo, ...action.payload };
     },
 
@@ -226,6 +225,8 @@ export const updateUser = async (newUser, navigation, dispatch) => {
 
   try {
     const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+
+    console.log("update in progress");
 
     const res = await fetch(`${BASE_URL}/users/${newUser.id}`, {
       method: "PATCH",

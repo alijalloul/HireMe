@@ -4,7 +4,12 @@ import { View } from "react-native";
 import WorkExperienceModal from "./components/WorkExperienceModal";
 import WorkExperienceDisplayer from "./components/WorkExperienceDisplayer";
 
-const WorkExperiencePicker = ({ headerSize, headerText }) => {
+const WorkExperiencePicker = ({
+  workExperience,
+  setWorkExperience,
+  headerSize,
+  headerText,
+}) => {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [postIndex, setPostIndex] = useState(null);
 
@@ -12,6 +17,8 @@ const WorkExperiencePicker = ({ headerSize, headerText }) => {
     <View className="flex-1 ">
       <View className="flex-1 self-center ">
         <WorkExperienceDisplayer
+          workExperience={workExperience}
+          setWorkExperience={setWorkExperience}
           headerSize={headerSize}
           headerText={headerText}
           setPostIndex={setPostIndex}
@@ -19,6 +26,8 @@ const WorkExperiencePicker = ({ headerSize, headerText }) => {
         />
 
         <WorkExperienceModal
+          workExperience={workExperience}
+          setWorkExperience={setWorkExperience}
           isBottomSheetVisible={isBottomSheetVisible}
           setBottomSheetVisible={setBottomSheetVisible}
           postIndex={postIndex}

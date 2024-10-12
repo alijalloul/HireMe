@@ -9,16 +9,20 @@ router.patch("/:id", auth, async (req, res) => {
   const { id } = req.params;
   const data = req.body;
 
+  delete data.id;
+  delete data.password;
+  delete data.createdAt;
+  delete data.updateAt;
+
   try {
     const user = await db.user.update({
       where: {
         id,
       },
-      data: {
-        email: data.email,
-        name: data.name,
-      },
+      data: { ...data },
     });
+
+    console.log("user: ", user);
 
     res.status(200).json(user);
   } catch (error) {

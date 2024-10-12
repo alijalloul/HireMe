@@ -4,18 +4,15 @@ import { Image, TouchableOpacity, View } from "react-native";
 
 import pen from "@/assets/images/pen.png";
 import trash from "@/assets/images/trash.png";
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "@/redux/User";
 
 const EducationDisplayer = ({
+  education,
+  setEducation,
   headerSize,
   headerText,
   setPostIndex,
   setBottomSheetVisible,
 }) => {
-  const education = useSelector((state) => state.user.userInfo).education;
-  const dispatch = useDispatch();
-
   const handleEdit = (index) => {
     setPostIndex(index);
     setBottomSheetVisible(true);
@@ -58,11 +55,9 @@ const EducationDisplayer = ({
 
                   <TouchableOpacity
                     onPress={() => {
-                      editUser(dispatch, {
-                        education: education?.filter(
-                          (item, index2) => index2 !== index
-                        ),
-                      });
+                      setEducation(
+                        education?.filter((item, index2) => index2 !== index)
+                      );
                     }}
                     className="border border-gray-400 rounded-full p-[6px]"
                   >

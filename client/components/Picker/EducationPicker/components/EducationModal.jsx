@@ -7,19 +7,16 @@ import { View } from "react-native";
 import RenderTextInput from "@/components/RenderTextInput";
 import SingleSelectorModal from "@/components/SingleSelectorModal";
 
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "@/redux/User";
 import PickerModalContainer from "../../components/PickerModalContainer";
 
 const EducationModal = ({
+  education,
+  setEducation,
   isBottomSheetVisible,
   setBottomSheetVisible,
   postIndex,
   setPostIndex,
 }) => {
-  const education = useSelector((state) => state.user.userInfo).education;
-  const dispatch = useDispatch();
-
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
   const [formData, setFormData] = useState({
@@ -63,12 +60,12 @@ const EducationModal = ({
 
   const handleSave = () => {
     isPostIndexDef
-      ? editUser(dispatch, {
-          education: education.map((educ, index) =>
+      ? setEducation(
+          education.map((educ, index) =>
             index === postIndex ? { ...formData } : educ
-          ),
-        })
-      : editUser(dispatch, { education: [...education, { ...formData }] });
+          )
+        )
+      : setEducation([...education, { ...formData }]);
 
     closeModal();
   };

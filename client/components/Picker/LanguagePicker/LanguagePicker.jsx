@@ -4,7 +4,7 @@ import { View } from "react-native";
 import LanguageDisplayer from "./components/LanguageDisplayer";
 import LanguageModal from "./components/LanguageModal";
 
-const LanguagePicker = ({ headerSize, headerText }) => {
+const LanguagePicker = ({ language, setLanguage, headerSize, headerText }) => {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [postIndex, setPostIndex] = useState(null);
 
@@ -12,6 +12,8 @@ const LanguagePicker = ({ headerSize, headerText }) => {
     <View className="flex-1">
       <View className="flex-1 self-center w-full ">
         <LanguageDisplayer
+          language={language}
+          setLanguage={setLanguage}
           headerSize={headerSize}
           headerText={headerText}
           setPostIndex={setPostIndex}
@@ -19,6 +21,8 @@ const LanguagePicker = ({ headerSize, headerText }) => {
         />
 
         <LanguageModal
+          language={language}
+          setLanguage={setLanguage}
           isBottomSheetVisible={isBottomSheetVisible}
           setBottomSheetVisible={setBottomSheetVisible}
           postIndex={postIndex}

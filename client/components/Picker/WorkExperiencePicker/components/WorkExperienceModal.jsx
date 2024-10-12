@@ -1,31 +1,20 @@
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
 import { months, years } from "@/constants/Time";
-import {
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  Modal,
-} from "react-native";
+import { View } from "react-native";
 
 import RenderTextInput from "@/components/RenderTextInput";
 import SingleSelectorModal from "@/components/SingleSelectorModal";
-
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "@/redux/User";
 import PickerModalContainer from "../../components/PickerModalContainer";
 
 const workExpModal = ({
+  workExperience,
+  setWorkExperience,
   isBottomSheetVisible,
   setBottomSheetVisible,
   postIndex,
   setPostIndex,
 }) => {
-  const workExp = useSelector((state) => state.user.userInfo).workExperience;
-  const dispatch = useDispatch();
-
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
   const [formData, setFormData] = useState({
@@ -42,7 +31,7 @@ const workExpModal = ({
 
   useEffect(() => {
     if (isPostIndexDef) {
-      setFormData(workExp[postIndex]);
+      setFormData(workExperience[postIndex]);
     }
   }, [postIndex]);
 
@@ -86,34 +75,16 @@ const workExpModal = ({
     }));
   };
 
-  const validateField = (field) => {
-    return field.trim() === "";
-  };
-
   const handleSave = () => {
-    let error = false;
+    isPostIndexDef
+      ? setWorkExperience(
+          workExperience.map((work, index) =>
+            index === postIndex ? { ...formData } : work
+          )
+        )
+      : setWorkExperience([...workExperience, { ...formData }]);
 
-    const newErrors = {
-      titleError: validateField(formData.title),
-      companyError: validateField(formData.company),
-      locationError: validateField(formData.location),
-      countryError: validateField(formData.country),
-    };
-
-    setErrors(newErrors);
-    error = Object.values(newErrors).some((err) => err);
-
-    if (!error) {
-      isPostIndexDef
-        ? editUser(dispatch, {
-            workExperience: workExp.map((work, index) =>
-              index === postIndex ? { ...formData } : work
-            ),
-          })
-        : editUser(dispatch, { workExperience: [...workExp, { ...formData }] });
-
-      closeModal();
-    }
+    closeModal();
   };
 
   return (

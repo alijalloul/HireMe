@@ -1,22 +1,17 @@
-import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
 import { languages, proficiencies } from "@/constants/Language";
-import RenderTextInput from "@/components/RenderTextInput";
 import SingleSelectorModal from "@/components/SingleSelectorModal";
 
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "@/redux/User";
 import PickerModalContainer from "../../components/PickerModalContainer";
 
 const LanguageModal = ({
+  language,
+  setLanguage,
   isBottomSheetVisible,
   setBottomSheetVisible,
   postIndex,
   setPostIndex,
 }) => {
-  const language = useSelector((state) => state.user.userInfo).language;
-  const dispatch = useDispatch();
-
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
   const [formData, setFormData] = useState({
@@ -52,12 +47,12 @@ const LanguageModal = ({
 
   const handleSave = () => {
     isPostIndexDef
-      ? editUser(dispatch, {
-          language: language.map((lang, index) =>
+      ? setLanguage(
+          language.map((lang, index) =>
             index === postIndex ? { ...formData } : lang
-          ),
-        })
-      : editUser(dispatch, { language: [...language, { ...formData }] });
+          )
+        )
+      : setLanguage([...language, { ...formData }]);
 
     closeModal();
   };

@@ -4,18 +4,15 @@ import { Image, TouchableOpacity, View } from "react-native";
 
 import pen from "@/assets/images/pen.png";
 import trash from "@/assets/images/trash.png";
-import { useDispatch, useSelector } from "react-redux";
-import { editUser } from "@/redux/User";
 
 const WorkExperienceDisplayer = ({
+  workExperience,
+  setWorkExperience,
   headerSize,
   headerText,
   setPostIndex,
   setBottomSheetVisible,
 }) => {
-  const workExp = useSelector((state) => state.user.userInfo).workExperience;
-  const dispatch = useDispatch();
-
   const handleEdit = (index) => {
     setPostIndex(index);
     setBottomSheetVisible(true);
@@ -31,8 +28,8 @@ const WorkExperienceDisplayer = ({
       </GaramondText>
 
       <View>
-        {workExp?.length > 0 &&
-          workExp.map((work, index) => (
+        {workExperience?.length > 0 &&
+          workExperience.map((work, index) => (
             <View
               key={index}
               className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4 minh-60"
@@ -53,11 +50,11 @@ const WorkExperienceDisplayer = ({
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      editUser(dispatch, {
-                        workExperience: workExp?.filter(
+                      setWorkExperience(
+                        workExperience?.filter(
                           (item, index2) => index2 !== index
-                        ),
-                      });
+                        )
+                      );
                     }}
                     className="border border-gray-400 rounded-full p-[6px]"
                   >

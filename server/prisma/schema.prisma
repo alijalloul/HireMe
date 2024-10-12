@@ -9,13 +9,14 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider     = "mongodb"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  email          String   @unique
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  email          String  @unique
   password       String
   name           String
   accountType    String
@@ -24,7 +25,7 @@ model User {
   image          String?
   introduction   String?
   profession     String?
-  language       String[]
+  language       Json[]
   education      Json[]
   workExperience Json[]
   pushToken      String?
