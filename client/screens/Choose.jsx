@@ -10,7 +10,7 @@ import { editUser } from "@/redux/User";
 
 const Choose = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
   const [type, setType] = useState(null);
   const [error, setError] = useState(false);
@@ -196,7 +196,7 @@ const Choose = ({ navigation }) => {
       <TouchableOpacity
         onPress={() => {
           type
-            ? editUser(dispatch, { ...userInfo, type: type }, "CV", navigation)
+            ? editUser(dispatch, { ...user, type: type }, "CV", navigation)
             : setError(true);
         }}
         className={`absolute bottom-0 right-0 mb-3 mr-3 bg-[${Colors.primary}] rounded-xl px-10 py-2`}

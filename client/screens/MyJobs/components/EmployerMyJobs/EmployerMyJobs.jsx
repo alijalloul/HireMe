@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 
 import GaramondText from "@/components/GaramondText";
 import Pagination from "@/components/Pagination";
-import PostJobModal from "./PostJob/PostJobModal";
 
 import { Colors } from "@/constants/Colors";
+import PostJobDisplayer from "./_components/PostJobDisplayer";
+import PostJobModal from "@/components/PostJob/PostJobModal";
 
 const EmployerMyJobs = ({ navigation, jobsStatus }) => {
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [postIndex, setPostIndex] = useState(null);
 
   return (
     <View className="flex-1 flex justify-center items-center w-full">
-      <PostJobModal
-        isBottomSheetVisible={isBottomSheetVisible}
-        setBottomSheetVisible={setBottomSheetVisible}
-        navigation={navigation}
-        jobsStatus={jobsStatus}
-      />
+      <View className="flex-1 ">
+        <View className="flex-1 self-center ">
+          <PostJobDisplayer
+            setPostIndex={setPostIndex}
+            setBottomSheetVisible={setBottomSheetVisible}
+          />
+
+          <PostJobModal
+            isBottomSheetVisible={isBottomSheetVisible}
+            setBottomSheetVisible={setBottomSheetVisible}
+            postIndex={postIndex}
+            setPostIndex={setPostIndex}
+          />
+        </View>
+      </View>
 
       <Pagination fetchType="postsByUserId" />
 

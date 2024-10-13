@@ -16,9 +16,10 @@ import searchIMG from "@/assets/images/search.png";
 
 import FilterModal from "@/components/FilterModal";
 import HeaderLeft from "@/components/Header/HeaderLeft";
-import JobPosts from "@/components/JobPosts";
+import JobPosts from "@/screens/Home/components/JobPosts";
 import Pagination from "@/components/Pagination";
 import { fetchPosts } from "@/redux/JobPost";
+import SpinnerScrollbar from "@/components/SpinnerScrollbar";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Home = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
-  const user = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,15 +63,7 @@ const Home = ({ navigation }) => {
   }, []);
 
   return (
-    <ScrollView
-      className="flex-1 bg-white pb-8 "
-      contentContainerStyle={{
-        alignItems: "center",
-      }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <SpinnerScrollbar>
       <View className="w-[90%]">
         <View className="mb-5">
           <GaramondText className="text-xl text-gray-500">
@@ -85,22 +78,22 @@ const Home = ({ navigation }) => {
           </GaramondText>
         </View>
 
-        <View className="">
-          <View className="flex flex-row mb-4">
+        <View>
+          <View className="flex flex-row justify-between items-center w-full">
             <TextInput
               value={search}
               onChangeText={(text) => {
                 setSearch(text);
               }}
               placeholder="Find your job"
-              className="w-[85%] rounded-xl bg-gray-100 mr-2 pl-4"
+              className="w-[80%] rounded-xl bg-gray-100 h-full  pl-4"
             />
 
             <TouchableOpacity
               onPress={() => {
                 fetchPosts(dispatch, 1, search);
               }}
-              className="w-[15%] p-2 aspect-square rounded-xl "
+              className="w-[15%] p-2 aspect-square rounded-xl  "
               style={{ backgroundColor: Colors.primary }}
             >
               <Image
@@ -123,7 +116,7 @@ const Home = ({ navigation }) => {
         navigation={navigation}
         setNumberOfFilters={setNumberOfFilters}
       />
-    </ScrollView>
+    </SpinnerScrollbar>
   );
 };
 

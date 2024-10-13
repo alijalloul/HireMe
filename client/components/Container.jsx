@@ -6,7 +6,7 @@ import GaramondText from "./GaramondText";
 import { editUser, updateUser } from "@/redux/User";
 import { useDispatch } from "react-redux";
 
-const Container = ({ isOver, userInfo, screenName, navigation, children }) => {
+const Container = ({ isOver, user, screenName, navigation, children }) => {
   const dispatch = useDispatch();
 
   return (
@@ -20,8 +20,8 @@ const Container = ({ isOver, userInfo, screenName, navigation, children }) => {
         <TouchableOpacity
           onPress={() => {
             isOver
-              ? updateUser(userInfo, navigation, dispatch)
-              : editUser(dispatch, userInfo, screenName, navigation);
+              ? updateUser(user, navigation, dispatch)
+              : editUser(dispatch, user, screenName, navigation);
           }}
           className="self-end w-32 h-12 flex justify-center items-center rounded-xl"
           style={{ backgroundColor: Colors.primary }}

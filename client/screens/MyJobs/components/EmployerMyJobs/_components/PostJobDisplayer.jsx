@@ -4,19 +4,24 @@ import { Image, TouchableOpacity, View } from "react-native";
 
 import pen from "@/assets/images/pen.png";
 import trash from "@/assets/images/trash.png";
+import { useDispatch, useSelector } from "react-redux";
+import { updateJobPost } from "@/redux/User";
+import moment from "moment";
 
-const WorkExperienceDisplayer = ({
-  workExperience,
-  setWorkExperience,
+const PostJobDisplayer = ({
   headerSize,
   headerText,
   setPostIndex,
   setBottomSheetVisible,
 }) => {
+  const dispatch = useDispatch();
+
   const handleEdit = (index) => {
     setPostIndex(index);
     setBottomSheetVisible(true);
   };
+
+  const jobs = useSelector((state) => state.user.jobPosts);
 
   return (
     <View className=" ">
@@ -28,16 +33,20 @@ const WorkExperienceDisplayer = ({
       </GaramondText>
 
       <View>
-        {workExperience?.length > 0 &&
-          workExperience.map((work, index) => (
-            <View
+        {jobs?.length > 0 &&
+          jobs.map((job, index) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("UserJobPostDetails", { itemId: job?.id });
+                fetchEmployeesByJobId(job?.id, dispatch);
+              }}
               key={index}
               className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4 min-h-60"
             >
-              <View className="w-full flex flex-row justify-between items-center">
-                <View className="w-[80%]">
-                  <GaramondText className="text-3xl">{work.title}</GaramondText>
-                </View>
+              <View className="flex flex-row justify-between items-center">
+                <GaramondText className=" text-3xl">
+                  {job?.jobTitle}
+                </GaramondText>
 
                 <View className="self-start w-[20%] flex flex-row justify-center items-center">
                   <TouchableOpacity
@@ -50,7 +59,8 @@ const WorkExperienceDisplayer = ({
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      setWorkExperience(
+                      updateJobPost(
+                        dispatch,
                         workExperience?.filter(
                           (item, index2) => index2 !== index
                         )
@@ -62,38 +72,37 @@ const WorkExperienceDisplayer = ({
                   </TouchableOpacity>
                 </View>
               </View>
-              <GaramondText className="text-xl">{work.company}</GaramondText>
-              <View className="w-full flex my-4">
-                <GaramondText className="text-[15px]">
-                  {work.country},{work.location}
+
+              <GaramondText className=" text-[12px] opacity-50 mb-5">
+                {moment(job?.createdAt).fromNow()}
+              </GaramondText>
+
+              <View className="mb-3 flex flex-row justify-between">
+                <GaramondText className=" text-[15px] ">
+                  {job?.country}
                 </GaramondText>
-                <GaramondText className="text-[15px]">
-                  {work.startMonth} {work.startYear} - {work.endMonth}{" "}
-                  {work.endYear}
+                <GaramondText className=" text-[15px] ">
+                  {job?.location}
                 </GaramondText>
               </View>
-              <GaramondText className="text-lg opacity-70">
-                {work.description}
+
+              <View className="mb-3 flex flex-row justify-between">
+                <GaramondText className=" text-[15px] ">
+                  {job?.experienceRequired}
+                </GaramondText>
+                <GaramondText className=" text-[15px] ">
+                  {job?.jobType}
+                </GaramondText>
+              </View>
+
+              <GaramondText className=" text-[15px] opacity-50 leading-6">
+                {job?.description?.substring(0, 200)}
               </GaramondText>
-            </View>
+            </TouchableOpacity>
           ))}
-        <TouchableOpacity
-          onPress={() => {
-            setBottomSheetVisible(true);
-          }}
-          className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center mb-5"
-          style={{ borderColor: Colors.primary }}
-        >
-          <GaramondText
-            className="font-garamond-bold text-xl"
-            style={{ color: Colors.primary }}
-          >
-            + Add experience
-          </GaramondText>
-        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default WorkExperienceDisplayer;
+export default PostJobDisplayer;

@@ -1,8 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import moment from "moment";
-import { memo } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 
 const JobPosts = ({ navigation }) => {
@@ -29,7 +27,7 @@ const JobPosts = ({ navigation }) => {
             </View>
 
             <GaramondText className=" text-[12px] opacity-50 mb-5">
-              {moment(job?.date).fromNow()}
+              {moment(job?.createdAt).fromNow()}
             </GaramondText>
 
             <View className="mb-3 flex flex-row justify-between">

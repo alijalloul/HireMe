@@ -1,14 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
-import BASE_URL_LOCAL from "./BASE_URL_LOCAL";
-
-const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || BASE_URL_LOCAL;
+import BASE_URL from "./BASE_URL";
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    userInfo: {
+    user: {
       telephone: "76131445",
       address: "lebanon",
       introduction: "wassup",
@@ -89,11 +87,12 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.pending = false;
 
-      state.userInfo = { ...action?.payload, ...state.userInfo };
+      state.user = action.payload.user;
+      state.jobPosts = action.payload.jobPosts;
     },
     logoutSuccess: (state) => {
       state.pending = false;
-      state.userInfo = null;
+      state.user = null;
     },
     sendOtpSuccess: (state) => {
       state.pending = false;
@@ -117,9 +116,7 @@ const userSlice = createSlice({
     editSuccess: (state, action) => {
       state.pending = false;
 
-      console.log("edit payload: ", { ...state.userInfo, ...action.payload });
-
-      state.userInfo = { ...state.userInfo, ...action.payload };
+      state.user = { ...state.user, ...action.payload };
     },
 
     fetchByIdSuccess: (state, action) => {
@@ -145,7 +142,7 @@ const userSlice = createSlice({
   },
 });
 
-export const signup = async (userInfo, navigation, dispatch) => {
+export const signup = async (user, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -154,7 +151,7 @@ export const signup = async (userInfo, navigation, dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(user),
     });
 
     if (res.status === 200) {
@@ -162,9 +159,13 @@ export const signup = async (userInfo, navigation, dispatch) => {
 
       dispatch(userSlice.actions.loginSuccess(data.user));
 
-      await AsyncStorage.setItem("profile", JSON.stringify(data));
+      await AsyncStorage.setItem("token", JSON.stringify(data));
 
-      navigation.navigate("CV");
+      if (data.accountType === "employee") {
+        navigation.navigate("CV");
+      } else {
+        navigation.navigate("HomeTabs");
+      }
     } else {
       dispatch(userSlice.actions.errorAPI());
     }
@@ -174,7 +175,7 @@ export const signup = async (userInfo, navigation, dispatch) => {
   }
 };
 
-export const login = async (userInfo, navigation, dispatch) => {
+export const login = async (dispatch, user, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -183,7 +184,7 @@ export const login = async (userInfo, navigation, dispatch) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(user),
     });
 
     const data = await res.json();
@@ -194,9 +195,16 @@ export const login = async (userInfo, navigation, dispatch) => {
       return data.message;
     }
 
-    dispatch(userSlice.actions.loginSuccess(data.user));
+    console.log("data: ", data);
 
-    await AsyncStorage.setItem("profile", JSON.stringify(data));
+    dispatch(
+      userSlice.actions.loginSuccess({
+        user: data.user,
+        jobPosts: user.jobPosts,
+      })
+    );
+
+    await AsyncStorage.setItem("token", JSON.stringify(data.token));
 
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
@@ -211,7 +219,7 @@ export const logout = async (navigation, dispatch) => {
   try {
     dispatch(userSlice.actions.logoutSuccess());
 
-    await AsyncStorage.removeItem("profile");
+    await AsyncStorage.removeItem("token");
 
     navigation.navigate("onBoarding");
   } catch (error) {
@@ -224,9 +232,7 @@ export const updateUser = async (newUser, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
-
-    console.log("update in progress");
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
     const res = await fetch(`${BASE_URL}/users/${newUser.id}`, {
       method: "PATCH",
@@ -253,22 +259,22 @@ export const updateUser = async (newUser, navigation, dispatch) => {
   }
 };
 
-export const editUser = async (dispatch, userInfo, screenName, navigation) => {
+export const editUser = async (dispatch, user, screenName, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    dispatch(userSlice.actions.editSuccess(userInfo));
+    dispatch(userSlice.actions.editSuccess(user));
 
     if (navigation) {
       navigation.navigate(screenName);
     }
 
     // if (screenName) {
-    //   const token = JSON.parse(await AsyncStorage.getItem("profile"))?.token;
+    //   const token = JSON.parse(await AsyncStorage.getItem("token"))?.token;
 
     //   await AsyncStorage.setItem(
     //     "profile",
-    //     JSON.stringify({ user: userInfo, token: token })
+    //     JSON.stringify({ user: user, token: token })
     //   );
 
     //   if (screenName !== "choose") {
@@ -286,7 +292,7 @@ export const createJobPost = async (postsInfo, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
     const res = await fetch(`${BASE_URL}/jobPosts/`, {
       method: "POST",
@@ -300,18 +306,21 @@ export const createJobPost = async (postsInfo, dispatch) => {
     const data = await res.json();
 
     dispatch(userSlice.actions.createSuccess(data));
+
+    await AsyncStorage.setItem("jobPosts", JSON.stringify(jobPosts.push(data)));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error: ", error);
   }
 };
-export const updateJobPost = async (postsInfo, dispatch) => {
+
+export const updateJobPost = async (dispatch, postsInfo) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
-    const res = await fetch(`${BASE_URL}/post`, {
+    const res = await fetch(`${BASE_URL}/jobPosts/${postsInfo.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -320,7 +329,7 @@ export const updateJobPost = async (postsInfo, dispatch) => {
       body: JSON.stringify(postsInfo),
     });
 
-    const data = await reson();
+    const data = await res.json();
 
     dispatch(userSlice.actions.updatePostSuccess(data));
   } catch (error) {
@@ -347,7 +356,7 @@ export const fetchJobsByEmployer = async (userId, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
     const res = await fetch(`${BASE_URL}/users/${userId}/jobPosts`, {
       method: "GET",
@@ -373,7 +382,7 @@ export const fetchPostsAplliedToByUser = async (userId, page, dispatch) => {
       method: "GET",
     });
 
-    const data = await reson();
+    const data = await res.json();
 
     dispatch(userSlice.actions.fetchByIdSuccess(data));
   } catch (error) {
@@ -390,7 +399,7 @@ export const fetchEmployeesByJobId = async (jobId, dispatch) => {
       method: "GET",
     });
 
-    const data = await reson();
+    const data = await res.json();
 
     dispatch(
       userSlice.actions.fetchEmployeesSuccess({ data: data, jobId: jobId })

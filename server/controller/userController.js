@@ -30,7 +30,7 @@ export async function getJobPostsPostedByUser(
       .limit(LIMIT)
       .skip(startIndex);
 
-    reson({
+    res.json({
       data: jobPosts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -226,7 +226,7 @@ export async function deleteJobPost(req, res) {
   try {
     await jobPostDB.findByIdAndRemove(id);
 
-    reson({
+    res.json({
       message: "Post deleted successfully!",
     });
   } catch (error) {
@@ -255,7 +255,7 @@ export async function getJobPosts(req, res) {
       .limit(LIMIT)
       .skip(startIndex);
 
-    reson({
+    res.json({
       data: jobPosts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -306,7 +306,7 @@ export async function getJobPostsBySearch(
       .limit(LIMIT)
       .skip(startIndex);
 
-    reson({
+    res.json({
       data: posts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT
@@ -398,7 +398,7 @@ export async function getJobPostsByFilter(
       .limit(LIMIT)
       .skip(startIndex);
 
-    reson({
+    res.json({
       data: posts,
       numberOfPages: Math.ceil(
         totalPosts / LIMIT

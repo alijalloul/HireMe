@@ -57,12 +57,12 @@ const LogIn = ({ navigation }) => {
 
     if (password !== "" && email !== "") {
       await login(
+        dispatch,
         {
           email: email,
           password: password,
         },
-        navigation,
-        dispatch
+        navigation
       );
     }
   };

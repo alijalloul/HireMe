@@ -7,22 +7,24 @@ const router = express.Router();
 
 router.patch("/:id", auth, async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
-
-  delete data.id;
-  delete data.password;
-  delete data.createdAt;
-  delete data.updateAt;
+  const body = req.body;
 
   try {
     const user = await db.user.update({
       where: {
         id,
       },
-      data: { ...data },
+      body: {
+        name: body.name,
+        profession: body.profession,
+        email: body.email,
+        address: body.address,
+        introduction: body.introduction,
+        workExperience: body.workExperience,
+        education: body.education,
+        language: body.language,
+      },
     });
-
-    console.log("user: ", user);
 
     res.status(200).json(user);
   } catch (error) {
@@ -50,6 +52,30 @@ router.get("/:employerId/jobPosts", auth, async (req, res) => {
     res.status(500).json({
       message: "Error fetching job posts",
     });
+  }
+});
+
+router.get("/:id", auth, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    const jobPosts = await db.jobPost.findMany({
+      where: { employerId: user.id },
+    });
+
+    return res.status(200).json({
+      user,
+      jobPosts,
+    });
+  } catch (error) {
+    console.log("error: ", error);
+    return res.status(400).json({ error: "Login failed" });
   }
 });
 

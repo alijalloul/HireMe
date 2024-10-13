@@ -7,9 +7,9 @@ import LanguagePicker from "@/components/Picker/LanguagePicker/LanguagePicker";
 import Container from "@/components/Container";
 
 const Language = ({ navigation }) => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
-  const [language, setLanguage] = useState(userInfo?.language);
+  const [language, setLanguage] = useState(user?.language);
 
   useEffect(() => {
     navigation.setOptions({
@@ -22,7 +22,7 @@ const Language = ({ navigation }) => {
   return (
     <Container
       isOver={true}
-      userInfo={{ ...userInfo, language: language }}
+      user={{ ...user, language: language }}
       navigation={navigation}
     >
       <LanguagePicker

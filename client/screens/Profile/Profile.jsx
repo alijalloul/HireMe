@@ -6,8 +6,7 @@ import EmployeeProfile from "./components/EmployeeProfile";
 import Container from "./components/Container";
 
 const Profile = ({ navigation }) => {
-  const isFocused = useIsFocused();
-  const user = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
   const [formData, setFormData] = useState(user);
 

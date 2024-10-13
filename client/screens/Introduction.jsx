@@ -14,15 +14,13 @@ import Container from "@/components/Container";
 
 const Introduction = ({ navigation }) => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
-  const [image, setImage] = useState(userInfo?.image || "");
+  const [image, setImage] = useState(user?.image || "");
   const [professionalRole, setProffesionalRole] = useState(
-    userInfo?.profession || ""
+    user?.profession || ""
   );
-  const [introduction, setIntroduction] = useState(
-    userInfo?.introduction || ""
-  );
+  const [introduction, setIntroduction] = useState(user?.introduction || "");
 
   useEffect(() => {
     navigation.setOptions({
@@ -34,7 +32,7 @@ const Introduction = ({ navigation }) => {
 
   return (
     <Container
-      userInfo={{
+      user={{
         image: image,
         profession: professionalRole,
         introduction: introduction,

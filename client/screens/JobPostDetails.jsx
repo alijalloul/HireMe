@@ -10,12 +10,12 @@ import { handleApply } from "@/redux/User";
 const JobPostDetails = ({ route, navigation }) => {
   const { jobId, employerId } = route.params;
 
-  const accountType = useSelector((state) => state.user.userInfo).accountType;
+  const accountType = useSelector((state) => state.user.user).accountType;
   const post = useSelector((state) => state.jobPosts.postsInfo)?.filter(
     (item) => item.id === jobId && item
   )[0];
   const jobid = jobId;
-  const employeeid = useSelector((state) => state.user.userInfo)?.id;
+  const employeeid = useSelector((state) => state.user.user)?.id;
   const employerid = employerId;
   const status = "pending";
   const category = post?.category || "";

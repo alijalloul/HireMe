@@ -27,7 +27,7 @@ const EmployeeJobDetails = ({ route, navigation }) => {
               {job?.jobTitle}
             </GaramondText>
             <GaramondText className=" text-[15px] opacity-50">
-              {job?.date}
+              {job?.createdAt}
             </GaramondText>
           </View>
 

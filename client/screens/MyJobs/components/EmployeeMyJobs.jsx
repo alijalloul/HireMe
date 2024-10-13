@@ -9,7 +9,7 @@ import GaramondText from "@/components/GaramondText";
 const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
   const jobs = useSelector((state) => state.user.jobPosts)?.filter(
     (job) => job.status === jobsStatus
@@ -44,7 +44,7 @@ const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
                 </View>
 
                 <GaramondText className=" text-[12px] opacity-50 mb-5">
-                  {moment(job?.date).fromNow()}
+                  {moment(job?.createdAt).fromNow()}
                 </GaramondText>
 
                 <View className="mb-3 flex flex-row justify-between">

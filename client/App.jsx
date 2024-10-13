@@ -22,7 +22,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import CV from "@/screens/CV";
 import Choose from "@/screens/Choose";
 import Education from "@/screens/Education";
-import Home from "@/screens/Home";
+import Home from "@/screens/Home/Home";
 import Introduction from "@/screens/Introduction";
 import JobPostDetails from "@/screens/JobPostDetails";
 import LogIn from "@/screens/LogIn";

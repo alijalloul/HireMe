@@ -9,10 +9,13 @@ import { logout, updateUser } from "@/redux/User";
 import { Colors } from "@/constants/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { ScrollView, View, Image } from "react-native";
+import Spinner from "@/components/Spinner";
 
 const Container = ({ formData, handleInputChange, navigation, children }) => {
   const dispatch = useDispatch();
+
   const pending = useSelector((state) => state.user.pending);
+  const user = useSelector((state) => state.user.user);
 
   return (
     <View className="flex-1 justify-center bg-white">
@@ -33,7 +36,7 @@ const Container = ({ formData, handleInputChange, navigation, children }) => {
         }}
       >
         <View className="flex-1 items-center w-full">
-          <View className="absolute -top-72 opacity-90">
+          <View className="absolute -translate-y-1/2 opacity-90">
             <Image source={blobTop} />
           </View>
 

@@ -43,7 +43,7 @@ const PostJobModal = ({
   jobsStatus,
 }) => {
   const dispatch = useDispatch();
-  const employerID = useSelector((state) => state?.user.userInfo)?.id;
+  const employerID = useSelector((state) => state?.user.user)?.id;
   const jobs = useSelector((state) => state.user.jobPosts)?.filter(
     (job) => job.status === jobsStatus
   );
@@ -197,7 +197,7 @@ const PostJobModal = ({
               </View>
 
               <GaramondText className=" text-[12px] opacity-50 mb-5">
-                {moment(job?.date).fromNow()}
+                {moment(job?.createdAt).fromNow()}
               </GaramondText>
 
               <View className="mb-3 flex flex-row justify-between">

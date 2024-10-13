@@ -1,9 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 
-import BASE_URL_LOCAL from "./BASE_URL_LOCAL";
-
-const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL || BASE_URL_LOCAL;
+import BASE_URL from "./BASE_URL";
 
 const postSlice = createSlice({
   name: "post",
@@ -35,7 +33,7 @@ export const fetchPosts = async (dispatch, page, searchQuery) => {
   dispatch(postSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("profile")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
 
     const res = await fetch(
       `${BASE_URL}/jobPosts?search=${searchQuery || "none"}&page=${page}`,
@@ -48,6 +46,8 @@ export const fetchPosts = async (dispatch, page, searchQuery) => {
     );
 
     const data = await res.json();
+
+    console.log("number of opages: ", data.numberOfPages);
 
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {
@@ -86,7 +86,7 @@ export const fetchPosts = async (dispatch, page, searchQuery) => {
 //     const res = await fetch(url, {
 //       mode: "cors",
 //     });
-//     const data = await reson();
+//     const data = await res.json();
 
 //     dispatch(postSlice.actions.fetchSuccess(data));
 //   } catch (error) {

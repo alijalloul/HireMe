@@ -13,7 +13,7 @@ import EmployeeMyJobs from "./components/EmployeeMyJobs";
 import EmployerMyJobs from "./components/EmployerMyJobs/EmployerMyJobs.jsx";
 
 const MyJobs = ({ navigation }) => {
-  const user = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
   const [jobsStatus, setJobsStatus] = useState("pending");
 

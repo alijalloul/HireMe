@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const HeaderRight = () => {
   const navigation = useNavigation();
 
-  const profileImage = useSelector((state) => state.user.userInfo)?.image;
+  const profileImage = useSelector((state) => state.user.user)?.image;
 
   return (
     <TouchableOpacity

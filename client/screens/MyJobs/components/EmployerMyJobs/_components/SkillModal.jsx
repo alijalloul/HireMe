@@ -46,7 +46,7 @@ const SkillModal = ({ value, setValue, className }) => {
           onPress={() => {
             setIsVisible(true);
           }}
-          className="inline-block justify-center items-center aspect-square rounded-2xl mr-2 mb-2 border border-gray-300"
+          className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 border border-gray-300"
         >
           <GaramondText className="text-gray-300 ">+</GaramondText>
         </TouchableOpacity>
@@ -70,11 +70,12 @@ const SkillModal = ({ value, setValue, className }) => {
 
             <TouchableOpacity
               onPress={() => {
+                setValue(skills);
                 setIsVisible(false);
                 setSearch("");
               }}
             >
-              <GaramondText className="text-4xl font-garamond-semibold font-garamond-bold">
+              <GaramondText className="text-4xl font-garamond-semibold">
                 ×
               </GaramondText>
             </TouchableOpacity>
@@ -126,19 +127,6 @@ const SkillModal = ({ value, setValue, className }) => {
                   </GaramondText>
                 </TouchableOpacity>
               ))}
-            </View>
-
-            <View className="flex-1 justify-end items-end">
-              <TouchableOpacity
-                onPress={() => {
-                  setValue(skills);
-                  setSkills([]);
-                  setIsVisible(false);
-                }}
-                className={`w-32 h-12 flex justify-center items-center mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
-              >
-                <GaramondText className="text-lg text-white">Save</GaramondText>
-              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

@@ -64,9 +64,9 @@ router.delete("/:id", auth, async (req, res) => {
 });
 
 router.get("/", auth, async (req, res) => {
-  const searchQuery = req.query.search || ""; // Search query from the query string, default to an empty string if not provided
-  const page = parseInt(req.query.page) || 1; // Get page number from query string, default to 1 if not provided
-  const LIMIT = 8; // Set limit for pagination
+  const searchQuery = req.query.search || "";
+  const page = parseInt(req.query.page) || 1;
+  const LIMIT = 3;
 
   try {
     const startIndex = (page - 1) * LIMIT; // Calculate the starting index for pagination
@@ -75,9 +75,11 @@ router.get("/", auth, async (req, res) => {
     const totalPosts = await db.jobPost.count({
       where: {
         status: "pending",
-        jobTitle: {
-          contains: searchQuery, // Perform a case-insensitive search on job titles
-        },
+        ...(searchQuery !== "none" && {
+          jobTitle: {
+            contains: searchQuery, // Perform a case-insensitive search on job titles
+          },
+        }),
       },
     });
 
@@ -115,6 +117,35 @@ router.get("/", auth, async (req, res) => {
     res.status(500).json({
       message: "Error fetching job posts",
     });
+  }
+});
+
+router.patch("/:id", auth, async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+
+  try {
+    const data = await db.jobPost.update({
+      where: {
+        id,
+      },
+      data: {
+        jobTitle: body.jobTitle,
+        company: body.company,
+        location: body.location,
+        country: body.country,
+        category: body.category,
+        skills: body.skills,
+        experienceRequired: body.experienceRequired,
+        jobType: body.jobType,
+        description: body.description,
+        status: body.status,
+      },
+    });
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

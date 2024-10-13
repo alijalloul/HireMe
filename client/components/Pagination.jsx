@@ -15,10 +15,10 @@ import { fetchJobsByEmployer, fetchPostsAplliedToByUser } from "@/redux/User";
 const Pagination = ({ fetchType }) => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const userId = useSelector((state) => state.user.userInfo)?.id;
+  const userId = useSelector((state) => state.user.user)?.id;
+  const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [numberOfPages, setNumberOfPages] = useState(1);
 
   useEffect(() => {
     if (userId) {
@@ -32,12 +32,10 @@ const Pagination = ({ fetchType }) => {
     }
   }, [currentPage, isFocused]);
 
+  if (numberOfPages < 2) return null;
+
   return (
-    <View
-      className={`flex flex-row justify-between items-center w-[90%] ${
-        numberOfPages ? numberOfPages < 2 && "hidden" : "hidden"
-      }`}
-    >
+    <View className="flex flex-row justify-between items-center w-[90%] mb-10">
       <View className="flex flex-row justify-center items-center">
         <Chevron
           image={doubleChevronLeft}

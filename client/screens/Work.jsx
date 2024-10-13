@@ -6,11 +6,9 @@ import WorkExperiencePicker from "@/components/Picker/WorkExperiencePicker/WorkE
 import Container from "@/components/Container";
 
 const Work = ({ navigation }) => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
-  const [workExperience, setWorkExperience] = useState(
-    userInfo?.workExperience
-  );
+  const [workExperience, setWorkExperience] = useState(user?.workExperience);
 
   useEffect(() => {
     navigation.setOptions({
@@ -22,7 +20,7 @@ const Work = ({ navigation }) => {
 
   return (
     <Container
-      userInfo={{
+      user={{
         workExperience: workExperience,
       }}
       screenName="education"

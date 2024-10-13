@@ -7,9 +7,9 @@ import EducationPicker from "@/components/Picker/EducationPicker/EducationPicker
 import Container from "@/components/Container";
 
 const Education = ({ navigation }) => {
-  const userInfo = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
-  const [education, setEducation] = useState(userInfo?.education);
+  const [education, setEducation] = useState(user?.education);
 
   useEffect(() => {
     navigation.setOptions({
@@ -21,7 +21,7 @@ const Education = ({ navigation }) => {
 
   return (
     <Container
-      userInfo={{
+      user={{
         education: education,
       }}
       screenName="language"

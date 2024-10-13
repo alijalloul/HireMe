@@ -46,8 +46,7 @@ model JobPost {
   experienceRequired String?
   jobType            String?
   description        String?
-  date               DateTime @default(now())
-  status             String
+  status             String   @default("pending")
   employerId         String   @db.ObjectId
   employer           User     @relation(fields: [employerId], references: [id])
 

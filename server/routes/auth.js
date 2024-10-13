@@ -44,9 +44,6 @@ router.post("/signup", async (req, res) => {
     const token = jwt.sign(
       {
         id: user.id,
-        name: user.name,
-        email: user.email,
-        accountType: user.accountType,
       },
       JWT_SECRET,
       {
@@ -80,6 +77,10 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
+    const jobPosts = await db.jobPost.findMany({
+      where: { employerId: user.id },
+    });
+
     const token = jwt.sign(
       {
         id: user.id,
@@ -95,6 +96,7 @@ router.post("/login", async (req, res) => {
 
     return res.status(200).json({
       user,
+      jobPosts,
       token,
     });
   } catch (error) {

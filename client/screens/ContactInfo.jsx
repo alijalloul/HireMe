@@ -9,7 +9,7 @@ import RenderTextInput from "@/components/RenderTextInput";
 import Container from "@/components/Container";
 
 const CV = ({ navigation }) => {
-  const user = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.user);
 
   const [telephone, setTelephone] = useState(user?.telephone || "");
   const [address, setAddress] = useState(user?.address || "");
@@ -24,7 +24,7 @@ const CV = ({ navigation }) => {
 
   return (
     <Container
-      userInfo={{
+      user={{
         telephone: telephone,
         address: address,
       }}

@@ -29,7 +29,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
               {job?.jobTitle}
             </GaramondText>
             <GaramondText className="text-[15px] opacity-50">
-              {moment(job?.date).fromNow()}
+              {moment(job?.createdAt).fromNow()}
             </GaramondText>
           </View>
 
