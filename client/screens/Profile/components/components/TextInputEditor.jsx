@@ -31,7 +31,10 @@ const TextInputEditor = ({
 
   return (
     <View
-      className={cn("flex flex-row justify-between items-center", className)}
+      className={cn(
+        "relative flex flex-row justify-between items-center",
+        className
+      )}
     >
       <GaramondText
         style={{
@@ -63,8 +66,12 @@ const TextInputEditor = ({
         onPress={() => {
           toggleVisibility();
         }}
-        className="border p-2 rounded-full bg-white"
-        style={{ borderColor: Colors.primary }}
+        className={`border p-2  absolute right-0 rounded-full bg-white ${
+          !className && "translate-x-full"
+        }`}
+        style={{
+          borderColor: Colors.primary,
+        }}
       >
         <Image
           source={isEditing ? check : pen}

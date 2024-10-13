@@ -6,7 +6,7 @@ import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import check from "@/assets/images/check.png";
 import pen from "@/assets/images/pen.png";
 
-const IntroductionPicker = ({ introduction, setIntroduction, placeholder }) => {
+const IntroductionPicker = ({ value, setValue, placeholder }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const inputRef = useRef(null);
@@ -43,21 +43,21 @@ const IntroductionPicker = ({ introduction, setIntroduction, placeholder }) => {
 
       <GaramondText
         className={`text-lg text-black mr-2 ${isEditing && "hidden"} ${
-          introduction === "" && " opacity-50"
+          value === "" && " opacity-50"
         }`}
       >
-        {introduction === "" ? placeholder : introduction}
+        {value === "" ? placeholder : value}
       </GaramondText>
 
       <TextInput
         ref={inputRef}
         multiline={true}
-        value={introduction}
+        value={value}
         onBlur={() => {
           setIsEditing(false);
         }}
         onChangeText={(text) => {
-          setIntroduction(text);
+          setValue(text);
         }}
         className={`text-lg text-black mr-2 ${!isEditing && "h-1 w-1"}`}
       />

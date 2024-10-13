@@ -102,7 +102,7 @@ const Navbar = () => {
 
     const buttonRef = buttonRefs[focusedRouteName];
 
-    if (selectorRef.current && buttonRef.current) {
+    if (selectorRef.current && buttonRef.current && containerRef.current) {
       selectorRef.current.measure((x1, y1, selectorWidth) => {
         buttonRef.current.measureLayout(
           containerRef.current,

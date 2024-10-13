@@ -2,6 +2,8 @@ import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import "./global.css";
 
+import { navigationRef } from "./lib/RootNavigation";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -34,7 +36,7 @@ import Work from "@/screens/Work";
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import HeaderRight from "@/components/Header/HeaderRight";
 import { editUser } from "@/redux/User";
@@ -80,24 +82,7 @@ const HomeTabs = () => {
 };
 
 const AppContent = () => {
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const storedProfile = await AsyncStorage.getItem("profile");
-      if (storedProfile) {
-        const parsedProfile = JSON.parse(storedProfile);
-        setToken(parsedProfile.token);
-      }
-    };
-
-    fetchToken();
-  }, []);
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({ type: "CHECK_PROFILE" });
-  }, [dispatch]);
 
   const [loaded, error] = useFonts({
     "EB-Garamond": require("@/assets/fonts/EBGaramond-Medium.ttf"),
@@ -109,16 +94,20 @@ const AppContent = () => {
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, error]);
+
+    if (loaded && dispatch) {
+      dispatch({ type: "CHECK_PROFILE" });
+    }
+  }, [loaded, error, dispatch]);
 
   if (!loaded && !error) {
     return null;
   }
 
   return (
-    <NavigationContainer independent={true}>
+    <NavigationContainer ref={navigationRef} independent={true}>
       <Stack.Navigator
-        initialRouteName={token ? "onBoarding" : "onBoarding"}
+        initialRouteName="onBoarding"
         screenOptions={{
           contentStyle: {
             backgroundColor: "#FBF2E3",
