@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import BASE_URL from "./BASE_URL";
 
+console.log("BASE_URL: ", BASE_URL);
+
 const postSlice = createSlice({
   name: "post",
   initialState: {

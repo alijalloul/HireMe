@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./index.js",
+    "postinstall": "prisma generate"
   },
   "author": "",
   "license": "ISC",
