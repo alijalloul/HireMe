@@ -9,6 +9,7 @@ const PickerModalContainer = ({
   postIndex,
   handleSave,
   closeModal,
+  buttonText,
 }) => {
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
@@ -45,7 +46,9 @@ const PickerModalContainer = ({
               style={{ backgroundColor: Colors.primary }}
               onPress={handleSave}
             >
-              <Text className="text-white font-bold text-lg">Save</Text>
+              <Text className="text-white font-bold text-lg">
+                {buttonText ? buttonText : "Save"}
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

@@ -1,36 +1,45 @@
 import GaramondText from "@/components/GaramondText";
 import React, { useEffect, useState } from "react";
-import { months, years } from "@/constants/Time";
-import { View } from "react-native";
 
 import RenderTextInput from "@/components/RenderTextInput";
 import SingleSelectorModal from "@/components/SingleSelectorModal";
-import PickerModalContainer from "../../components/PickerModalContainer";
-import { useDispatch } from "react-redux";
-import { updateJobPost } from "@/redux/User";
+import PickerModalContainer from "@/components/Picker/components/PickerModalContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { createJobPost, updateJobPost } from "@/redux/User";
 
-const workExpModal = ({
-  jobs,
-  setJobs,
+import {
+  categories,
+  experienceLevels,
+  employmentTypes,
+} from "@/constants/JobData";
+import SkillModal from "../../../../../components/SkillModal";
+import { TouchableOpacity } from "react-native";
+import { Colors } from "@/constants/Colors";
+
+const PostJobModal = ({
   isBottomSheetVisible,
   setBottomSheetVisible,
   postIndex,
   setPostIndex,
 }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const userId = user.user.id;
+  const jobs = user.jobPosts;
 
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
   const [formData, setFormData] = useState({
-    title: "",
-    company: "",
-    location: "",
-    country: "",
-    category: "",
-    skills: [],
-    experienceRequired: "",
-    jobType: "",
-    description: "",
+    jobTitle: "Software Engineer",
+    company: "Tech Solutions Inc.",
+    location: "Berlin",
+    country: "Germany",
+    category: "Information Technology",
+    skills: ["JavaScript", "React", "Node.js"],
+    experienceRequired: "3-5 years",
+    jobType: "Full-Time",
+    description:
+      "We are looking for a Software Engineer to join our dynamic team. You will be responsible for developing high-quality software solutions.",
   });
 
   useEffect(() => {
@@ -38,13 +47,6 @@ const workExpModal = ({
       setFormData(jobs[postIndex]);
     }
   }, [postIndex]);
-
-  const [errors, setErrors] = useState({
-    titleError: false,
-    companyError: false,
-    locationError: false,
-    countryError: false,
-  });
 
   const closeModal = () => {
     setBottomSheetVisible(false);
@@ -54,7 +56,7 @@ const workExpModal = ({
 
   const resetFormData = () => {
     setFormData({
-      title: "",
+      jobTitle: "",
       company: "",
       location: "",
       country: "",
@@ -77,11 +79,11 @@ const workExpModal = ({
     isPostIndexDef
       ? updateJobPost(
           dispatch,
-          jobs.map((work, index) =>
-            index === postIndex ? { ...formData } : work
-          )
+          jobs
+            .filter((job, index) => index === postIndex)
+            .map((job) => ({ id: job.id, ...formData }))[0]
         )
-      : updateJobPost(dispatch, [...jobs, { ...formData }]);
+      : createJobPost(dispatch, { employerId: userId, ...formData });
 
     closeModal();
   };
@@ -93,37 +95,34 @@ const workExpModal = ({
       postIndex={postIndex}
       handleSave={handleSave}
       closeModal={closeModal}
+      buttonText="Post"
     >
       <RenderTextInput
         className="mb-3"
         label="Job Title"
         value={formData.jobTitle}
-        setValue={handleInputChange("jobTitle", jobTitle)}
-        error={formErrors.jobTitle}
+        setValue={(value) => handleInputChange("jobTitle", value)}
       />
 
       <RenderTextInput
         className="mb-3"
         label="Company"
         value={formData.company}
-        setValue={handleInputChange("company", company)}
-        error={formErrors.company}
+        setValue={(value) => handleInputChange("company", value)}
       />
 
       <RenderTextInput
         className="mb-3"
         label="Location"
         value={formData.location}
-        setValue={handleInputChange("location", location)}
-        error={formErrors.location}
+        setValue={(value) => handleInputChange("location", value)}
       />
 
       <RenderTextInput
         className="mb-3"
         label="Country"
         value={formData.country}
-        setValue={handleInputChange("country", country)}
-        error={formErrors.country}
+        setValue={(value) => handleInputChange("country", value)}
       />
 
       <SingleSelectorModal
@@ -131,13 +130,13 @@ const workExpModal = ({
         data={categories}
         title="Category"
         value={formData.category}
-        setValue={handleInputChange("category", category)}
+        setValue={(value) => handleInputChange("category", value)}
       />
 
       <SkillModal
         className="mb-3"
         value={formData.skills}
-        setValue={handleInputChange("skills", skills)}
+        setValue={(value) => handleInputChange("skills", value)}
       />
 
       <SingleSelectorModal
@@ -145,7 +144,7 @@ const workExpModal = ({
         data={experienceLevels}
         title="Experience Required"
         value={formData.experienceRequired}
-        setValue={handleInputChange("experienceRequired", experienceRequired)}
+        setValue={(value) => handleInputChange("experienceRequired", value)}
       />
 
       <SingleSelectorModal
@@ -153,29 +152,19 @@ const workExpModal = ({
         data={employmentTypes}
         title="Job Type"
         value={formData.jobType}
-        setValue={handleInputChange("jobType", jobType)}
+        setValue={(value) => handleInputChange("jobType", value)}
       />
 
       <RenderTextInput
         className="mb-3"
         label="Description"
         value={formData.description}
-        setValue={handleInputChange("description", description)}
+        setValue={(value) => handleInputChange("description", value)}
         error={false}
         multiline
       />
-
-      <TouchableOpacity
-        onPress={() => saveWorkExperience()}
-        className=" self-end w-32 h-12 flex justify-center items-center rounded-lg"
-        style={{ backgroundColor: Colors.primary }}
-      >
-        <GaramondText className=" text-center text-white text-lg">
-          Post
-        </GaramondText>
-      </TouchableOpacity>
     </PickerModalContainer>
   );
 };
 
-export default workExpModal;
+export default PostJobModal;

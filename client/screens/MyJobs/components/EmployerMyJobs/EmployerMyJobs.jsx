@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import GaramondText from "@/components/GaramondText";
-import Pagination from "@/components/Pagination";
 
 import { Colors } from "@/constants/Colors";
-import PostJobDisplayer from "./_components/PostJobDisplayer";
-import PostJobModal from "@/components/PostJob/PostJobModal";
+import PostJobDisplayer from "./components/PostJobDisplayer";
+import PostJobModal from "./components/PostJobModal";
+import { fetchJobsByEmployer } from "@/redux/User";
+import { useDispatch, useSelector } from "react-redux";
 
-const EmployerMyJobs = ({ navigation, jobsStatus }) => {
+const EmployerMyJobs = ({}) => {
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.user)?.id;
+
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [postIndex, setPostIndex] = useState(null);
 
+  useEffect(() => {
+    fetchJobsByEmployer(dispatch, userId);
+  }, []);
+
   return (
     <View className="flex-1 flex justify-center items-center w-full">
-      <View className="flex-1 ">
+      <View className="flex-1 w-[90%] mb-5">
         <View className="flex-1 self-center ">
           <PostJobDisplayer
             setPostIndex={setPostIndex}
@@ -29,8 +37,6 @@ const EmployerMyJobs = ({ navigation, jobsStatus }) => {
           />
         </View>
       </View>
-
-      <Pagination fetchType="postsByUserId" />
 
       <TouchableOpacity
         onPress={() => {

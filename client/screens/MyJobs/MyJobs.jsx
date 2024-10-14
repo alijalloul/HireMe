@@ -1,43 +1,20 @@
 import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { memo, useCallback, useState } from "react";
-import {
-  RefreshControl,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import EmployeeMyJobs from "./components/EmployeeMyJobs";
 import EmployerMyJobs from "./components/EmployerMyJobs/EmployerMyJobs.jsx";
+import SpinnerScrollbar from "@/components/SpinnerScrollbar";
 
 const MyJobs = ({ navigation }) => {
   const user = useSelector((state) => state.user.user);
 
   const [jobsStatus, setJobsStatus] = useState("pending");
 
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   return (
-    <ScrollView
-      className="bg-white"
-      contentContainerStyle={{
-        flexGrow: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <SpinnerScrollbar>
       <View className=" flex flex-row justify-center items-center mb-5">
         <TouchableOpacity
           onPress={() => {
@@ -89,8 +66,8 @@ const MyJobs = ({ navigation }) => {
       ) : (
         <EmployerMyJobs navigation={navigation} jobsStatus={jobsStatus} />
       )}
-    </ScrollView>
+    </SpinnerScrollbar>
   );
 };
 
-export default memo(MyJobs);
+export default MyJobs;

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import searchIMG from "@/assets/images/search.png";
 
-import FilterModal from "@/components/FilterModal";
+import FilterModal from "@/screens/Home/components/FilterModal";
 import HeaderLeft from "@/components/Header/HeaderLeft";
 import JobPosts from "@/screens/Home/components/JobPosts";
 import Pagination from "@/components/Pagination";
@@ -26,7 +26,17 @@ const Home = ({ navigation }) => {
 
   const [numberOfFilters, setNumberOfFilters] = useState(0);
   const [search, setSearch] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState({
+    company: "",
+    location: "",
+    country: "",
+    category: "",
+    skills: [],
+    experienceRequired: "",
+    jobType: "",
+  });
+
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
   const user = useSelector((state) => state.user.user);
@@ -43,24 +53,12 @@ const Home = ({ navigation }) => {
   }, [navigation, numberOfFilters]);
 
   useEffect(() => {
-    const setItem = async () => {
-      try {
-        await AsyncStorage.setItem("screenName", "HomeTabs");
-      } catch (error) {
-        console.log("async set screenName to hometabs error: ", error);
-      }
-    };
+    console.log("filters: ", filters);
+  }, [filters]);
 
-    setItem();
-  }, []);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+  useEffect(() => {
+    fetchPosts(dispatch, currentPage, search, filters);
+  }, [currentPage, filters]);
 
   return (
     <SpinnerScrollbar>
@@ -91,7 +89,7 @@ const Home = ({ navigation }) => {
 
             <TouchableOpacity
               onPress={() => {
-                fetchPosts(dispatch, 1, search);
+                fetchPosts(dispatch, currentPage, search, filters);
               }}
               className="w-[15%] p-2 aspect-square rounded-xl  "
               style={{ backgroundColor: Colors.primary }}
@@ -108,12 +106,13 @@ const Home = ({ navigation }) => {
 
       <JobPosts navigation={navigation} />
 
-      <Pagination fetchType={"posts"} />
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
 
       <FilterModal
+        filters={filters}
+        setFilters={setFilters}
         bottomSheetVisible={bottomSheetVisible}
         setBottomSheetVisible={setBottomSheetVisible}
-        navigation={navigation}
         setNumberOfFilters={setNumberOfFilters}
       />
     </SpinnerScrollbar>

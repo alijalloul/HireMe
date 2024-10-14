@@ -195,8 +195,6 @@ export const login = async (dispatch, user, navigation) => {
       return data.message;
     }
 
-    console.log("data: ", data);
-
     dispatch(
       userSlice.actions.loginSuccess({
         user: data.user,
@@ -232,7 +230,7 @@ export const updateUser = async (newUser, navigation, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
 
     const res = await fetch(`${BASE_URL}/users/${newUser.id}`, {
       method: "PATCH",
@@ -288,11 +286,11 @@ export const editUser = async (dispatch, user, screenName, navigation) => {
   }
 };
 
-export const createJobPost = async (postsInfo, dispatch) => {
+export const createJobPost = async (dispatch, postsInfo) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
 
     const res = await fetch(`${BASE_URL}/jobPosts/`, {
       method: "POST",
@@ -318,7 +316,7 @@ export const updateJobPost = async (dispatch, postsInfo) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
 
     const res = await fetch(`${BASE_URL}/jobPosts/${postsInfo.id}`, {
       method: "PATCH",
@@ -356,7 +354,7 @@ export const fetchJobsByEmployer = async (userId, dispatch) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
 
     const res = await fetch(`${BASE_URL}/users/${userId}/jobPosts`, {
       method: "GET",
@@ -454,7 +452,7 @@ export const handleApply = async (
 
     navigation.navigate("HomeTabs");
   } catch (error) {
-    console.log("error message: ", error);
+    console.log("error: ", error);
   }
 };
 

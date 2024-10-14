@@ -25,25 +25,6 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// Update an existing job post
-router.patch("/:id", auth, async (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-
-  try {
-    const updatedJobPost = await db.jobPost.update({
-      where: { id },
-      data: body, // Directly use body if it matches the schema
-    });
-    res.status(201).json(updatedJobPost);
-  } catch (error) {
-    console.error(error);
-    res.status(409).json({
-      message: "Error updating job post",
-    });
-  }
-});
-
 // Delete a job post
 router.delete("/:id", auth, async (req, res) => {
   const { id } = req.params;
@@ -68,38 +49,71 @@ router.get("/", auth, async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const LIMIT = 3;
 
-  try {
-    const startIndex = (page - 1) * LIMIT; // Calculate the starting index for pagination
+  // Extract filter values from query parameters
+  const {
+    company,
+    location,
+    country,
+    category,
+    skills,
+    experienceRequired,
+    jobType,
+  } = req.query;
 
-    // Get the total count of job posts that match the search criteria
+  try {
+    const startIndex = (page - 1) * LIMIT; // Pagination logic
+
+    // Count the total posts that match the filters
     const totalPosts = await db.jobPost.count({
       where: {
         status: "pending",
-        ...(searchQuery !== "none" && {
-          jobTitle: {
-            contains: searchQuery, // Perform a case-insensitive search on job titles
-          },
+        ...(searchQuery.trim() !== "" && {
+          OR: [
+            { jobTitle: { contains: searchQuery, mode: "insensitive" } },
+            { description: { contains: searchQuery, mode: "insensitive" } },
+          ],
         }),
+        ...(company && { company: { contains: company, mode: "insensitive" } }),
+        ...(location && {
+          location: { contains: location, mode: "insensitive" },
+        }),
+        ...(country && { country: { contains: country, mode: "insensitive" } }),
+        ...(category && {
+          category: { contains: category, mode: "insensitive" },
+        }),
+        ...(skills && { skills: { hasSome: skills.split(",") } }), // Assuming skills are stored as an array
+        ...(experienceRequired && { experienceRequired }),
+        ...(jobType && { jobType }),
       },
     });
 
+    console.log("searchQuery: ", searchQuery);
+
+    console.log(`(${jobType})`);
+
+    console.log("totalPosts: ", totalPosts);
+
+    // Get the filtered job posts with pagination
     const jobPosts = await db.jobPost.findMany({
       where: {
         status: "pending",
-        ...(searchQuery !== "none" && {
+        ...(searchQuery.trim() !== "" && {
           OR: [
-            {
-              jobTitle: {
-                contains: searchQuery,
-              },
-            },
-            {
-              description: {
-                contains: searchQuery,
-              },
-            },
+            { jobTitle: { contains: searchQuery, mode: "insensitive" } },
+            { description: { contains: searchQuery, mode: "insensitive" } },
           ],
         }),
+        ...(company && { company: { contains: company, mode: "insensitive" } }),
+        ...(location && {
+          location: { contains: location, mode: "insensitive" },
+        }),
+        ...(country && { country: { contains: country, mode: "insensitive" } }),
+        ...(category && {
+          category: { contains: category, mode: "insensitive" },
+        }),
+        ...(skills && { skills: { hasSome: skills.split(",") } }),
+        ...(experienceRequired && { experienceRequired }),
+        ...(jobType && { jobType }),
       },
       orderBy: {
         createdAt: "desc",

@@ -12,25 +12,20 @@ import doubleChevronRight from "@/assets/images/doubleChevronRight.png";
 import { fetchPosts } from "@/redux/JobPost.js";
 import { fetchJobsByEmployer, fetchPostsAplliedToByUser } from "@/redux/User";
 
-const Pagination = ({ fetchType }) => {
-  const dispatch = useDispatch();
-  const isFocused = useIsFocused();
-  const userId = useSelector((state) => state.user.user)?.id;
+const Pagination = ({ currentPage, setCurrentPage }) => {
   const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
 
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    if (userId) {
-      if (fetchType === "postsByUserId") {
-        fetchJobsByEmployer(userId, dispatch);
-      } else if (fetchType === "postsByEmployeeId") {
-        fetchPostsAplliedToByUser(userId, currentPage, dispatch);
-      } else if (fetchType === "posts") {
-        fetchPosts(dispatch, currentPage);
-      }
-    }
-  }, [currentPage, isFocused]);
+  // useEffect(() => {
+  //   if (userId) {
+  //     if (fetchType === "postsByUserId") {
+  //       fetchJobsByEmployer(userId, dispatch);
+  //     } else if (fetchType === "postsByEmployeeId") {
+  //       fetchPostsAplliedToByUser(userId, currentPage, dispatch);
+  //     } else if (fetchType === "posts") {
+  //       fetchPosts(dispatch, currentPage, searchQuery, filters);
+  //     }
+  //   }
+  // }, [currentPage, isFocused]);
 
   if (numberOfPages < 2) return null;
 

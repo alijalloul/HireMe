@@ -8,13 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateJobPost } from "@/redux/User";
 import moment from "moment";
 
-const PostJobDisplayer = ({
-  headerSize,
-  headerText,
-  setPostIndex,
-  setBottomSheetVisible,
-}) => {
+import { useNavigation } from "@react-navigation/native";
+
+const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const handleEdit = (index) => {
     setPostIndex(index);
@@ -25,13 +23,6 @@ const PostJobDisplayer = ({
 
   return (
     <View className=" ">
-      <GaramondText
-        style={headerSize && { fontSize: headerSize }}
-        className="text-4xl font-garamond-semibold mb-5"
-      >
-        {headerText}
-      </GaramondText>
-
       <View>
         {jobs?.length > 0 &&
           jobs.map((job, index) => (

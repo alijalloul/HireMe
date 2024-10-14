@@ -21,7 +21,7 @@ async function fetchUser(id, token) {
 }
 
 export const authMiddleware = (store) => (next) => async (action) => {
-  console.log("Action type:", action.type);
+  // console.log("Action type:", action.type);
 
   if (action.type === "CHECK_PROFILE") {
     try {

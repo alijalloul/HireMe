@@ -29,25 +29,42 @@ const postSlice = createSlice({
   },
 });
 
-export const fetchPosts = async (dispatch, page, searchQuery) => {
+export const fetchPosts = async (dispatch, page, searchQuery, filters) => {
   dispatch(postSlice.actions.startAPI());
 
   try {
-    const token = JSON.parse(await AsyncStorage.getItem("token")).token;
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
 
-    const res = await fetch(
-      `${BASE_URL}/jobPosts?search=${searchQuery || "none"}&page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const queryString = `?company=${encodeURIComponent(
+      filters.company
+    )}&location=${encodeURIComponent(
+      filters.location
+    )}&country=${encodeURIComponent(
+      filters.country
+    )}&category=${encodeURIComponent(
+      filters.category
+    )}&skills=${encodeURIComponent(
+      filters.skills.join(",")
+    )}&experienceRequired=${encodeURIComponent(
+      filters.experienceRequired
+    )}&jobType=${encodeURIComponent(
+      filters.jobType
+    )}&page=${page}&searchQuery=${encodeURIComponent(searchQuery)}`;
+
+    const apiUrl = `${BASE_URL}/jobPosts${queryString}`;
+
+    console.log(apiUrl);
+
+    const res = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
 
     const data = await res.json();
 
-    console.log("number of opages: ", data.numberOfPages);
+    // console.log("data: ", data);
 
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {
