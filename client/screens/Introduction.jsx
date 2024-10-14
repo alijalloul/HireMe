@@ -1,19 +1,15 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { View } from "react-native";
+import { useSelector } from "react-redux";
 
-import { editUser } from "@/redux/User";
-
+import Container from "@/components/Container";
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
 import RenderTextInput from "@/components/RenderTextInput";
 import UploadImage from "@/components/UploadImage";
-import Container from "@/components/Container";
 
 const Introduction = ({ navigation }) => {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
 
   const [image, setImage] = useState(user?.image || "");

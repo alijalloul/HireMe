@@ -1,8 +1,8 @@
-import React, { memo, useEffect, useState } from "react";
+import { useState } from "react";
 import { View } from "react-native";
 
-import WorkExperienceModal from "./components/WorkExperienceModal";
 import WorkExperienceDisplayer from "./components/WorkExperienceDisplayer";
+import WorkExperienceModal from "./components/WorkExperienceModal";
 
 const WorkExperiencePicker = ({
   workExperience,

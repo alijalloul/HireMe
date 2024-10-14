@@ -1,17 +1,7 @@
-import { Colors } from "@/constants/Colors";
-import GaramondText from "@/components/GaramondText";
-
-import { Image, TouchableOpacity, View } from "react-native";
-
 import EducationPicker from "@/components/Picker/EducationPicker/EducationPicker";
 import LanguagePicker from "@/components/Picker/LanguagePicker/LanguagePicker";
 import WorkExperiencePicker from "@/components/Picker/WorkExperiencePicker/WorkExperiencePicker";
 import IntroductionPicker from "@/screens/Profile/components/components/IntroductionPicker";
-import TextInputEditor from "@/screens/Profile/components/components/TextInputEditor";
-import UploadImage from "@/components/UploadImage";
-
-import blobTop from "@/assets/images/blobTop.png";
-import Container from "./Container";
 
 const EmployeeProfile = ({ formData, handleInputChange }) => {
   return (

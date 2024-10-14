@@ -1,7 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React from "react";
-import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Colors } from "@/constants/Colors";
+import { Image, TouchableOpacity, View } from "react-native";
 
 import splash from "@/assets/splash.png";
 

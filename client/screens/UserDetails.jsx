@@ -1,7 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Colors } from "@/constants/Colors";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobTop from "@/assets/images/blobTop.png";
@@ -17,7 +16,7 @@ const UserDetails = ({ route, navigation }) => {
   )[0];
 
   const handleHire = () => {
-    hireEmployee(jobPostId, userId, navigation, dispatch);
+    hireEmployee(dispatch, jobPostId, userId, navigation);
   };
 
   return (

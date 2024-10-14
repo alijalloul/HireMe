@@ -1,12 +1,11 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import { Image, TouchableOpacity, View } from "react-native";
 
 import pen from "@/assets/images/pen.png";
 import trash from "@/assets/images/trash.png";
-import { useDispatch, useSelector } from "react-redux";
 import { updateJobPost } from "@/redux/User";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -29,7 +28,7 @@ const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("UserJobPostDetails", { itemId: job?.id });
-                fetchEmployeesByJobId(job?.id, dispatch);
+                fetchEmployeesByJobId(dispatch, job?.id);
               }}
               key={index}
               className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4 min-h-60"

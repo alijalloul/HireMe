@@ -55,8 +55,6 @@ export const fetchPosts = async (dispatch, page, searchQuery, filters) => {
 
     const apiUrl = `${BASE_URL}/jobPosts${queryString}`;
 
-    console.log(apiUrl);
-
     const res = await fetch(apiUrl, {
       method: "GET",
       headers: {
@@ -66,52 +64,11 @@ export const fetchPosts = async (dispatch, page, searchQuery, filters) => {
 
     const data = await res.json();
 
-    // console.log("data: ", data);
-
     dispatch(postSlice.actions.fetchSuccess(data));
   } catch (error) {
     dispatch(postSlice.actions.errorAPI());
     console.log("error: ", error);
   }
 };
-
-// export const fetchPostsByFilter = async (
-//   company,
-//   location,
-//   country,
-//   category,
-//   skills,
-//   jobExperience,
-//   jobType,
-//   page,
-//   dispatch
-// ) => {
-//   dispatch(postSlice.actions.startAPI());
-
-//   try {
-//     const queryParams = new URLSearchParams({
-//       company: company || "none",
-//       location: location || "none",
-//       country: country || "none",
-//       category: category || "none",
-//       skills: skills || "none",
-//       jobExperience: jobExperience || "none",
-//       jobType: jobType || "none",
-//       page: page || "1", // Set a default value for page if it's not provided
-//     });
-
-//     const url = `${BASE_URL}/filter?${queryParams.toString()}`;
-
-//     const res = await fetch(url, {
-//       mode: "cors",
-//     });
-//     const data = await res.json();
-
-//     dispatch(postSlice.actions.fetchSuccess(data));
-//   } catch (error) {
-//     dispatch(postSlice.actions.errorAPI());
-//     console.log("error: ", error);
-//   }
-// };
 
 export default postSlice.reducer;

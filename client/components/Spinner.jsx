@@ -1,6 +1,3 @@
-import { Colors } from '@/constants/Colors'
-import GaramondText from '@/components/GaramondText';
-import React from "react";
 import { ActivityIndicator, View } from "react-native";
 
 const Spinner = () => {

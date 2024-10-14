@@ -1,7 +1,5 @@
-import { Colors } from "@/constants/Colors";
-import React from "react";
-import { Text } from "react-native";
 import { cn } from "@/lib/utils";
+import { Text } from "react-native";
 
 const GaramondText = ({ props, className, style, children }) => {
   return (

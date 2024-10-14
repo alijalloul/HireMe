@@ -1,11 +1,9 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
+import { Colors } from "@/constants/Colors";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
-import React, { memo } from "react";
 import {
   Image,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,

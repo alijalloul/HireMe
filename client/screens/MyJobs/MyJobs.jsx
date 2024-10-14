@@ -1,12 +1,12 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { useState } from "react";
+import { Colors } from "@/constants/Colors";
+import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
+import SpinnerScrollbar from "@/components/SpinnerScrollbar";
 import EmployeeMyJobs from "./components/EmployeeMyJobs";
 import EmployerMyJobs from "./components/EmployerMyJobs/EmployerMyJobs.jsx";
-import SpinnerScrollbar from "@/components/SpinnerScrollbar";
 
 const MyJobs = ({ navigation }) => {
   const user = useSelector((state) => state.user.user);

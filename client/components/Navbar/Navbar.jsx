@@ -1,5 +1,10 @@
+import graphOrange from "@/assets/images/graphOrange.png";
+import graphWhite from "@/assets/images/graphWhite.png";
+import homeOrange from "@/assets/images/homeOrange.png";
+import homeWhite from "@/assets/images/homeWhite.png";
+import userOrange from "@/assets/images/userOrange.png";
+import userWhite from "@/assets/images/userWhite.png";
 import { Colors } from "@/constants/Colors";
-import GaramondText from "@/components/GaramondText";
 import { useBackHandler } from "@react-native-community/hooks";
 import {
   getFocusedRouteNameFromRoute,
@@ -7,22 +12,9 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Alert,
-  Image,
-  Keyboard,
-  TouchableOpacity,
-  View,
-  BackHandler,
-} from "react-native";
 import { MotiView, useDynamicAnimation } from "moti";
-import graphOrange from "@/assets/images/graphOrange.png";
-import graphWhite from "@/assets/images/graphWhite.png";
-import homeOrange from "@/assets/images/homeOrange.png";
-import homeWhite from "@/assets/images/homeWhite.png";
-import userOrange from "@/assets/images/userOrange.png";
-import userWhite from "@/assets/images/userWhite.png";
+import { useEffect, useRef, useState } from "react";
+import { Alert, BackHandler, Keyboard, View } from "react-native";
 
 import NavButton from "./components/NavButton";
 

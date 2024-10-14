@@ -1,25 +1,17 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import {
-  Image,
-  RefreshControl,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Colors } from "@/constants/Colors";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import searchIMG from "@/assets/images/search.png";
 
-import FilterModal from "@/screens/Home/components/FilterModal";
 import HeaderLeft from "@/components/Header/HeaderLeft";
-import JobPosts from "@/screens/Home/components/JobPosts";
 import Pagination from "@/components/Pagination";
-import { fetchPosts } from "@/redux/JobPost";
 import SpinnerScrollbar from "@/components/SpinnerScrollbar";
+import { fetchPosts } from "@/redux/JobPost";
+import FilterModal from "@/screens/Home/components/FilterModal";
+import JobPosts from "@/screens/Home/components/JobPosts";
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();

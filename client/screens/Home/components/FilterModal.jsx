@@ -1,18 +1,19 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { memo, useState } from "react";
-import { Image, ScrollView, Modal, TouchableOpacity, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { Colors } from "@/constants/Colors";
+import { useState } from "react";
+import { Image, Modal, ScrollView, TouchableOpacity, View } from "react-native";
 
 import check from "@/assets/images/checkWhite.png";
 
-import { categories } from "@/constants/JobData";
-import { experienceLevels, employmentTypes } from "@/constants/JobData";
+import {
+  categories,
+  employmentTypes,
+  experienceLevels,
+} from "@/constants/JobData";
 
-import { fetchPosts, fetchPostsByFilter } from "@/redux/JobPost";
-import SkillModal from "@/components/SkillModal";
-import SingleSelectorModal from "@/components/SingleSelectorModal";
 import RenderTextInput from "@/components/RenderTextInput";
+import SingleSelectorModal from "@/components/SingleSelectorModal";
+import SkillModal from "@/components/SkillModal";
 
 const FilterModal = ({
   filters,

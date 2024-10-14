@@ -1,16 +1,11 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import { useIsFocused } from "@react-navigation/native";
-import React, { memo, useEffect, useState } from "react";
-import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { Image, TouchableWithoutFeedback, View } from "react-native";
+import { useSelector } from "react-redux";
 
 import chevronLeft from "@/assets/images/chevronLeft.png";
 import chevronRight from "@/assets/images/chevronRight.png";
 import doubleChevronLeft from "@/assets/images/doubleChevronLeft.png";
 import doubleChevronRight from "@/assets/images/doubleChevronRight.png";
-import { fetchPosts } from "@/redux/JobPost.js";
-import { fetchJobsByEmployer, fetchPostsAplliedToByUser } from "@/redux/User";
 
 const Pagination = ({ currentPage, setCurrentPage }) => {
   const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);

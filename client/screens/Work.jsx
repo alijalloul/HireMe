@@ -1,9 +1,9 @@
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+import Container from "@/components/Container";
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
 import WorkExperiencePicker from "@/components/Picker/WorkExperiencePicker/WorkExperiencePicker";
-import Container from "@/components/Container";
 
 const Work = ({ navigation }) => {
   const user = useSelector((state) => state.user.user);

@@ -1,5 +1,3 @@
-import { Colors } from "@/constants/Colors";
-import GaramondText from "@/components/GaramondText";
 import "./global.css";
 
 import { navigationRef } from "./lib/RootNavigation";
@@ -7,11 +5,8 @@ import { navigationRef } from "./lib/RootNavigation";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Constants from "expo-constants";
-import * as Device from "expo-device";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 
 import "react-native-gesture-handler";
 import "react-native-reanimated";
@@ -20,7 +15,6 @@ import Store from "@/redux/Store";
 
 import Navbar from "@/components/Navbar/Navbar";
 import CV from "@/screens/CV";
-import Choose from "@/screens/Choose";
 import Education from "@/screens/Education";
 import Home from "@/screens/Home/Home";
 import Introduction from "@/screens/Introduction";
@@ -34,12 +28,11 @@ import UserDetails from "@/screens/UserDetails";
 import UserJobPostDetails from "@/screens/UserJobPostDetails";
 import Work from "@/screens/Work";
 
+import HeaderRight from "@/components/Header/HeaderRight";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import HeaderRight from "@/components/Header/HeaderRight";
-import { editUser } from "@/redux/User";
 
 import ContactInfo from "@/screens/ContactInfo";
 import EmployeeJobDetails from "@/screens/EmployeeJobDetails";

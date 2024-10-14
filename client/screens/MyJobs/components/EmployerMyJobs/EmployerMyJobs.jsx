@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 import GaramondText from "@/components/GaramondText";
 
 import { Colors } from "@/constants/Colors";
-import PostJobDisplayer from "./components/PostJobDisplayer";
-import PostJobModal from "./components/PostJobModal";
 import { fetchJobsByEmployer } from "@/redux/User";
 import { useDispatch, useSelector } from "react-redux";
+import PostJobDisplayer from "./components/PostJobDisplayer";
+import PostJobModal from "./components/PostJobModal";
 
 const EmployerMyJobs = ({}) => {
   const dispatch = useDispatch();

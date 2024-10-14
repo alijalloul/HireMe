@@ -1,17 +1,8 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { useEffect, useState } from "react";
-import {
-  Dimensions,
-  Image,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Colors } from "@/constants/Colors";
+import { useEffect, useState } from "react";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-
-import blobleft from "@/assets/images/blobleft.png";
 
 import RenderTextInput from "@/components/RenderTextInput";
 import Spinner from "@/components/Spinner";

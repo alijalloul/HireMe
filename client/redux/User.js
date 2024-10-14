@@ -142,7 +142,7 @@ const userSlice = createSlice({
   },
 });
 
-export const signup = async (user, navigation, dispatch) => {
+export const signup = async (dispatch, user, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -211,7 +211,7 @@ export const login = async (dispatch, user, navigation) => {
   }
 };
 
-export const logout = async (navigation, dispatch) => {
+export const logout = async (dispatch, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -226,7 +226,7 @@ export const logout = async (navigation, dispatch) => {
   }
 };
 
-export const updateUser = async (newUser, navigation, dispatch) => {
+export const updateUser = async (dispatch, newUser, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -336,7 +336,7 @@ export const updateJobPost = async (dispatch, postsInfo) => {
   }
 };
 
-export const deletePost = async (selectedPostId, dispatch) => {
+export const deletePost = async (dispatch, selectedPostId) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -350,7 +350,7 @@ export const deletePost = async (selectedPostId, dispatch) => {
   }
 };
 
-export const fetchJobsByEmployer = async (userId, dispatch) => {
+export const fetchJobsByEmployer = async (dispatch, userId) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -372,7 +372,7 @@ export const fetchJobsByEmployer = async (userId, dispatch) => {
   }
 };
 
-export const fetchPostsAplliedToByUser = async (userId, page, dispatch) => {
+export const fetchPostsAplliedToByUser = async (dispatch, userId, page) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -389,7 +389,7 @@ export const fetchPostsAplliedToByUser = async (userId, page, dispatch) => {
   }
 };
 
-export const fetchEmployeesByJobId = async (jobId, dispatch) => {
+export const fetchEmployeesByJobId = async (dispatch, jobId) => {
   dispatch(userSlice.actions.startAPI());
 
   try {
@@ -408,7 +408,7 @@ export const fetchEmployeesByJobId = async (jobId, dispatch) => {
   }
 };
 
-export const hireEmployee = async (jobId, employeeId, navigation, dispatch) => {
+export const hireEmployee = async (dispatch, jobId, employeeId, navigation) => {
   dispatch(userSlice.actions.startAPI());
 
   try {

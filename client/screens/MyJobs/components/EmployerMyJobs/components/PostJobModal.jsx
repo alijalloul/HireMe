@@ -1,20 +1,17 @@
-import GaramondText from "@/components/GaramondText";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+import PickerModalContainer from "@/components/Picker/components/PickerModalContainer";
 import RenderTextInput from "@/components/RenderTextInput";
 import SingleSelectorModal from "@/components/SingleSelectorModal";
-import PickerModalContainer from "@/components/Picker/components/PickerModalContainer";
-import { useDispatch, useSelector } from "react-redux";
 import { createJobPost, updateJobPost } from "@/redux/User";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   categories,
-  experienceLevels,
   employmentTypes,
+  experienceLevels,
 } from "@/constants/JobData";
 import SkillModal from "../../../../../components/SkillModal";
-import { TouchableOpacity } from "react-native";
-import { Colors } from "@/constants/Colors";
 
 const PostJobModal = ({
   isBottomSheetVisible,

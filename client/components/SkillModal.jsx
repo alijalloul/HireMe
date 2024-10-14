@@ -1,11 +1,8 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { memo, useState } from "react";
+import { useState } from "react";
 import {
-  Image,
-  ScrollView,
-  Text,
   Modal,
+  ScrollView,
   TextInput,
   TouchableOpacity,
   View,

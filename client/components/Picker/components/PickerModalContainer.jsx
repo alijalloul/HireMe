@@ -1,6 +1,6 @@
 import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
-import { ScrollView, TouchableOpacity, View, Modal, Text } from "react-native";
+import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 const PickerModalContainer = ({
   title,

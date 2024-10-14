@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import blobright from "@/assets/images/blobright.png";
-import Spinner from "@/components/Spinner";
 import GaramondText from "@/components/GaramondText";
 import RenderTextInput from "@/components/RenderTextInput";
-import { signup } from "@/redux/User";
+import Spinner from "@/components/Spinner";
 import { Colors } from "@/constants/Colors";
+import { signup } from "@/redux/User";
 
 const SignUp = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -54,7 +53,7 @@ const SignUp = ({ navigation }) => {
     setErrors(updatedErrors);
 
     if (!error) {
-      await signup(formData, navigation, dispatch);
+      await signup(dispatch, formData, navigation);
     }
   };
 

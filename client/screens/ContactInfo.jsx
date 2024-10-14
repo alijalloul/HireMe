@@ -1,12 +1,10 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
+import Container from "@/components/Container";
 import CustomeBackHeader from "@/components/Header/CustomBackHeader";
 import RenderTextInput from "@/components/RenderTextInput";
-import Container from "@/components/Container";
 
 const CV = ({ navigation }) => {
   const user = useSelector((state) => state.user.user);

@@ -1,8 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { loginSuccess, errorAPI } from "../User"; // Adjust the import path
 import { jwtDecode } from "jwt-decode"; // Use jwt-decode for decoding
-import { CommonActions } from "@react-navigation/native"; // To reset navigation state
 import BASE_URL from "../BASE_URL";
+import { errorAPI, loginSuccess } from "../User"; // Adjust the import path
 
 import { navigate } from "@/lib/RootNavigation";
 

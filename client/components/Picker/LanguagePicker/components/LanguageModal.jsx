@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { languages, proficiencies } from "@/constants/Language";
 import SingleSelectorModal from "@/components/SingleSelectorModal";
+import { languages, proficiencies } from "@/constants/Language";
+import { useEffect, useState } from "react";
 
 import PickerModalContainer from "../../components/PickerModalContainer";
 

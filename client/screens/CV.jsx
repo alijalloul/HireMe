@@ -1,6 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { useEffect } from "react";
+import { Colors } from "@/constants/Colors";
+import { useEffect } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 

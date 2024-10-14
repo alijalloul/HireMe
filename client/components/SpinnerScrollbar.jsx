@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import { ScrollView, RefreshControl, View } from "react-native";
 import Spinner from "@/components/Spinner";
 import { useCallback, useState } from "react";
+import { RefreshControl, ScrollView, View } from "react-native";
+import { useSelector } from "react-redux";
 
 const SpinnerScrollbar = ({ children }) => {
   const pending = useSelector(

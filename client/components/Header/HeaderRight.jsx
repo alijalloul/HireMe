@@ -1,7 +1,4 @@
-import { Colors } from "@/constants/Colors";
-import GaramondText from "@/components/GaramondText";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
 import { Image, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 

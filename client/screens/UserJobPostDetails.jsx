@@ -1,8 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
 import moment from "moment";
-import React from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 
 const UserJobPostDetails = ({ route, navigation }) => {

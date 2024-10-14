@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import { useState } from "react";
 import { View } from "react-native";
 
 import LanguageDisplayer from "./components/LanguageDisplayer";

@@ -1,8 +1,8 @@
-import React, { memo, useEffect, useState } from "react";
+import { useState } from "react";
 import { View } from "react-native";
 
-import EducationModal from "./components/EducationModal";
 import EducationDisplayer from "./components/EducationDisplayer";
+import EducationModal from "./components/EducationModal";
 
 const EducationPicker = ({
   education,

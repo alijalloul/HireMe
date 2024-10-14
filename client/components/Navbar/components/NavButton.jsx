@@ -1,9 +1,9 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
+import { Colors } from "@/constants/Colors";
 
+import { MotiView, useDynamicAnimation } from "moti";
 import React, { useEffect } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
-import { MotiView, useDynamicAnimation } from "moti";
 
 const NavButton = React.forwardRef(
   ({ focused, imageWhite, label, onPress, selectedButtonBottom }, ref) => {

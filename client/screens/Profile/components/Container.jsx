@@ -1,15 +1,14 @@
 import GaramondText from "@/components/GaramondText";
 
-import TextInputEditor from "@/screens/Profile/components/components/TextInputEditor";
 import UploadImage from "@/components/UploadImage";
+import TextInputEditor from "@/screens/Profile/components/components/TextInputEditor";
 
 import blobTop from "@/assets/images/blobTop.png";
-import { TouchableOpacity } from "react-native";
-import { logout, updateUser } from "@/redux/User";
-import { Colors } from "@/constants/Colors";
-import { useDispatch, useSelector } from "react-redux";
-import { ScrollView, View, Image } from "react-native";
 import Spinner from "@/components/Spinner";
+import { Colors } from "@/constants/Colors";
+import { logout, updateUser } from "@/redux/User";
+import { Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 const Container = ({ formData, handleInputChange, navigation, children }) => {
   const dispatch = useDispatch();
@@ -105,7 +104,7 @@ const Container = ({ formData, handleInputChange, navigation, children }) => {
             <View className="flex justify-center items-center my-10">
               <TouchableOpacity
                 onPress={() => {
-                  logout(navigation, dispatch);
+                  logout(dispatch, navigation);
                 }}
                 className="w-full h-12 flex justify-center items-center bottom-0 right-0 bg-white border rounded-xl mb-2"
                 style={{ borderColor: Colors.primary }}

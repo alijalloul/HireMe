@@ -1,7 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { useEffect, useRef, useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Image, TextInput, TouchableOpacity, View } from "react-native";
 
 import check from "@/assets/images/check.png";
 import pen from "@/assets/images/pen.png";

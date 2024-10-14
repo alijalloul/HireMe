@@ -1,10 +1,8 @@
 import { Colors } from "@/constants/Colors";
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import { View, ScrollView } from "react-native";
-import GaramondText from "./GaramondText";
 import { editUser, updateUser } from "@/redux/User";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
+import GaramondText from "./GaramondText";
 
 const Container = ({ isOver, user, screenName, navigation, children }) => {
   const dispatch = useDispatch();
@@ -20,7 +18,7 @@ const Container = ({ isOver, user, screenName, navigation, children }) => {
         <TouchableOpacity
           onPress={() => {
             isOver
-              ? updateUser(user, navigation, dispatch)
+              ? updateUser(dispatch, user, navigation)
               : editUser(dispatch, user, screenName, navigation);
           }}
           className="self-end w-32 h-12 flex justify-center items-center rounded-xl"

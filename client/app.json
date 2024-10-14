@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "HireMe",
+    "slug": "HireMe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,12 +19,18 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FBF2E3"
       },
-      "package": "com.hireme"
+      "package": "com.hireme",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "backgroundColor": "#FBF2E3"
     },
-    "plugins": []
+    "plugins": [],
+    "extra": {
+      "eas": {
+        "projectId": "0cd648b5-7923-4429-939a-3b2ca6a7bef0"
+      }
+    }
   }
 }

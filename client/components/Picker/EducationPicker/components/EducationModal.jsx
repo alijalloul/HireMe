@@ -1,7 +1,7 @@
 import GaramondText from "@/components/GaramondText";
-import React, { useEffect, useState } from "react";
-import { years } from "@/constants/Time";
 import { degrees, majors } from "@/constants/Education";
+import { years } from "@/constants/Time";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 
 import RenderTextInput from "@/components/RenderTextInput";

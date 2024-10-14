@@ -1,8 +1,5 @@
-import { Colors } from "@/constants/Colors";
-import GaramondText from "@/components/GaramondText";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
 import { Alert, TouchableOpacity } from "react-native";
 
 const CustomBackHeader = ({ navigation, screenName }) => {

@@ -1,7 +1,6 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
-import React, { memo } from "react";
-import { Image, Text, TextInput, View } from "react-native";
+import { memo } from "react";
+import { TextInput, View } from "react-native";
 
 const RenderTextInput = ({
   className,

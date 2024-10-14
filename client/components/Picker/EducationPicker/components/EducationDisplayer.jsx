@@ -1,5 +1,5 @@
-import { Colors } from "@/constants/Colors";
 import GaramondText from "@/components/GaramondText";
+import { Colors } from "@/constants/Colors";
 import { Image, TouchableOpacity, View } from "react-native";
 
 import pen from "@/assets/images/pen.png";

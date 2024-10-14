@@ -1,9 +1,8 @@
-import { useIsFocused } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-import EmployeeProfile from "./components/EmployeeProfile";
 import Container from "./components/Container";
+import EmployeeProfile from "./components/EmployeeProfile";
 
 const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.user.user);
