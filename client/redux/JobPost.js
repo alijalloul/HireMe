@@ -3,8 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import BASE_URL from "./BASE_URL";
 
-console.log("BASE_URL: ", BASE_URL);
-
 const postSlice = createSlice({
   name: "post",
   initialState: {
@@ -19,6 +17,11 @@ const postSlice = createSlice({
       state.pending = true;
     },
 
+    fetchSuccess: (state, action) => {
+      state.pending = false;
+      state.postsInfo = action.payload.data;
+      state.numberOfPages = action.payload.numberOfPages;
+    },
     fetchSuccess: (state, action) => {
       state.pending = false;
       state.postsInfo = action.payload.data;
@@ -49,8 +52,8 @@ export const fetchPosts = async (dispatch, page, searchQuery, filters) => {
       filters.skills.join(",")
     )}&experienceRequired=${encodeURIComponent(
       filters.experienceRequired
-    )}&jobType=${encodeURIComponent(
-      filters.jobType
+    )}&type=${encodeURIComponent(
+      filters.type
     )}&page=${page}&searchQuery=${encodeURIComponent(searchQuery)}`;
 
     const apiUrl = `${BASE_URL}/jobPosts${queryString}`;

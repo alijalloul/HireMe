@@ -26,7 +26,7 @@ const Home = ({ navigation }) => {
     category: "",
     skills: [],
     experienceRequired: "",
-    jobType: "",
+    type: "",
   });
 
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
@@ -43,10 +43,6 @@ const Home = ({ navigation }) => {
       ),
     });
   }, [navigation, numberOfFilters]);
-
-  useEffect(() => {
-    console.log("filters: ", filters);
-  }, [filters]);
 
   useEffect(() => {
     fetchPosts(dispatch, currentPage, search, filters);

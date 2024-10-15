@@ -1,5 +1,5 @@
-import express from "express";
 import * as dotenv from "dotenv";
+import express from "express";
 
 import db from "../db/db.js"; // Use your existing Prisma client
 import auth from "../middleware/middleware.js";
@@ -57,7 +57,7 @@ router.get("/", auth, async (req, res) => {
     category,
     skills,
     experienceRequired,
-    jobType,
+    type,
   } = req.query;
 
   try {
@@ -69,7 +69,7 @@ router.get("/", auth, async (req, res) => {
         status: "pending",
         ...(searchQuery.trim() !== "" && {
           OR: [
-            { jobTitle: { contains: searchQuery, mode: "insensitive" } },
+            { title: { contains: searchQuery, mode: "insensitive" } },
             { description: { contains: searchQuery, mode: "insensitive" } },
           ],
         }),
@@ -83,13 +83,13 @@ router.get("/", auth, async (req, res) => {
         }),
         ...(skills && { skills: { hasSome: skills.split(",") } }), // Assuming skills are stored as an array
         ...(experienceRequired && { experienceRequired }),
-        ...(jobType && { jobType }),
+        ...(type && { type }),
       },
     });
 
     console.log("searchQuery: ", searchQuery);
 
-    console.log(`(${jobType})`);
+    console.log(`(${type})`);
 
     console.log("totalPosts: ", totalPosts);
 
@@ -99,7 +99,7 @@ router.get("/", auth, async (req, res) => {
         status: "pending",
         ...(searchQuery.trim() !== "" && {
           OR: [
-            { jobTitle: { contains: searchQuery, mode: "insensitive" } },
+            { title: { contains: searchQuery, mode: "insensitive" } },
             { description: { contains: searchQuery, mode: "insensitive" } },
           ],
         }),
@@ -113,7 +113,7 @@ router.get("/", auth, async (req, res) => {
         }),
         ...(skills && { skills: { hasSome: skills.split(",") } }),
         ...(experienceRequired && { experienceRequired }),
-        ...(jobType && { jobType }),
+        ...(type && { type }),
       },
       orderBy: {
         createdAt: "desc",
@@ -127,7 +127,8 @@ router.get("/", auth, async (req, res) => {
       numberOfPages: Math.ceil(totalPosts / LIMIT),
     });
   } catch (error) {
-    console.error(error);
+    console.log("error fetching the job posts: ", error);
+
     res.status(500).json({
       message: "Error fetching job posts",
     });
@@ -144,14 +145,14 @@ router.patch("/:id", auth, async (req, res) => {
         id,
       },
       data: {
-        jobTitle: body.jobTitle,
+        title: body.title,
         company: body.company,
         location: body.location,
         country: body.country,
         category: body.category,
         skills: body.skills,
         experienceRequired: body.experienceRequired,
-        jobType: body.jobType,
+        type: body.type,
         description: body.description,
         status: body.status,
       },
@@ -159,6 +160,27 @@ router.patch("/:id", auth, async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
+    console.log("error updating the job post: ", error);
+
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete("/:id", auth, async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+
+  try {
+    await db.jobPost.delete({
+      where: {
+        id,
+      },
+    });
+
+    res.status(200);
+  } catch (error) {
+    console.log("error deleting job post: ", error);
+
     res.status(500).json({ message: error.message });
   }
 });

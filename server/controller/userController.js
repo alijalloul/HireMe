@@ -290,7 +290,7 @@ export async function getJobPostsBySearch(
     const totalPosts =
       await jobPostDB.countDocuments({
         $or: [
-          { jobTitle: searchRegex },
+          { title: searchRegex },
           { description: searchRegex },
         ],
       });
@@ -298,7 +298,7 @@ export async function getJobPostsBySearch(
     const posts = await jobPostDB
       .find({
         $or: [
-          { jobTitle: searchRegex },
+          { title: searchRegex },
           { description: searchRegex },
         ],
       })
@@ -382,7 +382,7 @@ export async function getJobPostsByFilter(
             },
         },
         {
-          jobType: criteria.jobType || {
+          type: criteria.type || {
             $exists: true,
           },
         },
@@ -427,15 +427,15 @@ export async function applyForJob(req, res) {
     const employeeName = (
       await employeeDB.findById(body.employeeid)
     ).name;
-    const jobTitle = (
+    const title = (
       await jobPostDB.findById(body.jobid)
-    ).jobTitle;
+    ).title;
 
     const message = {
       to: employerPushToken,
       sound: "default",
       title: "Someone has applied to your job",
-      body: `${employeeName} has applied to "${jobTitle}"`,
+      body: `${employeeName} has applied to "${title}"`,
     };
 
     await expo.sendPushNotificationsAsync([

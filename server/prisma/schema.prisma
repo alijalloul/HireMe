@@ -37,14 +37,14 @@ model User {
 
 model JobPost {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  jobTitle           String
+  titel              String
   company            String
   location           String
   country            String
   category           String
   skills             String[]
   experienceRequired String?
-  jobType            String?
+  type               String?
   description        String?
   status             String   @default("pending")
   employerId         String   @db.ObjectId

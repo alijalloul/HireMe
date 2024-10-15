@@ -45,7 +45,7 @@ const FilterModal = ({
       category: "",
       skills: [],
       experienceRequired: "",
-      jobType: "",
+      type: "",
     };
 
     setNumberOfFilters(0);
@@ -156,9 +156,9 @@ const FilterModal = ({
                 {employmentTypes.map((type) => (
                   <CheckMarkForm
                     key={type}
-                    value={formData.jobType}
+                    value={formData.type}
                     setValue={(value) =>
-                      setFormData((prev) => ({ ...prev, jobType: value }))
+                      setFormData((prev) => ({ ...prev, type: value }))
                     }
                     conditional={type}
                   />

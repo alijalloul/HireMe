@@ -15,7 +15,7 @@ const WorkExperiencePicker = ({
 
   return (
     <View className="flex-1 ">
-      <View className="flex-1 self-center ">
+      <View className="flex-1 self-center w-full">
         <WorkExperienceDisplayer
           workExperience={workExperience}
           setWorkExperience={setWorkExperience}

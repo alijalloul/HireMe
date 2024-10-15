@@ -23,7 +23,7 @@ const JobPosts = ({ navigation }) => {
             } border-[#00000055] p-5 `}
           >
             <View className="flex flex-row justify-between items-center">
-              <GaramondText className=" text-3xl">{job?.jobTitle}</GaramondText>
+              <GaramondText className=" text-3xl">{job?.title}</GaramondText>
             </View>
 
             <GaramondText className=" text-[12px] opacity-50 mb-5">
@@ -43,9 +43,7 @@ const JobPosts = ({ navigation }) => {
               <GaramondText className=" text-[15px] ">
                 {job?.experienceRequired}
               </GaramondText>
-              <GaramondText className=" text-[15px] ">
-                {job?.jobType}
-              </GaramondText>
+              <GaramondText className=" text-[15px] ">{job?.type}</GaramondText>
             </View>
 
             <GaramondText className=" text-[15px] opacity-50 leading-6">

@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const JobPostSchema = mongoose.Schema({
-  jobTitle: { type: String, required: true },
+  title: { type: String, required: true },
   company: { type: String, required: true },
   location: { type: String, required: true },
   country: { type: String, required: true },
   category: { type: String, required: true },
   skills: [],
   experienceRequired: { type: String },
-  jobType: { type: String },
+  type: { type: String },
   description: { type: String },
   date: { type: Date, default: new Date() },
   status: { type: String, required: true },

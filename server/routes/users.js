@@ -14,8 +14,9 @@ router.patch("/:id", auth, async (req, res) => {
       where: {
         id,
       },
-      body: {
+      data: {
         name: body.name,
+        image: body.image,
         profession: body.profession,
         email: body.email,
         address: body.address,
@@ -28,6 +29,8 @@ router.patch("/:id", auth, async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
+    console.log("error updating the user: ", error);
+
     res.status(500).json({ message: error.message });
   }
 });
@@ -48,6 +51,7 @@ router.get("/:employerId/jobPosts", auth, async (req, res) => {
     res.status(200).json(data);
   } catch (error) {
     console.error(error);
+    console.log("error fetching user job posts: ", error);
 
     res.status(500).json({
       message: "Error fetching job posts",
@@ -74,7 +78,8 @@ router.get("/:id", auth, async (req, res) => {
       jobPosts,
     });
   } catch (error) {
-    console.log("error: ", error);
+    console.log("error detching the user: ", error);
+
     return res.status(400).json({ error: "Login failed" });
   }
 });

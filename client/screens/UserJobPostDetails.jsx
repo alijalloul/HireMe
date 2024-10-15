@@ -24,7 +24,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
         <View className="w-[90%] mb-8">
           <View className="mb-8">
             <GaramondText className="font-garamond-semibold text-4xl font-garamond-semibold">
-              {job?.jobTitle}
+              {job?.title}
             </GaramondText>
             <GaramondText className="text-[15px] opacity-50">
               {moment(job?.createdAt).fromNow()}
@@ -46,7 +46,7 @@ const UserJobPostDetails = ({ route, navigation }) => {
         <View className="w-full flex justify-between items-center py-3 border-t-[1px]">
           <View className="w-[90%] flex flex-row justify-between items-center">
             <GaramondText className="text-lg">Job Type</GaramondText>
-            <GaramondText className="text-lg">{job?.jobType}</GaramondText>
+            <GaramondText className="text-lg">{job?.type}</GaramondText>
           </View>
         </View>
 

@@ -1,11 +1,9 @@
-import express from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
+import express from "express";
+import jwt from "jsonwebtoken";
 
 import db from "../db/db.js";
-
-import auth from "../middleware/middleware.js";
 
 dotenv.config();
 
@@ -51,12 +49,18 @@ router.post("/signup", async (req, res) => {
       }
     );
 
+    const jobPosts = await db.jobPost.findMany({
+      where: { employerId: user.id },
+    });
+
     return res.status(200).json({
       user,
+      jobPosts,
       token,
     });
   } catch (error) {
-    console.error("MongoDB Error:", error);
+    console.log("error on signup: ", error);
+
     return res.status(400).json({ error: "Signup failed" });
   }
 });
@@ -97,7 +101,8 @@ router.post("/login", async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log("error: ", error);
+    console.log("erroron login: ", error);
+
     return res.status(400).json({ error: "Login failed" });
   }
 });

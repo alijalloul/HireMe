@@ -27,14 +27,14 @@ const PostJobModal = ({
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
   const [formData, setFormData] = useState({
-    jobTitle: "Software Engineer",
+    title: "Software Engineer",
     company: "Tech Solutions Inc.",
     location: "Berlin",
     country: "Germany",
     category: "Information Technology",
     skills: ["JavaScript", "React", "Node.js"],
     experienceRequired: "3-5 years",
-    jobType: "Full-Time",
+    type: "Full-Time",
     description:
       "We are looking for a Software Engineer to join our dynamic team. You will be responsible for developing high-quality software solutions.",
   });
@@ -53,14 +53,14 @@ const PostJobModal = ({
 
   const resetFormData = () => {
     setFormData({
-      jobTitle: "",
+      title: "",
       company: "",
       location: "",
       country: "",
       category: "",
       skills: [],
       experienceRequired: "",
-      jobType: "",
+      type: "",
       description: "",
     });
   };
@@ -97,8 +97,8 @@ const PostJobModal = ({
       <RenderTextInput
         className="mb-3"
         label="Job Title"
-        value={formData.jobTitle}
-        setValue={(value) => handleInputChange("jobTitle", value)}
+        value={formData.title}
+        setValue={(value) => handleInputChange("title", value)}
       />
 
       <RenderTextInput
@@ -148,8 +148,8 @@ const PostJobModal = ({
         className="mb-3"
         data={employmentTypes}
         title="Job Type"
-        value={formData.jobType}
-        setValue={(value) => handleInputChange("jobType", value)}
+        value={formData.type}
+        setValue={(value) => handleInputChange("type", value)}
       />
 
       <RenderTextInput

@@ -1,10 +1,9 @@
 import moment from "moment";
-import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import Pagination from "@/components/Pagination";
 import GaramondText from "@/components/GaramondText";
+import Pagination from "@/components/Pagination";
 
 const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
   const dispatch = useDispatch();
@@ -38,9 +37,7 @@ const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
                 className="flex justify-center w-full border rounded-2xl p-5 mb-4"
               >
                 <View className="flex flex-row justify-between items-center">
-                  <GaramondText className=" text-3xl">
-                    {job.jobTitle}
-                  </GaramondText>
+                  <GaramondText className=" text-3xl">{job.title}</GaramondText>
                 </View>
 
                 <GaramondText className=" text-[12px] opacity-50 mb-5">
@@ -61,7 +58,7 @@ const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
                     {job.experienceRequired}
                   </GaramondText>
                   <GaramondText className=" text-[15px] ">
-                    {job.jobType}
+                    {job.type}
                   </GaramondText>
                 </View>
 

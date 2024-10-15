@@ -1,7 +1,7 @@
-import express from "express";
-import mongoose from "mongoose";
+import bodyParser from "body-parser";
 import cors from "cors";
 import * as dotenv from "dotenv";
+import express from "express";
 
 // import bcrypt from "bcryptjs";
 // import https from "https";
@@ -9,20 +9,45 @@ import * as dotenv from "dotenv";
 
 // import employeeDB from "./schema/employeeSchema";
 // import employerDB from "./schema/employerSchema";
-import userDB from "./schema/userSchema.js";
 
 // import auth from "./middleware/middleware";
 
 import authRoute from "./routes/auth.js";
-import usersRouter from "./routes/users.js";
 import jobPostsRoute from "./routes/jobPosts.js";
+import usersRouter from "./routes/users.js";
 
 dotenv.config();
 
 const app = express();
 
+// Middleware to log payload size
+// app.use((req, res, next) => {
+//   req.on("data", (chunk) => {
+//     console.log(`Payload size: ${Buffer.byteLength(chunk)} bytes`);
+//   });
+//   next();
+// });
+
+// app.use((req, res, next) => {
+//   let totalSize = 0;
+
+//   req.on("data", (chunk) => {
+//     totalSize += Buffer.byteLength(chunk);
+//   });
+
+//   req.on("end", () => {
+//     console.log(
+//       `Received ${req.method} request for ${req.url} with size: ${totalSize} bytes`
+//     );
+//   });
+
+//   next();
+// });
+
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 const PORT = process.env.PORT || 5000;
 

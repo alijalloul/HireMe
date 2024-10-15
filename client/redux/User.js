@@ -144,6 +144,7 @@ const userSlice = createSlice({
 
 export const signup = async (dispatch, user, navigation) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("signing up");
 
   try {
     const res = await fetch(`${BASE_URL}/auth/signup`, {
@@ -157,11 +158,15 @@ export const signup = async (dispatch, user, navigation) => {
     if (res.status === 200) {
       const data = await res.json();
 
-      dispatch(userSlice.actions.loginSuccess(data.user));
+      dispatch(
+        userSlice.actions.loginSuccess({
+          user: data.user,
+          jobPosts: data.jobPosts,
+        })
+      );
+      await AsyncStorage.setItem("token", JSON.stringify(data.token));
 
-      await AsyncStorage.setItem("token", JSON.stringify(data));
-
-      if (data.accountType === "employee") {
+      if (data.user.accountType === "employee") {
         navigation.navigate("CV");
       } else {
         navigation.navigate("HomeTabs");
@@ -171,12 +176,13 @@ export const signup = async (dispatch, user, navigation) => {
     }
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error on signup: ", error);
   }
 };
 
 export const login = async (dispatch, user, navigation) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("logging in");
 
   try {
     const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -198,7 +204,7 @@ export const login = async (dispatch, user, navigation) => {
     dispatch(
       userSlice.actions.loginSuccess({
         user: data.user,
-        jobPosts: user.jobPosts,
+        jobPosts: data.jobPosts,
       })
     );
 
@@ -207,12 +213,13 @@ export const login = async (dispatch, user, navigation) => {
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error on login: ", error);
   }
 };
 
 export const logout = async (dispatch, navigation) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("loging out");
 
   try {
     dispatch(userSlice.actions.logoutSuccess());
@@ -222,15 +229,18 @@ export const logout = async (dispatch, navigation) => {
     navigation.navigate("onBoarding");
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error on logout: ", error);
   }
 };
 
 export const updateUser = async (dispatch, newUser, navigation) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("updating user");
 
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    console.log("updating user");
 
     const res = await fetch(`${BASE_URL}/users/${newUser.id}`, {
       method: "PATCH",
@@ -253,41 +263,22 @@ export const updateUser = async (dispatch, newUser, navigation) => {
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+
+    console.log("error updating the user: ", error);
   }
 };
 
 export const editUser = async (dispatch, user, screenName, navigation) => {
-  dispatch(userSlice.actions.startAPI());
+  dispatch(userSlice.actions.editSuccess(user));
 
-  try {
-    dispatch(userSlice.actions.editSuccess(user));
-
-    if (navigation) {
-      navigation.navigate(screenName);
-    }
-
-    // if (screenName) {
-    //   const token = JSON.parse(await AsyncStorage.getItem("token"))?.token;
-
-    //   await AsyncStorage.setItem(
-    //     "profile",
-    //     JSON.stringify({ user: user, token: token })
-    //   );
-
-    //   if (screenName !== "choose") {
-    //     await AsyncStorage.setItem("screenName", screenName);
-    //   }
-
-    // }
-  } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+  if (navigation) {
+    navigation.navigate(screenName);
   }
 };
 
 export const createJobPost = async (dispatch, postsInfo) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("creating job post");
 
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
@@ -308,12 +299,13 @@ export const createJobPost = async (dispatch, postsInfo) => {
     await AsyncStorage.setItem("jobPosts", JSON.stringify(jobPosts.push(data)));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error creating job post: ", error);
   }
 };
 
 export const updateJobPost = async (dispatch, postsInfo) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("updating job post");
 
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
@@ -332,26 +324,36 @@ export const updateJobPost = async (dispatch, postsInfo) => {
     dispatch(userSlice.actions.updatePostSuccess(data));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error updating job post: ", error);
   }
 };
 
-export const deletePost = async (dispatch, selectedPostId) => {
-  dispatch(userSlice.actions.startAPI());
+export const deleteJobPost = async (dispatch, postId) => {
+  dispatch(postSlice.actions.startAPI());
+  console.log("deleting job post");
 
   try {
-    await fetch(`${BASE_URL}/post/${selectedPostId}`, {
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    const apiUrl = `${BASE_URL}/jobPosts/${postId}`;
+
+    await fetch(apiUrl, {
       method: "DELETE",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
-    dispatch(userSlice.actions.deleteSuccess(selectedPostId));
+
+    dispatch(postSlice.actions.deleteSuccess(postId));
   } catch (error) {
-    dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    dispatch(postSlice.actions.errorAPI());
+    console.log("error deleting job post: ", error);
   }
 };
 
 export const fetchJobsByEmployer = async (dispatch, userId) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("fetching jobs by employer");
 
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
@@ -368,12 +370,13 @@ export const fetchJobsByEmployer = async (dispatch, userId) => {
     dispatch(userSlice.actions.fetchByIdSuccess(data));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error fetching jobs by employer: ", error);
   }
 };
 
 export const fetchPostsAplliedToByUser = async (dispatch, userId, page) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("fetching posts applied to by user: ", error);
 
   try {
     const res = await fetch(`${BASE_URL}/employee/${userId}/${page}/posts`, {
@@ -385,12 +388,13 @@ export const fetchPostsAplliedToByUser = async (dispatch, userId, page) => {
     dispatch(userSlice.actions.fetchByIdSuccess(data));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error fetching posts applied to by user: ", error);
   }
 };
 
 export const fetchEmployeesByJobId = async (dispatch, jobId) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("fetching employees by job id: ", error);
 
   try {
     const res = await fetch(`${BASE_URL}/job/${jobId}/employees`, {
@@ -404,12 +408,13 @@ export const fetchEmployeesByJobId = async (dispatch, jobId) => {
     );
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error fetching employees by job id: ", error);
   }
 };
 
 export const hireEmployee = async (dispatch, jobId, employeeId, navigation) => {
   dispatch(userSlice.actions.startAPI());
+  console.log("hiring employee: ", error);
 
   try {
     await fetch(`${BASE_URL}/job/${jobId}/employee/${employeeId}`, {
@@ -421,7 +426,7 @@ export const hireEmployee = async (dispatch, jobId, employeeId, navigation) => {
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error: ", error);
+    console.log("error hiring employee: ", error);
   }
 };
 

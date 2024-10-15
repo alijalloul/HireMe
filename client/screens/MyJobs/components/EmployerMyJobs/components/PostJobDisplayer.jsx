@@ -3,11 +3,12 @@ import { Image, TouchableOpacity, View } from "react-native";
 
 import pen from "@/assets/images/pen.png";
 import trash from "@/assets/images/trash.png";
-import { updateJobPost } from "@/redux/User";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigation } from "@react-navigation/native";
+
+import { deleteJobPost } from "@/redux/User";
 
 const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
   const dispatch = useDispatch();
@@ -34,9 +35,7 @@ const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
               className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4 min-h-60"
             >
               <View className="flex flex-row justify-between items-center">
-                <GaramondText className=" text-3xl">
-                  {job?.jobTitle}
-                </GaramondText>
+                <GaramondText className=" text-3xl">{job?.title}</GaramondText>
 
                 <View className="self-start w-[20%] flex flex-row justify-center items-center">
                   <TouchableOpacity
@@ -49,12 +48,7 @@ const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      updateJobPost(
-                        dispatch,
-                        workExperience?.filter(
-                          (item, index2) => index2 !== index
-                        )
-                      );
+                      deleteJobPost(dispatch, job.id);
                     }}
                     className="border border-gray-400 rounded-full p-[6px]"
                   >
@@ -81,7 +75,7 @@ const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
                   {job?.experienceRequired}
                 </GaramondText>
                 <GaramondText className=" text-[15px] ">
-                  {job?.jobType}
+                  {job?.type}
                 </GaramondText>
               </View>
 

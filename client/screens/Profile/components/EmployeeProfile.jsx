@@ -32,7 +32,7 @@ const EmployeeProfile = ({ formData, handleInputChange }) => {
         headerSize={25}
         headerText="Languages"
         language={formData.language}
-        setLanguageArr={(value) => handleInputChange("language", value)}
+        setLanguage={(value) => handleInputChange("language", value)}
       />
     </>
   );

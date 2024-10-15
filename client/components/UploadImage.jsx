@@ -2,6 +2,7 @@ import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
+import { useEffect } from "react";
 import {
   Image,
   TouchableOpacity,
@@ -10,6 +11,10 @@ import {
 } from "react-native";
 
 const UploadImage = ({ width, isButton, image, setImage }) => {
+  useEffect(() => {
+    console.log(image.length);
+  }, [image]);
+
   const addImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -21,8 +26,8 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
     if (!_image.canceled) {
       const resizedImage = await ImageManipulator.manipulateAsync(
         _image.assets[0].uri,
-        [{ resize: { width: 512, height: 512 } }],
-        { base64: true, compress: 1, format: "jpeg" }
+        [{ resize: { width: 400, height: 400 } }],
+        { base64: true, compress: 0.5, format: "jpeg" }
       );
 
       setImage(`data:image/jpeg;base64,${resizedImage.base64}`);

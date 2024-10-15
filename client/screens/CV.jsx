@@ -64,13 +64,11 @@ const CV = ({ navigation }) => {
 
           <TouchableOpacity
             onPress={() => {
-              pickDocument();
+              navigation.navigate("HomeTabs");
             }}
-            className={`bg-white border border-[${Colors.primary}] w-full py-3 rounded-3xl flex justify-center items-center mb-2`}
+            className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center mb-2"
           >
-            <GaramondText
-              className={`text-[${Colors.primary}] font-garamond-bold text-xl`}
-            >
+            <GaramondText className=" font-garamond-bold text-xl">
               Skip
             </GaramondText>
           </TouchableOpacity>
