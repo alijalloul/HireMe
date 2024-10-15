@@ -120,7 +120,7 @@ const Container = ({ formData, handleInputChange, navigation, children }) => {
                       dispatch,
                       {
                         ...formData,
-                        id: user.id,
+                        id: user?.id,
                         type: user.accountType,
                       },
                       navigation

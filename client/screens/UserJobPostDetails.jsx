@@ -43,28 +43,29 @@ const UserJobPostDetails = ({ route, navigation }) => {
           <GaramondText className="text-lg">{job?.description}</GaramondText>
         </View>
 
-        <View className="w-full flex justify-between items-center py-3 border-t-[1px]">
+        <View className="w-full flex justify-between items-center py-3 border-t">
           <View className="w-[90%] flex flex-row justify-between items-center">
             <GaramondText className="text-lg">Job Type</GaramondText>
             <GaramondText className="text-lg">{job?.type}</GaramondText>
           </View>
         </View>
 
-        <View className="w-full flex justify-between items-center py-3 border-t-[1px]">
+        <View className="w-full flex justify-between items-center py-3 border-t">
           <View className="w-[90%] flex flex-row justify-between items-center">
             <GaramondText className="text-lg">Category</GaramondText>
             <GaramondText className="text-lg">{job?.category}</GaramondText>
           </View>
         </View>
 
-        <View className="w-full flex justify-center items-center py-6 border-y-[1px]">
+        <View className="w-full flex justify-center items-center py-6 border-y">
           <View className="w-[90%]">
             <GaramondText className="text-lg mb-2">Skills</GaramondText>
             <View className="flex flex-row flex-wrap">
               {job?.skills.length > 0 &&
                 job?.skills.map((skill, index) => (
                   <View
-                    className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 bg-[#ff8d3c]"
+                    className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 "
+                    style={{ backgroundColor: Colors.primary }}
                     key={index.toString()}
                   >
                     <GaramondText className="text-white">{skill}</GaramondText>

@@ -18,7 +18,7 @@ import CV from "@/screens/CV";
 import Education from "@/screens/Education";
 import Home from "@/screens/Home/Home";
 import Introduction from "@/screens/Introduction";
-import JobPostDetails from "@/screens/JobPostDetails";
+import JobPostDetails from "@/screens/JobPostDetails/JobPostDetails";
 import LogIn from "@/screens/LogIn";
 import MyJobs from "@/screens/MyJobs/MyJobs";
 import OnBoarding from "@/screens/OnBoarding";
@@ -35,7 +35,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import ContactInfo from "@/screens/ContactInfo";
-import EmployeeJobDetails from "@/screens/EmployeeJobDetails";
 import Language from "./screens/Language";
 
 const Stack = createNativeStackNavigator();
@@ -204,14 +203,6 @@ const AppContent = () => {
           }}
         />
 
-        <Stack.Screen
-          name="employeeJobDetails"
-          component={EmployeeJobDetails}
-          options={{
-            headerTitle: "",
-            headerShadowVisible: false,
-          }}
-        />
         <Stack.Screen
           name="JobPostDetails"
           component={JobPostDetails}

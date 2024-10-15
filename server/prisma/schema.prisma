@@ -30,14 +30,17 @@ model User {
   workExperience Json[]
   pushToken      String?
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  JobPost   JobPost[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  JobPost              JobPost[]
+  employeeApplications Application[] @relation("employee")
+  employerJobs         Application[] @relation("employer")
 }
 
 model JobPost {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  titel              String
+  title              String
   company            String
   location           String
   country            String
@@ -50,6 +53,25 @@ model JobPost {
   employerId         String   @db.ObjectId
   employer           User     @relation(fields: [employerId], references: [id])
 
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Application Application[]
+}
+
+model Application {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  jobId       String @db.ObjectId
+  employeeId  String @db.ObjectId
+  employerId  String @db.ObjectId
+  status      String @default("pending")
+  coverLetter String
+
+  job      JobPost @relation(fields: [jobId], references: [id])
+  employee User    @relation("employee", fields: [employeeId], references: [id])
+  employer User    @relation("employer", fields: [employerId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([employeeId, employerId, jobId])
 }

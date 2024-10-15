@@ -59,7 +59,7 @@ const FilterModal = ({
       <View className="flex-1 justify-center bg-white">
         <View
           className={`mb-5 w-full flex flex-row px-5 py-2 justify-between items-center ${
-            bottomSheetVisible && "border-b-[1px]"
+            bottomSheetVisible && "border-b"
           }`}
         >
           <GaramondText className=" text-3xl ">Filter</GaramondText>

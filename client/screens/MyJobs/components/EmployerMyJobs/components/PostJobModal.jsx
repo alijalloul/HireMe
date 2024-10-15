@@ -21,22 +21,26 @@ const PostJobModal = ({
 }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const userId = user.user.id;
+  const userId = user.user?.id;
   const jobs = user.jobPosts;
 
   const isPostIndexDef = postIndex !== null && postIndex !== undefined;
 
   const [formData, setFormData] = useState({
-    title: "Software Engineer",
-    company: "Tech Solutions Inc.",
-    location: "Berlin",
+    title: "Project Manager",
+    company: "Global Solutions Corp.",
+    location: "Frankfurt",
     country: "Germany",
-    category: "Information Technology",
-    skills: ["JavaScript", "React", "Node.js"],
-    experienceRequired: "3-5 years",
-    type: "Full-Time",
+    category: categories[7], // Engineering
+    skills: [
+      SkillsData[29], // Agile
+      SkillsData[30], // Scrum
+      SkillsData[32], // Project Planning
+    ],
+    experienceRequired: experienceLevels[3], // 5+ years
+    type: employmentTypes[2], // Contract
     description:
-      "We are looking for a Software Engineer to join our dynamic team. You will be responsible for developing high-quality software solutions.",
+      "We are looking for an experienced Project Manager to lead engineering projects and coordinate teams effectively.",
   });
 
   useEffect(() => {
@@ -78,7 +82,7 @@ const PostJobModal = ({
           dispatch,
           jobs
             .filter((job, index) => index === postIndex)
-            .map((job) => ({ id: job.id, ...formData }))[0]
+            .map((job) => ({ id: job?.id, ...formData }))[0]
         )
       : createJobPost(dispatch, { employerId: userId, ...formData });
 

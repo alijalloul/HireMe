@@ -95,8 +95,8 @@ const Navbar = () => {
     const buttonRef = buttonRefs[focusedRouteName];
 
     if (selectorRef.current && buttonRef.current && containerRef.current) {
-      selectorRef.current.measure((x1, y1, selectorWidth) => {
-        buttonRef.current.measureLayout(
+      selectorRef.current?.measure((x1, y1, selectorWidth, selectorHeight) => {
+        buttonRef.current?.measureLayout(
           containerRef.current,
           (x2, y2, buttonWidth) => {
             const adjustedLeft =
@@ -105,6 +105,10 @@ const Navbar = () => {
             selectorAnimation.animateTo({ translateX: adjustedLeft });
           }
         );
+
+        if (!selectorBottom) {
+          setSelectorBottom(selectorHeight);
+        }
       });
     }
   }
@@ -151,12 +155,8 @@ const Navbar = () => {
           className="absolute z-10 "
           style={{ bottom: selectorBottom ? selectorBottom / 2 : 0 }}
           onLayout={() => {
-            animateSelector();
-
             if (selectorRef.current) {
-              selectorRef.current.measure((x, y, width, height) => {
-                setSelectorBottom(height);
-              });
+              animateSelector();
             }
           }}
         >

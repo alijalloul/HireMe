@@ -18,7 +18,7 @@ const PickerModalContainer = ({
       <View className="flex-1 justify-center bg-white">
         <View
           className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
-            isBottomSheetVisible && "border-b-[1px]"
+            isBottomSheetVisible && "border-b"
           }`}
         >
           <GaramondText className="text-3xl ">

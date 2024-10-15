@@ -118,7 +118,7 @@ const LogIn = ({ navigation }) => {
 
             <View className="w-full flex justify-end items-end">
               <TouchableOpacity className=" opacity-60">
-                <GaramondText className=" border-b-[1px]">
+                <GaramondText className=" border-b">
                   Forgot Password
                 </GaramondText>
               </TouchableOpacity>
@@ -142,7 +142,7 @@ const LogIn = ({ navigation }) => {
               <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
                 or
               </GaramondText>
-              <View className="opacity-50 absolute w-full border-b-[1px] "></View>
+              <View className="opacity-50 absolute w-full border-b "></View>
             </View>
 
             <TouchableOpacity

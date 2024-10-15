@@ -69,18 +69,36 @@ router.get("/:id", auth, async (req, res) => {
       },
     });
 
-    const jobPosts = await db.jobPost.findMany({
-      where: { employerId: user.id },
-    });
-
-    return res.status(200).json({
-      user,
-      jobPosts,
-    });
+    return res.status(200).json(user);
   } catch (error) {
     console.log("error detching the user: ", error);
 
     return res.status(400).json({ error: "Login failed" });
+  }
+});
+
+router.get("/:id/applications", auth, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const applications = await db.application.findMany({
+      where: {
+        employeeId: id,
+      },
+      select: {
+        job: true,
+      },
+    });
+
+    const jobs = applications.map((application) => application.job);
+
+    res.status(200).json(jobs);
+  } catch (error) {
+    console.log("error fetching applied to jobs: ", error);
+
+    res.status(500).json({
+      error: "Error fetching job posts",
+    });
   }
 });
 

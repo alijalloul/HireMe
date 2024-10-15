@@ -30,9 +30,10 @@ const CV = ({ navigation }) => {
       navigation={navigation}
     >
       <GaramondText className=" text-4xl font-garamond-semibold mb-5">
-        {user?.accountType === "employer"
-          ? "First, tell the employee how they would contact you."
-          : "First, tell the employer how they would contact you."}
+        {user?.accountType === "employee"
+          ? "First, tell the employer how they would contact you."
+          : accountType === "employer" &&
+            "First, tell the employee how they would contact you."}
       </GaramondText>
 
       <RenderTextInput

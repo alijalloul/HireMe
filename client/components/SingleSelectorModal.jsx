@@ -1,11 +1,10 @@
 import GaramondText from "@/components/GaramondText";
-import React, { memo, useState } from "react";
+import { useState } from "react";
 import {
   FlatList,
   Image,
-  Text,
-  TextInput,
   Modal,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -41,7 +40,7 @@ const SingleSelectorModal = ({ className, title, value, setValue, data }) => {
         <View className=" flex-1 justify-center bg-white">
           <View
             className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
-              isVisible && "border-b-[1px]"
+              isVisible && "border-b"
             }`}
           >
             <TextInput

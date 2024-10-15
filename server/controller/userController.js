@@ -203,7 +203,7 @@ export async function updateJobPost(req, res) {
 
   try {
     const newJobPost = await jobPostDB
-      .findByIdAndUpdate(body.id, body, {
+      .findByIdAndUpdate(body?.id, body, {
         new: true,
         lean: true,
       })

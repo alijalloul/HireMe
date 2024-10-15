@@ -32,7 +32,8 @@ const SkillModal = ({ value, setValue, className }) => {
             onPress={() => {
               setIsVisible(true);
             }}
-            className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 bg-[#ff8d3c]"
+            className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 "
+            style={{ backgroundColor: Colors.primary }}
             key={index.toString()}
           >
             <GaramondText className="text-white">{skill}</GaramondText>
@@ -53,7 +54,7 @@ const SkillModal = ({ value, setValue, className }) => {
         <View className="flex-1 justify-center bg-white">
           <View
             className={`mb-5 w-full flex flex-row px-5 justify-between items-center ${
-              isVisible && "border-b-[1px]"
+              isVisible && "border-b"
             }`}
           >
             <TextInput
@@ -84,14 +85,15 @@ const SkillModal = ({ value, setValue, className }) => {
               flexGrow: 1,
             }}
           >
-            <View className="flex flex-row flex-wrap border-b-[1px] mb-5 pb-5">
+            <View className="flex flex-row flex-wrap border-b mb-5 pb-5">
               {skills?.length > 0 ? (
                 skills.map((skill, index) => (
                   <TouchableOpacity
                     onPress={() => {
                       setSkills(skills?.filter((item) => item !== skill));
                     }}
-                    className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 bg-[#ff8d3c]"
+                    className="inline-block px-2 py-2 rounded-2xl mr-2 mb-2 "
+                    style={{ backgroundColor: Colors.primary }}
                     key={index.toString()}
                   >
                     <GaramondText className="text-white">{skill}</GaramondText>
@@ -112,9 +114,12 @@ const SkillModal = ({ value, setValue, className }) => {
                       ? setSkills(skills?.filter((item) => item !== skill))
                       : setSkills([...skills, skill]);
                   }}
-                  className={`inline-block px-2 py-2 bg-gray-200 rounded-2xl mr-2 mb-2 ${
-                    skills.includes(skill) && "bg-[#ff8d3c]"
-                  }`}
+                  className="inline-block px-2 py-2 bg-gray-200 rounded-2xl mr-2 mb-2"
+                  style={
+                    skills.includes(skill) && {
+                      backgroundColor: Colors.primary,
+                    }
+                  }
                   key={index.toString()}
                 >
                   <GaramondText

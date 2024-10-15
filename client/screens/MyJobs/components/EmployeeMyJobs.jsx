@@ -1,75 +1,41 @@
-import moment from "moment";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import GaramondText from "@/components/GaramondText";
-import Pagination from "@/components/Pagination";
+import { fetchPostsAplliedToByUser } from "@/redux/User";
+import { useEffect } from "react";
+import PostJobDisplayer from "./PostJobDisplayer";
 
 const EmployeeMyJobs = ({ navigation, jobsStatus }) => {
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user);
 
-  const jobs = useSelector((state) => state.user.jobPosts)?.filter(
-    (job) => job.status === jobsStatus
-  );
+  const jobs = user.jobPosts?.filter((job) => job.status === jobsStatus);
+  const userId = user.user?.id;
+
+  useEffect(() => {
+    console.log("fetching the jobs employer...");
+
+    fetchPostsAplliedToByUser(dispatch, userId);
+  }, []);
 
   return (
-    <View className="flex-1 flex justify-center items-center">
-      <View className="flex-1 w-[90%] ">
-        <View
-          className={`flex-1 justify-center items-center ${
-            jobs?.length > 0 && "hidden"
-          }`}
-        >
-          <GaramondText className="mb-5 text-lg opacity-60">
-            {jobsStatus === "pending" && "You Have Not Applied to Any Job Yet."}
-          </GaramondText>
-        </View>
-        <View>
-          {jobs?.length > 0 &&
-            jobs?.map((job, index) => (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("employeeJobDetails", { jobId: job.id });
-                }}
-                key={index}
-                className="flex justify-center w-full border rounded-2xl p-5 mb-4"
-              >
-                <View className="flex flex-row justify-between items-center">
-                  <GaramondText className=" text-3xl">{job.title}</GaramondText>
-                </View>
+    <View className="flex-1 flex justify-center items-center w-full">
+      <View className="flex-1 w-[90%] mb-5">
+        {!jobs.length && (
+          <View className="flex-1 justify-center items-center">
+            <GaramondText className="mb-5 text-lg opacity-60">
+              {jobsStatus === "pending" &&
+                "You Have Not Applied to Any Job Yet."}
+            </GaramondText>
+          </View>
+        )}
 
-                <GaramondText className=" text-[12px] opacity-50 mb-5">
-                  {moment(job?.createdAt).fromNow()}
-                </GaramondText>
-
-                <View className="mb-3 flex flex-row justify-between">
-                  <GaramondText className=" text-[15px] ">
-                    {job.country}
-                  </GaramondText>
-                  <GaramondText className=" text-[15px] ">
-                    {job.location}
-                  </GaramondText>
-                </View>
-
-                <View className="mb-3 flex flex-row justify-between">
-                  <GaramondText className=" text-[15px] ">
-                    {job.experienceRequired}
-                  </GaramondText>
-                  <GaramondText className=" text-[15px] ">
-                    {job.type}
-                  </GaramondText>
-                </View>
-
-                <GaramondText className=" text-[15px] opacity-50 leading-6">
-                  {job.description.substring(0, 200)}
-                </GaramondText>
-              </TouchableOpacity>
-            ))}
+        <View className="flex-1 self-center w-full">
+          <PostJobDisplayer />
         </View>
       </View>
-      <Pagination fetchType="postsByEmployeeId" />
     </View>
   );
 };

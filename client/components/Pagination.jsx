@@ -10,18 +10,6 @@ import doubleChevronRight from "@/assets/images/doubleChevronRight.png";
 const Pagination = ({ currentPage, setCurrentPage }) => {
   const numberOfPages = useSelector((state) => state.jobPosts.numberOfPages);
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     if (fetchType === "postsByUserId") {
-  //       fetchJobsByEmployer(userId, dispatch);
-  //     } else if (fetchType === "postsByEmployeeId") {
-  //       fetchPostsAplliedToByUser(userId, currentPage, dispatch);
-  //     } else if (fetchType === "posts") {
-  //       fetchPosts(dispatch, currentPage, searchQuery, filters);
-  //     }
-  //   }
-  // }, [currentPage, isFocused]);
-
   if (numberOfPages < 2) return null;
 
   return (

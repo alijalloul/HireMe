@@ -154,7 +154,7 @@ const UserDetails = ({ route, navigation }) => {
               user?.language.map((langArr, index) => (
                 <View
                   key={index}
-                  className="relative w-full py-3 border-t-[1px] border-b-[1px] mb-4"
+                  className="relative w-full py-3 border-t border-b mb-4"
                 >
                   <View className="flex flex-row justify-center items-center">
                     <View

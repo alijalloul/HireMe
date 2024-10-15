@@ -87,12 +87,6 @@ router.get("/", auth, async (req, res) => {
       },
     });
 
-    console.log("searchQuery: ", searchQuery);
-
-    console.log(`(${type})`);
-
-    console.log("totalPosts: ", totalPosts);
-
     // Get the filtered job posts with pagination
     const jobPosts = await db.jobPost.findMany({
       where: {
@@ -168,7 +162,6 @@ router.patch("/:id", auth, async (req, res) => {
 
 router.delete("/:id", auth, async (req, res) => {
   const { id } = req.params;
-  const body = req.body;
 
   try {
     await db.jobPost.delete({
@@ -182,6 +175,54 @@ router.delete("/:id", auth, async (req, res) => {
     console.log("error deleting job post: ", error);
 
     res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/:id/applicants", auth, async (req, res) => {
+  const { id } = req.params;
+
+  console.log("id: ", id);
+
+  try {
+    const applications = await db.application.findMany({
+      where: {
+        jobId: id,
+      },
+      select: {
+        employee: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            telephone: true,
+            profession: true,
+            language: true,
+            education: true,
+            workExperience: true,
+            address: true,
+            introduction: true,
+            createdAt: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const employeesArr = [];
+
+    applications.map((application) => {
+      employeesArr.push(application.employee);
+    });
+
+    res.status(200).json({ [id]: employeesArr });
+  } catch (error) {
+    console.log("Error fetching employees that applied to this job: ", error);
+
+    res.status(500).json({
+      error: "Error fetching employees that applied to this job",
+    });
   }
 });
 

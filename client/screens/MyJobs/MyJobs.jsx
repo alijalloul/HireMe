@@ -64,7 +64,9 @@ const MyJobs = ({ navigation }) => {
       {user?.accountType === "employee" ? (
         <EmployeeMyJobs navigation={navigation} jobsStatus={jobsStatus} />
       ) : (
-        <EmployerMyJobs navigation={navigation} jobsStatus={jobsStatus} />
+        user?.accountType === "employer" && (
+          <EmployerMyJobs navigation={navigation} jobsStatus={jobsStatus} />
+        )
       )}
     </SpinnerScrollbar>
   );

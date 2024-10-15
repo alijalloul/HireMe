@@ -1,17 +1,15 @@
 import { Colors } from "@/constants/Colors";
 import { editUser, updateUser } from "@/redux/User";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 import GaramondText from "./GaramondText";
+import SpinnerScrollbar from "./SpinnerScrollbar";
 
 const Container = ({ isOver, user, screenName, navigation, children }) => {
   const dispatch = useDispatch();
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
-      className="bg-white "
-    >
+    <SpinnerScrollbar>
       <View className="flex-1 w-[90%] mb-5  ">
         <View className="flex-1 ">{children}</View>
 
@@ -27,7 +25,7 @@ const Container = ({ isOver, user, screenName, navigation, children }) => {
           <GaramondText className="text-lg text-white">Next</GaramondText>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </SpinnerScrollbar>
   );
 };
 

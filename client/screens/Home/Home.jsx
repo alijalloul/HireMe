@@ -55,13 +55,11 @@ const Home = ({ navigation }) => {
           <GaramondText className="text-xl text-gray-500">
             Hello {user?.name?.split(" ")[0]},
           </GaramondText>
-          <GaramondText
-            className={`font-garamond-bold text-2xl ${
-              user?.accountType === "employer" && "hidden"
-            }`}
-          >
-            Find your perfect job
-          </GaramondText>
+          {user?.accountType === "employee" && (
+            <GaramondText className="font-garamond-bold text-2xl">
+              Find your perfect job
+            </GaramondText>
+          )}
         </View>
 
         <View>

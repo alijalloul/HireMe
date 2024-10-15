@@ -41,7 +41,7 @@ router.post("/signup", async (req, res) => {
 
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user?.id,
       },
       JWT_SECRET,
       {
@@ -49,13 +49,8 @@ router.post("/signup", async (req, res) => {
       }
     );
 
-    const jobPosts = await db.jobPost.findMany({
-      where: { employerId: user.id },
-    });
-
     return res.status(200).json({
       user,
-      jobPosts,
       token,
     });
   } catch (error) {
@@ -81,13 +76,9 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
-    const jobPosts = await db.jobPost.findMany({
-      where: { employerId: user.id },
-    });
-
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user?.id,
       },
       JWT_SECRET,
       {
@@ -97,11 +88,10 @@ router.post("/login", async (req, res) => {
 
     return res.status(200).json({
       user,
-      jobPosts,
       token,
     });
   } catch (error) {
-    console.log("erroron login: ", error);
+    console.log("error on login: ", error);
 
     return res.status(400).json({ error: "Login failed" });
   }

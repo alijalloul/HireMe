@@ -15,11 +15,11 @@ const JobPosts = ({ navigation }) => {
             onPress={() => {
               navigation.navigate("JobPostDetails", {
                 jobId: job?.id,
-                employerId: job?.employerid,
+                employerId: job?.employerId,
               });
             }}
-            className={`flex justify-center w-full border-t-[1px] ${
-              index + 1 === posts?.length && "border-b-[1px]"
+            className={`flex justify-center w-full border-t ${
+              index + 1 === posts?.length && "border-b"
             } border-[#00000055] p-5 `}
           >
             <View className="flex flex-row justify-between items-center">

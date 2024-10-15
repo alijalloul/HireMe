@@ -6,7 +6,7 @@ import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
 import { fetchJobsByEmployer } from "@/redux/User";
 import { useDispatch, useSelector } from "react-redux";
-import PostJobDisplayer from "./components/PostJobDisplayer";
+import PostJobDisplayer from "../PostJobDisplayer";
 import PostJobModal from "./components/PostJobModal";
 
 const EmployerMyJobs = ({}) => {
@@ -23,7 +23,7 @@ const EmployerMyJobs = ({}) => {
   return (
     <View className="flex-1 flex justify-center items-center w-full">
       <View className="flex-1 w-[90%] mb-5">
-        <View className="flex-1 self-center ">
+        <View className="flex-1 self-center w-full">
           <PostJobDisplayer
             setPostIndex={setPostIndex}
             setBottomSheetVisible={setBottomSheetVisible}

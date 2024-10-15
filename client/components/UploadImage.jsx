@@ -2,7 +2,6 @@ import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
-import { useEffect } from "react";
 import {
   Image,
   TouchableOpacity,
@@ -11,10 +10,6 @@ import {
 } from "react-native";
 
 const UploadImage = ({ width, isButton, image, setImage }) => {
-  useEffect(() => {
-    console.log(image.length);
-  }, [image]);
-
   const addImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,

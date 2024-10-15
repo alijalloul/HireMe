@@ -34,7 +34,7 @@ export const authMiddleware = (store) => (next) => async (action) => {
 
           if (decodedToken.exp > currentTime) {
             try {
-              const res = await fetchUser(decodedToken.id, token);
+              const res = await fetchUser(decodedToken?.id, token);
 
               store.dispatch(loginSuccess(res));
               navigate("HomeTabs");

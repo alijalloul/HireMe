@@ -12,6 +12,7 @@ import express from "express";
 
 // import auth from "./middleware/middleware";
 
+import applicationsRoute from "./routes/applications.js";
 import authRoute from "./routes/auth.js";
 import jobPostsRoute from "./routes/jobPosts.js";
 import usersRouter from "./routes/users.js";
@@ -19,30 +20,6 @@ import usersRouter from "./routes/users.js";
 dotenv.config();
 
 const app = express();
-
-// Middleware to log payload size
-// app.use((req, res, next) => {
-//   req.on("data", (chunk) => {
-//     console.log(`Payload size: ${Buffer.byteLength(chunk)} bytes`);
-//   });
-//   next();
-// });
-
-// app.use((req, res, next) => {
-//   let totalSize = 0;
-
-//   req.on("data", (chunk) => {
-//     totalSize += Buffer.byteLength(chunk);
-//   });
-
-//   req.on("end", () => {
-//     console.log(
-//       `Received ${req.method} request for ${req.url} with size: ${totalSize} bytes`
-//     );
-//   });
-
-//   next();
-// });
 
 app.use(cors());
 app.use(express.json());
@@ -60,6 +37,7 @@ app.get("/", async (req, res) => {
 app.use("/auth", authRoute);
 app.use("/users", usersRouter);
 app.use("/jobPosts", jobPostsRoute);
+app.use("/applications", applicationsRoute);
 
 // import {
 //   applyForJob,

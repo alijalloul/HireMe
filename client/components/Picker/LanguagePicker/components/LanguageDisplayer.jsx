@@ -32,7 +32,7 @@ const LanguageDisplayer = ({
           language.map((lang, index) => (
             <View
               key={index}
-              className="relative w-full py-3 border-t-[1px] border-b-[1px] mb-4"
+              className="relative w-full py-3 border-t border-b mb-4"
             >
               <View className="flex flex-row justify-center items-center">
                 <TouchableOpacity

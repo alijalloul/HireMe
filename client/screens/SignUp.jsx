@@ -209,7 +209,7 @@ const SignUp = ({ navigation }) => {
               <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
                 or
               </GaramondText>
-              <View className="opacity-50 absolute w-full border-b-[1px]" />
+              <View className="opacity-50 absolute w-full border-b" />
             </View>
 
             <TouchableOpacity

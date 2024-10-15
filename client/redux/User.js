@@ -68,7 +68,7 @@ const userSlice = createSlice({
       language: [{ language: "English", proficiency: "Native" }],
     },
     jobPosts: [],
-    employeesByJobId: [],
+    applicants: [],
     jobPostId: null,
     numberOfPages: null,
     pending: false,
@@ -87,8 +87,7 @@ const userSlice = createSlice({
     loginSuccess: (state, action) => {
       state.pending = false;
 
-      state.user = action.payload.user;
-      state.jobPosts = action.payload.jobPosts;
+      state.user = action.payload;
     },
     logoutSuccess: (state) => {
       state.pending = false;
@@ -104,13 +103,13 @@ const userSlice = createSlice({
     updatePostSuccess: (state, action) => {
       state.pending = false;
       state.jobPosts = state.jobPosts.map((job) =>
-        job.id === action.payload.id ? action.payload : job
+        job.id === action.payload?.id ? action.payload : job
       );
     },
     deleteSuccess: (state, action) => {
       state.pending = false;
       state.jobPosts = state.jobPosts?.filter(
-        (post) => post.id !== action.payload
+        (post) => post?.id !== action.payload
       );
     },
     editSuccess: (state, action) => {
@@ -125,14 +124,16 @@ const userSlice = createSlice({
     },
     fetchEmployeesSuccess: (state, action) => {
       state.pending = false;
-      state.jobPostId = action.payload.jobId;
-      state.employeesByJobId = action.payload.data;
+      state.applicants.push(action.payload);
+    },
+    applySuccess: (state, action) => {
+      state.pending = false;
     },
     hireSuccess: (state, action) => {
       state.pending = false;
       state.employeesByJobId = [];
       state.jobPosts = state.jobPosts?.filter(
-        (item, index) => item.id !== action.payload
+        (item, index) => item?.id !== action.payload
       );
     },
     errorAPI: (state) => {
@@ -158,17 +159,12 @@ export const signup = async (dispatch, user, navigation) => {
     if (res.status === 200) {
       const data = await res.json();
 
-      dispatch(
-        userSlice.actions.loginSuccess({
-          user: data.user,
-          jobPosts: data.jobPosts,
-        })
-      );
+      dispatch(userSlice.actions.loginSuccess(data.user));
       await AsyncStorage.setItem("token", JSON.stringify(data.token));
 
       if (data.user.accountType === "employee") {
         navigation.navigate("CV");
-      } else {
+      } else if (data.user.accountType === "employer") {
         navigation.navigate("HomeTabs");
       }
     } else {
@@ -201,12 +197,7 @@ export const login = async (dispatch, user, navigation) => {
       return data.message;
     }
 
-    dispatch(
-      userSlice.actions.loginSuccess({
-        user: data.user,
-        jobPosts: data.jobPosts,
-      })
-    );
+    dispatch(userSlice.actions.loginSuccess(data.user));
 
     await AsyncStorage.setItem("token", JSON.stringify(data.token));
 
@@ -226,7 +217,10 @@ export const logout = async (dispatch, navigation) => {
 
     await AsyncStorage.removeItem("token");
 
-    navigation.navigate("onBoarding");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "onBoarding" }],
+    });
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error on logout: ", error);
@@ -240,9 +234,7 @@ export const updateUser = async (dispatch, newUser, navigation) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
 
-    console.log("updating user");
-
-    const res = await fetch(`${BASE_URL}/users/${newUser.id}`, {
+    const res = await fetch(`${BASE_URL}/users/${newUser?.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -254,11 +246,6 @@ export const updateUser = async (dispatch, newUser, navigation) => {
     const data = await res.json();
 
     dispatch(userSlice.actions.editSuccess(data));
-
-    await AsyncStorage.setItem(
-      "profile",
-      JSON.stringify({ user: data, token: token })
-    );
 
     navigation.navigate("HomeTabs", { screen: "home" });
   } catch (error) {
@@ -295,8 +282,6 @@ export const createJobPost = async (dispatch, postsInfo) => {
     const data = await res.json();
 
     dispatch(userSlice.actions.createSuccess(data));
-
-    await AsyncStorage.setItem("jobPosts", JSON.stringify(jobPosts.push(data)));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error creating job post: ", error);
@@ -310,7 +295,7 @@ export const updateJobPost = async (dispatch, postsInfo) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
 
-    const res = await fetch(`${BASE_URL}/jobPosts/${postsInfo.id}`, {
+    const res = await fetch(`${BASE_URL}/jobPosts/${postsInfo?.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -329,7 +314,7 @@ export const updateJobPost = async (dispatch, postsInfo) => {
 };
 
 export const deleteJobPost = async (dispatch, postId) => {
-  dispatch(postSlice.actions.startAPI());
+  dispatch(userSlice.actions.startAPI());
   console.log("deleting job post");
 
   try {
@@ -344,9 +329,9 @@ export const deleteJobPost = async (dispatch, postId) => {
       },
     });
 
-    dispatch(postSlice.actions.deleteSuccess(postId));
+    dispatch(userSlice.actions.deleteSuccess(postId));
   } catch (error) {
-    dispatch(postSlice.actions.errorAPI());
+    dispatch(userSlice.actions.errorAPI());
     console.log("error deleting job post: ", error);
   }
 };
@@ -374,13 +359,18 @@ export const fetchJobsByEmployer = async (dispatch, userId) => {
   }
 };
 
-export const fetchPostsAplliedToByUser = async (dispatch, userId, page) => {
+export const fetchPostsAplliedToByUser = async (dispatch, userId) => {
   dispatch(userSlice.actions.startAPI());
-  console.log("fetching posts applied to by user: ", error);
+  console.log("fetching posts applied to by user");
 
   try {
-    const res = await fetch(`${BASE_URL}/employee/${userId}/${page}/posts`, {
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    const res = await fetch(`${BASE_URL}/users/${userId}/applications`, {
       method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
     const data = await res.json();
@@ -392,29 +382,34 @@ export const fetchPostsAplliedToByUser = async (dispatch, userId, page) => {
   }
 };
 
-export const fetchEmployeesByJobId = async (dispatch, jobId) => {
+export const fetchApplicants = async (dispatch, jobId) => {
   dispatch(userSlice.actions.startAPI());
-  console.log("fetching employees by job id: ", error);
+  console.log("fetching applicants");
 
   try {
-    const res = await fetch(`${BASE_URL}/job/${jobId}/employees`, {
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    console.log("jobId: ", jobId);
+
+    const res = await fetch(`${BASE_URL}/jobPosts/${jobId}/applicants`, {
       method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
     const data = await res.json();
 
-    dispatch(
-      userSlice.actions.fetchEmployeesSuccess({ data: data, jobId: jobId })
-    );
+    dispatch(userSlice.actions.fetchEmployeesSuccess(data));
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
-    console.log("error fetching employees by job id: ", error);
+    console.log("error fetching applicants: ", error);
   }
 };
 
 export const hireEmployee = async (dispatch, jobId, employeeId, navigation) => {
   dispatch(userSlice.actions.startAPI());
-  console.log("hiring employee: ", error);
+  console.log("hiring employee");
 
   try {
     await fetch(`${BASE_URL}/job/${jobId}/employee/${employeeId}`, {
@@ -431,33 +426,39 @@ export const hireEmployee = async (dispatch, jobId, employeeId, navigation) => {
 };
 
 export const handleApply = async (
-  jobid,
-  employeeid,
-  employerid,
-  status,
-  category,
+  dispatch,
+  jobId,
+  employeeId,
+  employerId,
   coverLetter,
   navigation
 ) => {
+  dispatch(userSlice.actions.startAPI());
+  console.log("applying to job");
+
   try {
-    await fetch(`${BASE_URL}/application`, {
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    await fetch(`${BASE_URL}/applications`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        jobid,
-        employeeid,
-        employerid,
-        status,
-        category,
+        jobId,
+        employeeId,
+        employerId,
         coverLetter,
       }),
     });
 
-    navigation.navigate("HomeTabs");
+    dispatch(userSlice.actions.applySuccess());
+
+    navigation.navigate("home");
   } catch (error) {
-    console.log("error: ", error);
+    dispatch(userSlice.actions.errorAPI());
+    console.log("error applying to job: ", error);
   }
 };
 
