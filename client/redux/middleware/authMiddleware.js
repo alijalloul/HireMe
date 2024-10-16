@@ -9,7 +9,6 @@ async function fetchUser(id, token) {
   const res = await fetch(`${BASE_URL}/users/${id}`, {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
       authorization: `Bearer ${JSON.parse(token)}`,
     },
   });
@@ -36,6 +35,12 @@ export const authMiddleware = (store) => (next) => async (action) => {
             try {
               const res = await fetchUser(decodedToken?.id, token);
 
+              if (res.error) {
+                console.error("Error fetching user:", res.error);
+                store.dispatch(errorAPI());
+
+                return;
+              }
               store.dispatch(loginSuccess(res));
               navigate("HomeTabs");
             } catch (error) {

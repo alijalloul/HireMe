@@ -8,20 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 const ApplicantsDisplayer = ({ jobId, navigation }) => {
   const dispatch = useDispatch();
 
-  const applicants = useSelector((state) => state.user.applicants).filter(
-    (applicant) => applicant[jobId]
-  ).jobId;
-
-  useEffect(() => {
-    console.log("applicants: ", applicants);
-  }, [applicants]);
+  const applicants = useSelector((state) => state.user.applicants)[jobId];
 
   useEffect(() => {
     fetchApplicants(dispatch, jobId);
   }, []);
 
   return (
-    <View className="flex-1 w-full items-center">
+    <View className="flex-1  items-center my-5 w-[90%]">
       {applicants?.length > 0 ? (
         applicants?.map((applicant, index) => (
           <TouchableOpacity
@@ -29,18 +23,20 @@ const ApplicantsDisplayer = ({ jobId, navigation }) => {
               navigation.navigate("userDetails", { userId: applicant?.id });
             }}
             key={index}
-            className="w-[90%] px-4 flex-row items-center rounded-full border h-32 mb-3"
+            className=" w-full px-4 flex-row items-center rounded border h-32 mb-3"
           >
             <View className="w-20 h-20 mr-2">
               <Image
                 source={
-                  applicant?.image !== "" ? { uri: applicant?.image } : null
+                  applicant?.image && applicant?.image !== ""
+                    ? { uri: applicant?.image }
+                    : null
                 }
                 className="rounded-full w-full h-full"
               />
             </View>
 
-            <View className="">
+            <View>
               <View className="mb-5">
                 <GaramondText className="text-lg ">
                   {applicant?.name}
@@ -50,7 +46,7 @@ const ApplicantsDisplayer = ({ jobId, navigation }) => {
                 </GaramondText>
               </View>
 
-              <GaramondText className="">{applicant?.coverLetter}</GaramondText>
+              <GaramondText>{applicant?.coverLetter}</GaramondText>
             </View>
           </TouchableOpacity>
         ))

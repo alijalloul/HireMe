@@ -12,6 +12,7 @@ const WorkExperienceDisplayer = ({
   headerText,
   setPostIndex,
   setBottomSheetVisible,
+  isView,
 }) => {
   const handleEdit = (index) => {
     setPostIndex(index);
@@ -19,7 +20,7 @@ const WorkExperienceDisplayer = ({
   };
 
   return (
-    <View className=" ">
+    <View className="w-full">
       <GaramondText
         style={headerSize && { fontSize: headerSize }}
         className="text-4xl font-garamond-semibold mb-5"
@@ -39,28 +40,30 @@ const WorkExperienceDisplayer = ({
                   <GaramondText className="text-3xl">{work.title}</GaramondText>
                 </View>
 
-                <View className="self-start w-[20%] flex flex-row justify-center items-center">
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleEdit(index);
-                    }}
-                    className="border border-gray-400 rounded-full p-[6px] mr-2"
-                  >
-                    <Image source={pen} className="w-5 h-5 aspect-square" />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setWorkExperience(
-                        workExperience?.filter(
-                          (item, index2) => index2 !== index
-                        )
-                      );
-                    }}
-                    className="border border-gray-400 rounded-full p-[6px]"
-                  >
-                    <Image source={trash} className="w-5 h-5 aspect-square" />
-                  </TouchableOpacity>
-                </View>
+                {!isView && (
+                  <View className="self-start w-[20%] flex flex-row justify-center items-center">
+                    <TouchableOpacity
+                      onPress={() => {
+                        handleEdit(index);
+                      }}
+                      className="border border-gray-400 rounded-full p-[6px] mr-2"
+                    >
+                      <Image source={pen} className="w-5 h-5 aspect-square" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setWorkExperience(
+                          workExperience?.filter(
+                            (item, index2) => index2 !== index
+                          )
+                        );
+                      }}
+                      className="border border-gray-400 rounded-full p-[6px]"
+                    >
+                      <Image source={trash} className="w-5 h-5 aspect-square" />
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
               <GaramondText className="text-xl">{work.company}</GaramondText>
               <View className="w-full flex my-4">
@@ -77,20 +80,31 @@ const WorkExperienceDisplayer = ({
               </GaramondText>
             </View>
           ))}
-        <TouchableOpacity
-          onPress={() => {
-            setBottomSheetVisible(true);
-          }}
-          className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center mb-5"
-          style={{ borderColor: Colors.primary }}
-        >
-          <GaramondText
-            className="font-garamond-bold text-xl"
-            style={{ color: Colors.primary }}
+
+        {isView ? (
+          workExperience?.length === 0 && (
+            <View>
+              <GaramondText className=" opacity-70">
+                No work experience added
+              </GaramondText>
+            </View>
+          )
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              setBottomSheetVisible(true);
+            }}
+            className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center mb-5"
+            style={{ borderColor: Colors.primary }}
           >
-            + Add experience
-          </GaramondText>
-        </TouchableOpacity>
+            <GaramondText
+              className="font-garamond-bold text-xl"
+              style={{ color: Colors.primary }}
+            >
+              + Add experience
+            </GaramondText>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

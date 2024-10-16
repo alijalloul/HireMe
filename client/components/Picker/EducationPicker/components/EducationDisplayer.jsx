@@ -12,6 +12,7 @@ const EducationDisplayer = ({
   headerText,
   setPostIndex,
   setBottomSheetVisible,
+  isView,
 }) => {
   const handleEdit = (index) => {
     setPostIndex(index);
@@ -19,7 +20,7 @@ const EducationDisplayer = ({
   };
 
   return (
-    <View>
+    <View className="w-full">
       <GaramondText
         style={headerSize && { fontSize: headerSize }}
         className="text-4xl font-garamond-semibold mb-5"
@@ -32,42 +33,44 @@ const EducationDisplayer = ({
           education?.map((educ, index) => (
             <View
               key={index}
-              className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4 min-h-52"
+              className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4 min-h-44"
             >
               <View className="w-full flex flex-row justify-between items-center">
                 <GaramondText className="text-2xl">
                   {educ.degree?.split("(")[0].trim()}
                 </GaramondText>
 
-                <View className="self-start  flex flex-row justify-center items-center">
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleEdit(index);
-                    }}
-                    className="border border-gray-400 rounded-full p-[6px] mr-2"
-                  >
-                    <Image
-                      source={pen}
-                      tintColor={Colors.primary}
-                      className="w-5 h-5 aspect-square"
-                    />
-                  </TouchableOpacity>
+                {!isView && (
+                  <View className="self-start  flex flex-row justify-center items-center">
+                    <TouchableOpacity
+                      onPress={() => {
+                        handleEdit(index);
+                      }}
+                      className="border border-gray-400 rounded-full p-[6px] mr-2"
+                    >
+                      <Image
+                        source={pen}
+                        tintColor={Colors.primary}
+                        className="w-5 h-5 aspect-square"
+                      />
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                    onPress={() => {
-                      setEducation(
-                        education?.filter((item, index2) => index2 !== index)
-                      );
-                    }}
-                    className="border border-gray-400 rounded-full p-[6px]"
-                  >
-                    <Image
-                      source={trash}
-                      tintColor={Colors.primary}
-                      className="w-5 h-5 aspect-square"
-                    />
-                  </TouchableOpacity>
-                </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setEducation(
+                          education?.filter((item, index2) => index2 !== index)
+                        );
+                      }}
+                      className="border border-gray-400 rounded-full p-[6px]"
+                    >
+                      <Image
+                        source={trash}
+                        tintColor={Colors.primary}
+                        className="w-5 h-5 aspect-square"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
 
               {educ.major && (
@@ -92,20 +95,30 @@ const EducationDisplayer = ({
             </View>
           ))}
 
-        <TouchableOpacity
-          onPress={() => {
-            setBottomSheetVisible(true);
-          }}
-          className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center mb-5"
-          style={{ borderColor: Colors.primary }}
-        >
-          <GaramondText
-            className="font-garamond-bold text-xl"
-            style={{ color: Colors.primary }}
+        {isView ? (
+          education?.length === 0 && (
+            <View>
+              <GaramondText className=" opacity-70">
+                No education added
+              </GaramondText>
+            </View>
+          )
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              setBottomSheetVisible(true);
+            }}
+            className="bg-white border w-full py-3 rounded-3xl flex justify-center items-center mb-5"
+            style={{ borderColor: Colors.primary }}
           >
-            + Add education
-          </GaramondText>
-        </TouchableOpacity>
+            <GaramondText
+              className="font-garamond-bold text-xl"
+              style={{ color: Colors.primary }}
+            >
+              + Add education
+            </GaramondText>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

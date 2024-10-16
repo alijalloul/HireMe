@@ -6,69 +6,9 @@ import BASE_URL from "./BASE_URL";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: {
-      telephone: "76131445",
-      address: "lebanon",
-      introduction: "wassup",
-      profession: "web dev",
-      workExperience: [
-        {
-          title: "Software Engineer",
-          company: "TechCo Inc.",
-          location: "San Francisco",
-          country: "United States",
-          startMonth: "January",
-          startYear: "2018",
-          endMonth: "December",
-          endYear: "2022",
-          description: "Developed web applications using React and Node.",
-        },
-        {
-          title: "Product Manager",
-          company: "Globex Corporation",
-          location: "New York",
-          country: "United States",
-          startMonth: "March",
-          startYear: "2015",
-          endMonth: "January",
-          endYear: "2018",
-          description: "Led product development and strategy.",
-        },
-        {
-          title: "UX Designer",
-          company: "DesignTech Solutions",
-          location: "London",
-          country: "United Kingdom",
-          startMonth: "July",
-          startYear: "2013",
-          endMonth: "December",
-          endYear: "2014",
-          description:
-            "Designed user interfaces for mobile and web applications.",
-        },
-      ],
-      education: [
-        {
-          degree: "Doctor of Philosophy (PHD)",
-          major: "Computer Science",
-          school: "University of Harvard",
-          startYear: "2010",
-          endYear: "2021",
-          note: "Graduated with honors",
-        },
-        {
-          degree: "Bachelor of Science (BS)",
-          major: "Art and Design",
-          school: "University of Tokyo",
-          startYear: "2013",
-          endYear: "2023",
-          note: "Excellent student",
-        },
-      ],
-      language: [{ language: "English", proficiency: "Native" }],
-    },
+    user: {},
     jobPosts: [],
-    applicants: [],
+    applicants: {},
     jobPostId: null,
     numberOfPages: null,
     pending: false,
@@ -124,9 +64,10 @@ const userSlice = createSlice({
     },
     fetchEmployeesSuccess: (state, action) => {
       state.pending = false;
-      state.applicants.push(action.payload);
+
+      state.applicants = { ...state.applicants, ...action.payload };
     },
-    applySuccess: (state, action) => {
+    completeAPI: (state) => {
       state.pending = false;
     },
     hireSuccess: (state, action) => {
@@ -389,8 +330,6 @@ export const fetchApplicants = async (dispatch, jobId) => {
   try {
     const token = JSON.parse(await AsyncStorage.getItem("token"));
 
-    console.log("jobId: ", jobId);
-
     const res = await fetch(`${BASE_URL}/jobPosts/${jobId}/applicants`, {
       method: "GET",
       headers: {
@@ -401,6 +340,31 @@ export const fetchApplicants = async (dispatch, jobId) => {
     const data = await res.json();
 
     dispatch(userSlice.actions.fetchEmployeesSuccess(data));
+  } catch (error) {
+    dispatch(userSlice.actions.errorAPI());
+    console.log("error fetching applicants: ", error);
+  }
+};
+
+export const fetchUser = async (dispatch, userID) => {
+  dispatch(userSlice.actions.startAPI());
+  console.log("fetching user");
+
+  try {
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    const res = await fetch(`${BASE_URL}/users/${userID}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = res.json();
+
+    dispatch(userSlice.actions.completeAPI());
+
+    return data;
   } catch (error) {
     dispatch(userSlice.actions.errorAPI());
     console.log("error fetching applicants: ", error);
@@ -453,7 +417,7 @@ export const handleApply = async (
       }),
     });
 
-    dispatch(userSlice.actions.applySuccess());
+    dispatch(userSlice.actions.completeAPI());
 
     navigation.navigate("home");
   } catch (error) {

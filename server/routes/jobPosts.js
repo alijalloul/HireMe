@@ -181,26 +181,18 @@ router.delete("/:id", auth, async (req, res) => {
 router.get("/:id/applicants", auth, async (req, res) => {
   const { id } = req.params;
 
-  console.log("id: ", id);
-
   try {
     const applications = await db.application.findMany({
       where: {
         jobId: id,
       },
       select: {
+        coverLetter: true,
         employee: {
           select: {
             id: true,
             name: true,
-            email: true,
-            telephone: true,
-            profession: true,
-            language: true,
-            education: true,
-            workExperience: true,
-            address: true,
-            introduction: true,
+            image: true,
             createdAt: true,
           },
         },
@@ -213,8 +205,13 @@ router.get("/:id/applicants", auth, async (req, res) => {
     const employeesArr = [];
 
     applications.map((application) => {
-      employeesArr.push(application.employee);
+      employeesArr.push({
+        ...application.employee,
+        coverLetter: application.coverLetter,
+      });
     });
+
+    console.log("employeesArr: ", employeesArr);
 
     res.status(200).json({ [id]: employeesArr });
   } catch (error) {

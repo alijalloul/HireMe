@@ -42,7 +42,7 @@ const PickerModalContainer = ({
             <View className="flex-1  gap-y-5 mb-5">{children}</View>
 
             <TouchableOpacity
-              className=" w-full h-[56px] rounded-lg justify-center items-center mb-5"
+              className=" w-full h-14 rounded-lg justify-center items-center mb-5"
               style={{ backgroundColor: Colors.primary }}
               onPress={handleSave}
             >

@@ -4,219 +4,124 @@ import { Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import blobTop from "@/assets/images/blobTop.png";
-import { hireEmployee } from "@/redux/User";
+import EducationDisplayer from "@/components/Picker/EducationPicker/components/EducationDisplayer";
+import LanguageDisplayer from "@/components/Picker/LanguagePicker/components/LanguageDisplayer";
+import WorkExperienceDisplayer from "@/components/Picker/WorkExperiencePicker/components/WorkExperienceDisplayer";
+import { fetchUser, hireEmployee } from "@/redux/User";
+import { useEffect, useState } from "react";
 
 const UserDetails = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   const { userId } = route.params;
   const jobPostId = useSelector((state) => state.user?.jobPostId);
-  const user = useSelector((state) => state.user?.employeesByJobId)?.filter(
-    (item) => item.id === userId && item
-  )[0];
+  const [user, setUser] = useState(null);
 
   const handleHire = () => {
     hireEmployee(dispatch, jobPostId, userId, navigation);
   };
 
+  useEffect(() => {
+    async function getUser() {
+      const res = await fetchUser(dispatch, userId);
+
+      setUser(res);
+    }
+
+    getUser();
+  }, []);
+
   return (
     <ScrollView
-      className="flex-1 bg-white"
       contentContainerStyle={{
-        justifyContent: "center",
+        flexGrow: 1,
         alignItems: "center",
       }}
     >
-      <Image source={blobTop} className="absolute -top-72 opacity-90" />
+      <View className="flex-1 items-center w-full">
+        <View className="absolute -translate-y-1/2 opacity-90">
+          <Image source={blobTop} />
+        </View>
 
-      <View className="my-8 w-full">
-        <GaramondText className="text-center text-4xl font-garamond-semibold text-white">
+        <GaramondText className="text-white text-4xl">
           {user?.name}
         </GaramondText>
-      </View>
 
-      <View style={{ width: 250, height: 250 }}>
-        <Image
-          source={user?.image !== "" ? { uri: user?.image } : null}
-          className="rounded-full w-full h-full"
-        />
-      </View>
+        <View
+          style={{ width: 250 }}
+          className="aspect-square bg-[#efefef] relative rounded-full overflow-hidden mb-2"
+        >
+          {user?.image && (
+            <Image source={{ uri: user.image }} className="w-full h-full" />
+          )}
+        </View>
 
-      <GaramondText className="text-center text-xl ">
-        {user?.profession}
-      </GaramondText>
-
-      <View className="w-[90%] my-8">
         <GaramondText className="text-center text-xl ">
-          {user?.introduction}
+          {user?.profession}
         </GaramondText>
-      </View>
 
-      <View className="w-full my-5 flex-1">
-        <View className="flex-1 w-[90%] self-center">
-          <GaramondText
-            style={{ fontSize: 32 }}
-            className="font-garamond-semibold mb-5"
-          >
-            Work Experience
-          </GaramondText>
-          <View>
-            {user?.workExperience?.length > 0 ? (
-              user?.workExperience.map((work, index) => (
-                <View
-                  key={index}
-                  className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4"
-                >
-                  <View className="flex flex-row w-full justify-end items-center"></View>
-                  <GaramondText className="text-3xl">{work.title}</GaramondText>
-                  <GaramondText className="text-[15px]">
-                    {work.company}
-                  </GaramondText>
-                  <GaramondText className="text-xl">
-                    {work.startMonthWork +
-                      " " +
-                      work.startYear +
-                      " - " +
-                      work.endMonthWork +
-                      " " +
-                      work.endYear}
-                  </GaramondText>
-                  <GaramondText className="text-[15px] opacity-70 mb-3">
-                    {work.country + ", " + work.location}
-                  </GaramondText>
-                  <GaramondText className="text-lg opacity-70">
-                    {work.description}
-                  </GaramondText>
-                </View>
-              ))
-            ) : (
-              <GaramondText className="text-center opacity-50 ">
-                no work experience
-              </GaramondText>
-            )}
+        <View className="w-[90%] gap-y-5 ">
+          <View className="">
+            <GaramondText className="font-garamond-semibold text-2xl">
+              Introduction
+            </GaramondText>
+
+            <GaramondText className="opacity-70 text-xl ">
+              {user?.introduction ? user.introduction : "..."}
+            </GaramondText>
           </View>
-        </View>
-      </View>
 
-      <View className="w-full my-5 flex-1">
-        <View className="flex-1 w-[90%] self-center">
-          <GaramondText
-            style={{ fontSize: 32 }}
-            className="font-garamond-semibold mb-5"
-          >
-            Education
+          <GaramondText className="font-garamond-semibold text-2xl">
+            Contact Information
           </GaramondText>
 
           <View>
-            {user?.education?.length > 0 ? (
-              user?.education?.map((educ, index) => (
-                <View
-                  key={index}
-                  className="relative w-full border rounded-2xl p-5 pt-3 pr-3 mb-4"
-                >
-                  <View className="flex flex-row w-full justify-end items-center"></View>
-                  <GaramondText className="text-3xl">
-                    {educ.degree + (educ.major ? " in" : " from")}
-                  </GaramondText>
-                  {educ.major && (
-                    <GaramondText className="text-[15px]">
-                      {educ.major + " from"}
-                    </GaramondText>
-                  )}
-                  <GaramondText className="text-lg">{educ.school}</GaramondText>
-                  <GaramondText className="text-[15px] opacity-70 mb-3">
-                    {educ.startYear + " - " + educ.endYear}
-                  </GaramondText>
-                  <GaramondText className="text-lg opacity-70">
-                    {educ.note}
-                  </GaramondText>
-                </View>
-              ))
-            ) : (
-              <GaramondText className="text-center opacity-50 ">
-                no education
-              </GaramondText>
-            )}
-          </View>
-        </View>
-      </View>
+            <View className="w-full flex flex-row justify-start items-center border-y border-gray-500 py-3 px-2 ">
+              <GaramondText className="">E-Mail:</GaramondText>
 
-      <View className="w-full my-5 flex-1">
-        <View className="flex-1 w-[90%] self-center">
-          <GaramondText
-            style={{ fontSize: 32 }}
-            className="font-garamond-semibold mb-5"
+              <GaramondText className="flex-1 text-lg">
+                {user?.email}
+              </GaramondText>
+            </View>
+
+            <View className="w-full flex flex-row justify-start items-center border-b border-gray-500 py-3 px-2 ">
+              <GaramondText className="">Address:</GaramondText>
+
+              <GaramondText className="flex-1 text-lg">
+                {user?.address}
+              </GaramondText>
+            </View>
+          </View>
+
+          <WorkExperienceDisplayer
+            workExperience={user?.workExperience}
+            headerText="Work Experience"
+            isView={true}
+          />
+
+          <EducationDisplayer
+            education={user?.education}
+            headerText="Education"
+            isView={true}
+          />
+
+          <LanguageDisplayer
+            language={user?.language}
+            headerText="Languge"
+            isView={true}
+          />
+
+          <TouchableOpacity
+            onPress={() => {
+              handleHire();
+            }}
+            className=" w-full h-14 rounded-lg justify-center items-center mb-5"
+            style={{ backgroundColor: Colors.primary }}
           >
-            Languages
-          </GaramondText>
-          <View>
-            {user?.language?.length > 0 ? (
-              user?.language.map((langArr, index) => (
-                <View
-                  key={index}
-                  className="relative w-full py-3 border-t border-b mb-4"
-                >
-                  <View className="flex flex-row justify-center items-center">
-                    <View
-                      onPress={() => {
-                        setLanguageIndex(index);
-                        setIsEditing(true);
-
-                        setLanguage(langArr.language);
-                        setProficiency(langArr.proficiency);
-
-                        setBottomSheetVisible(true);
-                      }}
-                      className="border rounded-2xl px-2 py-2 mr-2 w-[35%] flex flex-row justify-between items-center"
-                    >
-                      <GaramondText className="text-xl">
-                        {langArr.language}
-                      </GaramondText>
-                    </View>
-                    <View
-                      onPress={() => {
-                        setLanguageIndex(index);
-                        setIsEditing(true);
-
-                        setLanguage(langArr.language);
-                        setProficiency(langArr.proficiency);
-
-                        setBottomSheetVisible(true);
-                      }}
-                      className="border rounded-2xl px-2 py-2 mr-3 w-[45%] flex flex-row justify-between items-center"
-                    >
-                      <GaramondText className="text-xl">
-                        {langArr.proficiency}
-                      </GaramondText>
-                    </View>
-                  </View>
-                </View>
-              ))
-            ) : (
-              <GaramondText className="text-center opacity-50 ">
-                no languages
-              </GaramondText>
-            )}
-          </View>
-        </View>
-
-        <View className="w-[90%] flex self-center">
-          <GaramondText className="text-2xl mb-4">Cover Letter</GaramondText>
-
-          <View className="border rounded-xl p-5">
-            <GaramondText className="">{user?.coverLetter}</GaramondText>
-          </View>
+            <GaramondText className="text-lg text-white">Hire</GaramondText>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <TouchableOpacity
-        onPress={() => {
-          handleHire();
-        }}
-        className={`self-end w-32 h-12 flex justify-center items-center bottom-0 right-0 mr-3 mb-3 bg-[${Colors.primary}] rounded-xl`}
-      >
-        <GaramondText className="text-lg text-white">Hire</GaramondText>
-      </TouchableOpacity>
     </ScrollView>
   );
 };

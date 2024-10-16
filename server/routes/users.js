@@ -67,6 +67,21 @@ router.get("/:id", auth, async (req, res) => {
       where: {
         id: id,
       },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        accountType: true,
+        telephone: true,
+        address: true,
+        image: true,
+        introduction: true,
+        profession: true,
+        language: true,
+        education: true,
+        workExperience: true,
+        pushToken: true,
+      },
     });
 
     return res.status(200).json(user);
