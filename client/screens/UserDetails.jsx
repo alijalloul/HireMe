@@ -1,29 +1,30 @@
 import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { Image, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 import blobTop from "@/assets/images/blobTop.png";
 import EducationDisplayer from "@/components/Picker/EducationPicker/components/EducationDisplayer";
 import LanguageDisplayer from "@/components/Picker/LanguagePicker/components/LanguageDisplayer";
 import WorkExperienceDisplayer from "@/components/Picker/WorkExperiencePicker/components/WorkExperienceDisplayer";
+import SpinnerScrollbar from "@/components/SpinnerScrollbar";
 import { fetchUser, hireEmployee } from "@/redux/User";
 import { useEffect, useState } from "react";
 
 const UserDetails = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
-  const { userId } = route.params;
-  const jobPostId = useSelector((state) => state.user?.jobPostId);
+  const { applicantId, jobId } = route.params;
+
   const [user, setUser] = useState(null);
 
   const handleHire = () => {
-    hireEmployee(dispatch, jobPostId, userId, navigation);
+    hireEmployee(dispatch, jobId, applicantId, navigation);
   };
 
   useEffect(() => {
     async function getUser() {
-      const res = await fetchUser(dispatch, userId);
+      const res = await fetchUser(dispatch, applicantId);
 
       setUser(res);
     }
@@ -32,12 +33,7 @@ const UserDetails = ({ route, navigation }) => {
   }, []);
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1,
-        alignItems: "center",
-      }}
-    >
+    <SpinnerScrollbar>
       <View className="flex-1 items-center w-full">
         <View className="absolute -translate-y-1/2 opacity-90">
           <Image source={blobTop} />
@@ -122,7 +118,7 @@ const UserDetails = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+    </SpinnerScrollbar>
   );
 };
 

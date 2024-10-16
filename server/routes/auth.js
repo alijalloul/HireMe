@@ -12,12 +12,12 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Signup endpoint
 router.post("/signup", async (req, res) => {
-  const { name, email, password, accountType } = req.body;
+  const body = req.body;
 
   // Check if the user already exists
   const existingUser = await db.user.findUnique({
     where: {
-      email: email,
+      email: body.email,
     },
   });
 
@@ -26,16 +26,17 @@ router.post("/signup", async (req, res) => {
   }
 
   // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(body.password, 10);
 
   try {
     // Create a new user
     const user = await db.user.create({
       data: {
-        name,
-        email,
+        name: body.name,
+        email: body.email,
         password: hashedPassword,
-        accountType,
+        accountType: body.accountType,
+        expoPushToken: body.expoPushToken,
       },
     });
 

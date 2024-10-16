@@ -31,41 +31,42 @@ const LanguageDisplayer = ({
       <View>
         {language?.length > 0 &&
           language.map((lang, index) => (
-            <View
-              key={index}
-              className="relative w-full py-3 border-t border-b mb-4"
-            >
-              <View className="flex flex-row justify-center items-center">
+            <View key={index} className="w-full py-3 border-y mb-4 ">
+              <View className="flex flex-row  justify-between items-center">
                 <TouchableOpacity
                   onPress={() => {
-                    handleEdit(index);
+                    !isView && handleEdit(index);
                   }}
                   pointerEvents={isView && "none"}
-                  className="border rounded-2xl  px-2 py-2 mr-2 w-[35%] flex flex-row justify-between items-center"
+                  className={`border rounded-2xl  px-2 py-2 flex flex-row justify-between items-center ${
+                    isView ? "w-[45%]" : "w-[30%]"
+                  }`}
                 >
                   <GaramondText className=" text-xl">
                     {lang.language}
                   </GaramondText>
-                  {isView && (
+                  {!isView && (
                     <Image source={downVector} className=" w-5 aspect-[2/1]" />
                   )}
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    handleEdit(index);
+                    !isView && handleEdit(index);
                   }}
                   pointerEvents={isView && "none"}
-                  className="border rounded-2xl  px-2 py-2 mr-3 w-[45%] flex flex-row justify-between items-center"
+                  className={`border rounded-2xl  px-2 py-2 flex flex-row justify-between items-center ${
+                    isView ? "w-[45%]" : "w-[40%]"
+                  }`}
                 >
                   <GaramondText className=" text-xl">
                     {lang.proficiency}
                   </GaramondText>
-                  {isView && (
+                  {!isView && (
                     <Image source={downVector} className=" w-5 aspect-[2/1]" />
                   )}
                 </TouchableOpacity>
 
-                {isView && (
+                {!isView && (
                   <TouchableOpacity
                     onPress={() => {
                       setLanguage(

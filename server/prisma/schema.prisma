@@ -23,12 +23,13 @@ model User {
   telephone      String?
   address        String?
   image          String?
+  iconImage      String?
   introduction   String?
   profession     String?
   language       Json[]
   education      Json[]
   workExperience Json[]
-  pushToken      String?
+  expoPushToken  String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,5 +74,6 @@ model Application {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([employeeId, employerId, jobId])
+  @@unique([employeeId, jobId])
+  @@unique([employerId, jobId])
 }

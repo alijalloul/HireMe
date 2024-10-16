@@ -371,13 +371,25 @@ export const fetchUser = async (dispatch, userID) => {
   }
 };
 
-export const hireEmployee = async (dispatch, jobId, employeeId, navigation) => {
+export const hireEmployee = async (
+  dispatch,
+  jobId,
+  applicantId,
+  navigation
+) => {
   dispatch(userSlice.actions.startAPI());
   console.log("hiring employee");
 
+  console.log("jobId: ", jobId);
+
   try {
-    await fetch(`${BASE_URL}/job/${jobId}/employee/${employeeId}`, {
+    const token = JSON.parse(await AsyncStorage.getItem("token"));
+
+    await fetch(`${BASE_URL}/jobPosts/${jobId}/hire/${applicantId}`, {
       method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     });
 
     dispatch(userSlice.actions.hireSuccess(jobId));

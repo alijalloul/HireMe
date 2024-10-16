@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   accountType: { type: String },
 
-  pushToken: { type: String },
+  expoPushToken: { type: String },
 });
 
 const userDB = mongoose.model("user", userSchema);

@@ -20,7 +20,10 @@ const ApplicantsDisplayer = ({ jobId, navigation }) => {
         applicants?.map((applicant, index) => (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("userDetails", { userId: applicant?.id });
+              navigation.navigate("userDetails", {
+                applicantId: applicant?.id,
+                jobId: jobId,
+              });
             }}
             key={index}
             className=" w-full px-4 flex-row items-center rounded border h-32 mb-3"
@@ -28,8 +31,8 @@ const ApplicantsDisplayer = ({ jobId, navigation }) => {
             <View className="w-20 h-20 mr-2">
               <Image
                 source={
-                  applicant?.image && applicant?.image !== ""
-                    ? { uri: applicant?.image }
+                  applicant?.iconImage && applicant?.iconImage !== ""
+                    ? { uri: applicant?.iconImage }
                     : null
                 }
                 className="rounded-full w-full h-full"

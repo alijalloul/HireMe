@@ -1,8 +1,11 @@
 import * as dotenv from "dotenv";
 import express from "express";
 
+import { Expo } from "expo-server-sdk";
 import db from "../db/db.js"; // Use your existing Prisma client
 import auth from "../middleware/middleware.js";
+
+let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
 
 dotenv.config();
 
@@ -192,7 +195,7 @@ router.get("/:id/applicants", auth, async (req, res) => {
           select: {
             id: true,
             name: true,
-            image: true,
+            iconImage: true,
             createdAt: true,
           },
         },
@@ -211,8 +214,6 @@ router.get("/:id/applicants", auth, async (req, res) => {
       });
     });
 
-    console.log("employeesArr: ", employeesArr);
-
     res.status(200).json({ [id]: employeesArr });
   } catch (error) {
     console.log("Error fetching employees that applied to this job: ", error);
@@ -220,6 +221,36 @@ router.get("/:id/applicants", auth, async (req, res) => {
     res.status(500).json({
       error: "Error fetching employees that applied to this job",
     });
+  }
+});
+
+router.get("/:jobId/hire/:employeeId", auth, async (req, res) => {
+  const { jobId, employeeId } = req.params;
+
+  try {
+    const employeePushToken = await db.user.findUnique({
+      where: { id: employeeId },
+      select: { expoPushToken: true },
+    });
+
+    const jobTitle = await db.jobPost.findUnique({
+      where: { id: jobId },
+      select: { title: true },
+    });
+
+    const message = {
+      to: employeePushToken,
+      sound: "default",
+      title: "You got hired!",
+      body: `Congratulations, you have been hired for the job: ${jobTitle.title}`,
+    };
+
+    await expo.sendPushNotificationsAsync([message]);
+
+    res.status(200).send("Hired successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error hiring employee" });
   }
 });
 

@@ -1,8 +1,8 @@
 import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import RenderTextInput from "@/components/RenderTextInput";
 import SpinnerScrollbar from "@/components/SpinnerScrollbar";
@@ -10,12 +10,12 @@ import { handleApply } from "@/redux/User";
 import ApplicantsDisplayer from "./components/ApplicantsDisplayer";
 
 const JobPostDetails = ({ route, navigation }) => {
+  const dispatch = useDispatch();
   const { jobId, employerId } = route.params;
 
   const user = useSelector((state) => state.user);
   const accountType = user.user.accountType;
   const employeeId = user.user?.id;
-  const applicants = user.user?.applicants;
 
   const hasApplied = user.jobPosts.some((item) => item.id === jobId);
 
@@ -24,7 +24,10 @@ const JobPostDetails = ({ route, navigation }) => {
   )[0];
 
   const [coverLetter, setCoverLetter] = useState("");
-  const [coverLetterError, setCoverLetterError] = useState(false);
+
+  useEffect(() => {
+    console.log(coverLetter);
+  }, [coverLetter]);
 
   const handleApplyButton = () => {
     coverLetter.trim() !== "" &&

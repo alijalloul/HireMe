@@ -11,12 +11,13 @@ const router = express.Router();
 router.post("/", auth, async (req, res) => {
   const body = req.body;
 
+  console.log("body:");
+
   try {
     const applied = await db.application.findUnique({
       where: {
-        employeeId_employerId_jobId: {
+        employeeId_jobId: {
           employeeId: body.employeeId,
-          employerId: body.employerId,
           jobId: body.jobId,
         },
       },

@@ -1,13 +1,35 @@
 import express from "express";
 
+import sharp from "sharp";
 import db from "../db/db.js";
 import auth from "../middleware/middleware.js";
 
 const router = express.Router();
 
+const compressBase64Image = async (base64Str) => {
+  if (base64Str) {
+    const base64Data = base64Str.replace(/^data:image\/\w+;base64,/, "");
+
+    const imageBuffer = Buffer.from(base64Data, "base64");
+
+    const compressedBuffer = await sharp(imageBuffer)
+      .resize({ width: 100 })
+      .jpeg({ quality: 20 })
+      .toBuffer();
+
+    const compressedBase64 = compressedBuffer.toString("base64");
+
+    return `data:image/jpeg;base64,${compressedBase64}`;
+  } else {
+    return "";
+  }
+};
+
 router.patch("/:id", auth, async (req, res) => {
   const { id } = req.params;
   const body = req.body;
+
+  const iconImage = await compressBase64Image(body.image);
 
   try {
     const user = await db.user.update({
@@ -17,6 +39,7 @@ router.patch("/:id", auth, async (req, res) => {
       data: {
         name: body.name,
         image: body.image,
+        iconImage: iconImage,
         profession: body.profession,
         email: body.email,
         address: body.address,
@@ -80,7 +103,7 @@ router.get("/:id", auth, async (req, res) => {
         language: true,
         education: true,
         workExperience: true,
-        pushToken: true,
+        expoPushToken: true,
       },
     });
 

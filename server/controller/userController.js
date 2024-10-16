@@ -145,7 +145,7 @@ export async function hireEmployee(req, res) {
   try {
     const employeePushToken = (
       await employeeDB.findById(employeeId)
-    ).pushToken;
+    ).expoPushToken;
 
     const message = {
       to: employeePushToken,
@@ -423,7 +423,7 @@ export async function applyForJob(req, res) {
 
     const employerPushToken = (
       await employerDB.findById(body.employerid)
-    ).pushToken;
+    ).expoPushToken;
     const employeeName = (
       await employeeDB.findById(body.employeeid)
     ).name;

@@ -8,8 +8,9 @@ import Spinner from "@/components/Spinner";
 import { Colors } from "@/constants/Colors";
 import { signup } from "@/redux/User";
 
-const SignUp = ({ navigation }) => {
+const SignUp = ({ navigation, route }) => {
   const dispatch = useDispatch();
+  const { expoPushToken } = route.params; // Get the passed prop (jobId)
   const pending = useSelector((state) => state.user.pending);
 
   // State for form data
@@ -18,6 +19,7 @@ const SignUp = ({ navigation }) => {
     email: "",
     password: "",
     accountType: "employee",
+    expoPushToken: expoPushToken,
   });
 
   // State for errors
