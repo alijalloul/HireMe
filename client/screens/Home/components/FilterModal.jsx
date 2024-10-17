@@ -3,7 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { useState } from "react";
 import { Image, Modal, ScrollView, TouchableOpacity, View } from "react-native";
 
-import check from "@/assets/images/checkWhite.png";
+import check from "@/assets/images/check.png";
 
 import {
   categories,

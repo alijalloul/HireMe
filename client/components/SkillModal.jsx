@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 
+import { Colors } from "@/constants/Colors";
 import SkillsData from "@/constants/Skills";
 
 const SkillModal = ({ value, setValue, className }) => {

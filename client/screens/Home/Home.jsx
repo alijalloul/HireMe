@@ -82,7 +82,7 @@ const Home = ({ navigation }) => {
             >
               <Image
                 source={searchIMG}
-                resizeMode="contain"
+                tintColor="white"
                 className="w-full h-full"
               />
             </TouchableOpacity>

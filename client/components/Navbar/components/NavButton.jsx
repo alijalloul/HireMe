@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 
 const NavButton = React.forwardRef(
-  ({ focused, imageWhite, label, onPress, selectedButtonBottom }, ref) => {
+  ({ focused, image, label, onPress, selectedButtonBottom }, ref) => {
     const homeAnimation = useDynamicAnimation(() => ({ bottom: 0 }));
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const NavButton = React.forwardRef(
         >
           <TouchableOpacity onPress={onPress} className="rounded-full">
             <Image
-              source={imageWhite}
+              source={image}
               className="w-8 h-8 "
               tintColor={focused ? "white" : Colors.primary}
             />

@@ -1,9 +1,8 @@
 import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
-import { Image, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
-import pen from "@/assets/images/pen.png";
-import trash from "@/assets/images/trash.png";
+import EditDeleteButtons from "../../components/EditDeleteButtons";
 
 const EducationDisplayer = ({
   education,
@@ -41,35 +40,13 @@ const EducationDisplayer = ({
                 </GaramondText>
 
                 {!isView && (
-                  <View className="self-start  flex flex-row justify-center items-center">
-                    <TouchableOpacity
-                      onPress={() => {
-                        handleEdit(index);
-                      }}
-                      className="border border-gray-400 rounded-full p-[6px] mr-2"
-                    >
-                      <Image
-                        source={pen}
-                        tintColor={Colors.primary}
-                        className="w-5 h-5 aspect-square"
-                      />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      onPress={() => {
-                        setEducation(
-                          education?.filter((item, index2) => index2 !== index)
-                        );
-                      }}
-                      className="border border-gray-400 rounded-full p-[6px]"
-                    >
-                      <Image
-                        source={trash}
-                        tintColor={Colors.primary}
-                        className="w-5 h-5 aspect-square"
-                      />
-                    </TouchableOpacity>
-                  </View>
+                  <EditDeleteButtons
+                    index={index}
+                    setPostIndex={setPostIndex}
+                    setBottomSheetVisible={setBottomSheetVisible}
+                    value={education}
+                    setValue={setEducation}
+                  />
                 )}
               </View>
 

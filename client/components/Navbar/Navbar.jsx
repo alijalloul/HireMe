@@ -1,9 +1,6 @@
-import graphOrange from "@/assets/images/graphOrange.png";
-import graphWhite from "@/assets/images/graphWhite.png";
-import homeOrange from "@/assets/images/homeOrange.png";
-import homeWhite from "@/assets/images/homeWhite.png";
-import userOrange from "@/assets/images/userOrange.png";
-import userWhite from "@/assets/images/userWhite.png";
+import graph from "@/assets/images/graph.png";
+import home from "@/assets/images/home.png";
+import user from "@/assets/images/user.png";
 import { Colors } from "@/constants/Colors";
 import { useBackHandler } from "@react-native-community/hooks";
 import {
@@ -167,8 +164,7 @@ const Navbar = () => {
         </MotiView>
         <NavButton
           focused={focusedRouteName === "home"}
-          imageWhite={homeWhite}
-          imageOrange={homeOrange}
+          image={home}
           label="home"
           onPress={() => handleNavigation("home")}
           ref={homeButtonRef}
@@ -176,8 +172,7 @@ const Navbar = () => {
         />
         <NavButton
           focused={focusedRouteName === "myJobs"}
-          imageWhite={graphWhite}
-          imageOrange={graphOrange}
+          image={graph}
           label="myJobs"
           onPress={() => handleNavigation("myJobs")}
           ref={jobsButtonRef}
@@ -185,8 +180,7 @@ const Navbar = () => {
         />
         <NavButton
           focused={focusedRouteName === "profile"}
-          imageWhite={userWhite}
-          imageOrange={userOrange}
+          image={user}
           label="profile"
           onPress={() => handleNavigation("profile")}
           ref={profileButtonRef}

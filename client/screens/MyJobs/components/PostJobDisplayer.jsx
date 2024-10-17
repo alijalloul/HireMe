@@ -1,14 +1,11 @@
 import GaramondText from "@/components/GaramondText";
-import { Image, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
-import pen from "@/assets/images/pen.png";
-import trash from "@/assets/images/trash.png";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
+import EditDeleteButtons from "@/components/Picker/components/EditDeleteButtons";
 import { useNavigation } from "@react-navigation/native";
-
-import { deleteJobPost } from "@/redux/User";
 
 const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
   const dispatch = useDispatch();
@@ -36,24 +33,13 @@ const PostJobDisplayer = ({ setPostIndex, setBottomSheetVisible }) => {
               <GaramondText className=" text-3xl">{job?.title}</GaramondText>
 
               {setPostIndex && setPostIndex && (
-                <View className="self-start w-[20%] flex flex-row justify-center items-center">
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleEdit(index);
-                    }}
-                    className="border border-gray-400 rounded-full p-[6px] mr-2"
-                  >
-                    <Image source={pen} className="w-5 h-5 aspect-square" />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      deleteJobPost(dispatch, job?.id);
-                    }}
-                    className="border border-gray-400 rounded-full p-[6px]"
-                  >
-                    <Image source={trash} className="w-5 h-5 aspect-square" />
-                  </TouchableOpacity>
-                </View>
+                <EditDeleteButtons
+                  index={index}
+                  setPostIndex={setPostIndex}
+                  setBottomSheetVisible={setBottomSheetVisible}
+                  deleteJobPost={true}
+                  jobId={job?.id}
+                />
               )}
             </View>
 

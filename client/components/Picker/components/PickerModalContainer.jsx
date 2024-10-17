@@ -47,7 +47,7 @@ const PickerModalContainer = ({
               onPress={handleSave}
             >
               <Text className="text-white font-bold text-lg">
-                {buttonText ? buttonText : "Add"}
+                {isPostIndexDef ? "Edit" : buttonText ? buttonText : "Add"}
               </Text>
             </TouchableOpacity>
           </View>

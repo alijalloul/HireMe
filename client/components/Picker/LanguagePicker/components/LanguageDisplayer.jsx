@@ -39,7 +39,7 @@ const LanguageDisplayer = ({
                   }}
                   pointerEvents={isView && "none"}
                   className={`border rounded-2xl  px-2 py-2 flex flex-row justify-between items-center ${
-                    isView ? "w-[45%]" : "w-[30%]"
+                    isView ? "w-[45%]" : "w-[35%]"
                   }`}
                 >
                   <GaramondText className=" text-xl">
@@ -55,7 +55,7 @@ const LanguageDisplayer = ({
                   }}
                   pointerEvents={isView && "none"}
                   className={`border rounded-2xl  px-2 py-2 flex flex-row justify-between items-center ${
-                    isView ? "w-[45%]" : "w-[40%]"
+                    isView ? "w-[45%]" : "w-[45%]"
                   }`}
                 >
                   <GaramondText className=" text-xl">
