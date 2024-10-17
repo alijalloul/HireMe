@@ -1,17 +1,16 @@
 import GaramondText from "@/components/GaramondText";
 import { Colors } from "@/constants/Colors";
 import { useEffect, useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 import RenderTextInput from "@/components/RenderTextInput";
-import Spinner from "@/components/Spinner";
+import SpinnerScrollbar from "@/components/SpinnerScrollbar";
 import { login } from "@/redux/User";
 
 const LogIn = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const pending = useSelector((state) => state.user.pending);
   const [errorType, setErrorType] = useState(null);
 
   const [email, setEmail] = useState("");
@@ -59,106 +58,79 @@ const LogIn = ({ navigation }) => {
   };
 
   return (
-    <View className="flex-1 justify-center bg-white">
-      <View
-        className={`${
-          pending
-            ? "z-30 absolute w-full h-full justify-center items-center"
-            : "hidden"
-        }`}
-      >
-        <Spinner />
-      </View>
-      <View
-        className={`${
-          pending
-            ? " bg-white z-20 absolute h-full w-full opacity-50 "
-            : "hidden"
-        }`}
-      ></View>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: 692,
-        }}
-      >
-        <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
-          <GaramondText
-            className="text-4xl font-garamond-semibold "
-            style={{ color: Colors.primary }}
-          >
-            Welcome Back
-          </GaramondText>
+    <SpinnerScrollbar>
+      <View className="w-[90%] flex-1 my-10 flex flex-col justify-between">
+        <GaramondText
+          className="text-4xl font-garamond-semibold "
+          style={{ color: Colors.primary }}
+        >
+          Welcome Back
+        </GaramondText>
 
-          <View className="w-full">
-            <RenderTextInput
-              className="mb-4"
-              isMultiline={false}
-              value={email}
-              setValue={setEmail}
-              placeholder="E-Mail"
-              isError={emailError}
-              setIsError={setEmailError}
-              errorMessage={errorType === "User doesn't exist"}
-            />
+        <View className="w-full">
+          <RenderTextInput
+            className="mb-4"
+            isMultiline={false}
+            value={email}
+            setValue={setEmail}
+            placeholder="E-Mail"
+            isError={emailError}
+            setIsError={setEmailError}
+            errorMessage={errorType === "User doesn't exist"}
+          />
 
-            <RenderTextInput
-              className="mb-4"
-              isNumpad={false}
-              isMultiline={false}
-              value={password}
-              setValue={setPassword}
-              placeholder="Password"
-              isError={passwordError}
-              setIsError={setPasswordError}
-              errorMessage={errorType === "Invalid password"}
-            />
+          <RenderTextInput
+            className="mb-4"
+            isNumpad={false}
+            isMultiline={false}
+            value={password}
+            setValue={setPassword}
+            placeholder="Password"
+            isError={passwordError}
+            setIsError={setPasswordError}
+            errorMessage={errorType === "Invalid password"}
+          />
 
-            <View className="w-full flex justify-end items-end">
-              <TouchableOpacity className=" opacity-60">
-                <GaramondText className=" border-b">
-                  Forgot Password
-                </GaramondText>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View className="w-full">
-            <TouchableOpacity
-              onPress={() => {
-                handleLogIn();
-              }}
-              className=" w-full py-3 rounded-3xl flex justify-center items-center "
-              style={{ backgroundColor: Colors.primary }}
-            >
-              <GaramondText className="text-white font-garamond-bold text-xl">
-                Log In
-              </GaramondText>
-            </TouchableOpacity>
-
-            <View className=" relative flex justify-center items-center w-full my-2">
-              <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
-                or
-              </GaramondText>
-              <View className="opacity-50 absolute w-full border-b "></View>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("signUp");
-              }}
-              className="bg-white border border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center"
-            >
-              <GaramondText className=" font-garamond-bold text-xl">
-                Sign Up
-              </GaramondText>
+          <View className="w-full flex justify-end items-end">
+            <TouchableOpacity className=" opacity-60">
+              <GaramondText className=" border-b">Forgot Password</GaramondText>
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </View>
+
+        <View className="w-full">
+          <TouchableOpacity
+            onPress={() => {
+              handleLogIn();
+            }}
+            className=" w-full py-3 rounded-3xl flex justify-center items-center "
+            style={{ backgroundColor: Colors.primary }}
+          >
+            <GaramondText className="text-white font-garamond-bold text-xl">
+              Log In
+            </GaramondText>
+          </TouchableOpacity>
+
+          <View className=" relative flex justify-center items-center w-full my-2">
+            <GaramondText className="text-opacity-50 bg-white px-1 py-1 z-10">
+              or
+            </GaramondText>
+            <View className="opacity-50 absolute w-full border-b "></View>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("signUp");
+            }}
+            className="bg-white border border-gray-400 w-full py-3 rounded-3xl flex justify-center items-center"
+          >
+            <GaramondText className=" font-garamond-bold text-xl">
+              Sign Up
+            </GaramondText>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SpinnerScrollbar>
   );
 };
 

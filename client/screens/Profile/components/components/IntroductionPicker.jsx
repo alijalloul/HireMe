@@ -4,6 +4,7 @@ import { Image, TextInput, TouchableOpacity, View } from "react-native";
 
 import check from "@/assets/images/check.png";
 import pen from "@/assets/images/pen.png";
+import { Colors } from "@/constants/Colors";
 
 const IntroductionPicker = ({ value, setValue, placeholder }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -35,18 +36,21 @@ const IntroductionPicker = ({ value, setValue, placeholder }) => {
         >
           <Image
             source={isEditing ? check : pen}
+            tintColor={Colors.primary}
             className="w-5 h-5 aspect-square"
           />
         </TouchableOpacity>
       </View>
 
-      <GaramondText
-        className={`text-lg text-black mr-2 ${isEditing && "hidden"} ${
-          value === "" && " opacity-50"
-        }`}
-      >
-        {value === "" ? placeholder : value}
-      </GaramondText>
+      {!isEditing && (
+        <GaramondText
+          className={`text-lg text-black mr-2  ${
+            value === "" && " opacity-50"
+          }`}
+        >
+          {value === "" ? placeholder : value}
+        </GaramondText>
+      )}
 
       <TextInput
         ref={inputRef}

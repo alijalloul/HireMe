@@ -12,17 +12,16 @@ const HeaderLeft = ({ setBottomSheetVisible, numberOfFilters }) => {
     >
       <Image source={Filter} className="w-full h-full" />
 
-      <View
-        className={`${
-          numberOfFilters > 0
-            ? `relative left-4 bottom-3 self-end flex justify-center items-center rounded-full bg-[${Colors.primary}] aspect-square w-6`
-            : "hidden"
-        }`}
-      >
-        <GaramondText className=" text-white font-bold text-sm">
-          {numberOfFilters}
-        </GaramondText>
-      </View>
+      {numberOfFilters > 0 && (
+        <View
+          className="relative left-4 bottom-3 self-end flex justify-center items-center rounded-full aspect-square w-6"
+          style={{ backgroundColor: Colors.primary }}
+        >
+          <GaramondText className=" text-white font-bold text-sm">
+            {numberOfFilters}
+          </GaramondText>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

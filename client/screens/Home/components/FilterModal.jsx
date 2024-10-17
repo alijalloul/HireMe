@@ -213,7 +213,7 @@ const CheckMarkForm = ({ value, setValue, conditional }) => {
         }}
       >
         {value === conditional && (
-          <Image source={check} className="w-full h-full" />
+          <Image source={check} tintColor="white" className="w-full h-full" />
         )}
       </TouchableOpacity>
 
