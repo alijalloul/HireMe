@@ -33,6 +33,7 @@ const SpinnerScrollbar = ({ children }) => {
         contentContainerStyle={{
           flexGrow: 1,
           alignItems: "center",
+          minHeight: 692,
         }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
