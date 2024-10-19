@@ -45,12 +45,12 @@ const LogIn = ({ navigation }) => {
       setPasswordError(false);
     }
 
-    if (password !== "" && email !== "") {
+    if (password !== "" && email !== "" && password && email) {
       await login(
         dispatch,
         {
-          email: email,
-          password: password,
+          email,
+          password,
         },
         navigation
       );
@@ -100,9 +100,7 @@ const LogIn = ({ navigation }) => {
 
         <View className="w-full">
           <TouchableOpacity
-            onPress={() => {
-              handleLogIn();
-            }}
+            onPress={handleLogIn}
             className=" w-full py-3 rounded-3xl flex justify-center items-center "
             style={{ backgroundColor: Colors.primary }}
           >

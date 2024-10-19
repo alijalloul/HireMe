@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
 
@@ -10,7 +11,10 @@ import usersRouter from "./routes/users.js";
 dotenv.config();
 
 const app = express();
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+app.use(cors());
+app.use(express.json());
+app.use(bodyParser.json({ limit: "2mb" }));
 
 const PORT = process.env.PORT || 5000;
 
