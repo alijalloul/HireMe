@@ -30,7 +30,7 @@ const UploadImage = ({ width, isButton, image, setImage }) => {
   };
 
   const removeImage = () => {
-    setImage("");
+    setImage(null);
   };
 
   return (

@@ -43,7 +43,7 @@ const Container = ({ formData, handleInputChange, navigation, children }) => {
 
   return (
     <SpinnerScrollbar>
-      <View className="flex-1 items-center w-full">
+      <View className="flex-1 items-center w-full ">
         <View className="absolute -translate-y-1/2 opacity-90">
           <Image source={blobTop} />
         </View>
@@ -76,7 +76,7 @@ const Container = ({ formData, handleInputChange, navigation, children }) => {
             </View>
           )}
 
-          <View className="my-5 flex-1">
+          <View className="my-5 ">
             <GaramondText className="font-garamond-semibold text-2xl">
               Contact Information
             </GaramondText>

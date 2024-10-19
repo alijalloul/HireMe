@@ -34,7 +34,7 @@ import Constants from "expo-constants";
 import * as Device from "expo-device";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Language from "./screens/Language";
 
@@ -53,26 +53,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
-async function sendPushNotification(expoPushToken) {
-  const message = {
-    to: expoPushToken,
-    sound: "default",
-    title: "Original Title",
-    body: "And here is the body!",
-    data: { someData: "goes here" },
-  };
-
-  await fetch("https://exp.host/--/api/v2/push/send", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Accept-encoding": "gzip, deflate",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(message),
-  });
-}
 
 function handleRegistrationError(errorMessage) {
   alert(errorMessage);
@@ -110,11 +90,8 @@ async function registerForPushNotificationsAsync() {
       handleRegistrationError("Project ID not found");
     }
     try {
-      const pushTokenString = (
-        await Notifications.getExpoPushTokenAsync({
-          projectId,
-        })
-      ).data;
+      const pushTokenString = (await Notifications.getDevicePushTokenAsync())
+        .data;
       console.log(pushTokenString);
       return pushTokenString;
     } catch (e) {
@@ -144,8 +121,9 @@ const HomeTabs = () => {
         headerTitle: "",
         headerShadowVisible: false,
         headerStyle: {
-          height: 120,
+          height: 80,
         },
+
         headerRight: () => <HeaderRight />,
       }}
     >
@@ -160,33 +138,11 @@ const AppContent = () => {
   const dispatch = useDispatch();
 
   const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState(undefined);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
   useEffect(() => {
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token ?? ""))
       .catch((error) => setExpoPushToken(`${error}`));
-
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
-
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
-      });
-
-    return () => {
-      notificationListener.current &&
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      responseListener.current &&
-        Notifications.removeNotificationSubscription(responseListener.current);
-    };
   }, []);
 
   const [loaded, error] = useFonts({
@@ -211,23 +167,12 @@ const AppContent = () => {
 
   return (
     <NavigationContainer ref={navigationRef} independent={true}>
-      <Stack.Navigator
-        initialRouteName="onBoarding"
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: "#FBF2E3",
-          },
-        }}
-      >
+      <Stack.Navigator initialRouteName="onBoarding">
         <Stack.Screen
           name="onBoarding"
           component={OnBoarding}
           options={{
-            headerTitle: "",
-            headerStyle: {
-              backgroundColor: "#FBF2E3",
-            },
-            headerShadowVisible: false,
+            headerShown: false,
           }}
         />
 
@@ -238,7 +183,7 @@ const AppContent = () => {
             headerTitle: "",
             headerShadowVisible: false,
           }}
-          initialParams={{ expoPushToken: expoPushToken.expoPushToken }}
+          initialParams={{ expoPushToken: expoPushToken }}
         />
 
         <Stack.Screen
@@ -310,10 +255,6 @@ const AppContent = () => {
           component={HomeTabs}
           options={{
             headerShown: false,
-            headerStyle: {
-              height: 100,
-              marginHorizantal: 10,
-            },
           }}
         />
 

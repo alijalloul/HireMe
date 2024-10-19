@@ -6,8 +6,11 @@ import splash from "@/assets/splash.png";
 
 const OnBoarding = ({ navigation }) => {
   return (
-    <View className="flex-1 justify-center items-center">
-      <View className="flex-col justify-between items-center w-full h-[75%]">
+    <View
+      className="flex-1 justify-center items-center"
+      style={{ backgroundColor: Colors.lightPrimary }}
+    >
+      <View className="flex-col justify-between items-center w-full h-[70%]">
         <View className="w-[80%] aspect-square ">
           <Image
             className="w-full h-full"

@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "androidStatusBar": {
+      "backgroundColor": "#FFFFFF",
+      "barStyle": "dark-content" 
+    },
+    "notification": {
+      "icon": "./assets/icon.png",
+      "color": "#FBF2E3"
+    },
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -20,13 +28,17 @@
         "backgroundColor": "#FBF2E3"
       },
       "package": "com.hireme",
-      "versionCode": 1
+      "versionCode": 1,
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "backgroundColor": "#FBF2E3"
+      "backgroundColor": "#FBF2E3",
+      "bundler": "metro"
     },
-    "plugins": [],
+    "plugins": [
+
+    ],
     "extra": {
       "eas": {
         "projectId": "0cd648b5-7923-4429-939a-3b2ca6a7bef0"

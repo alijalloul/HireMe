@@ -1,11 +1,10 @@
 import * as dotenv from "dotenv";
 import express from "express";
 
-import { Expo } from "expo-server-sdk";
 import db from "../db/db.js"; // Use your existing Prisma client
 import auth from "../middleware/middleware.js";
 
-let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
+import { sendFCMv1Notification } from "../libs/sendFCMV1notification.js";
 
 dotenv.config();
 
@@ -238,14 +237,11 @@ router.get("/:jobId/hire/:employeeId", auth, async (req, res) => {
       select: { title: true },
     });
 
-    const message = {
-      to: employeePushToken,
-      sound: "default",
-      title: "You got hired!",
-      body: `Congratulations, you have been hired for the job: ${jobTitle.title}`,
-    };
-
-    await expo.sendPushNotificationsAsync([message]);
+    await sendFCMv1Notification(
+      employeePushToken.expoPushToken,
+      "You got hired!",
+      `Congratulations, you have been hired for the job: ${jobTitle.title}`
+    );
 
     res.status(200).send("Hired successfully");
   } catch (error) {

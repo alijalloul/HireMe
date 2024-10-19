@@ -37,3 +37,5 @@ yarn-error.*
 
 android/
 .easignore
+firebasePrivateKey.json
+google-services.json
