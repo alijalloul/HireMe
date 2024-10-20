@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FBF2E3"
       },
-      "package": "com.hireme",
+      "package": "com.hireme.alex",
       "versionCode": 1,
       "googleServicesFile": "./google-services.json"
     },
