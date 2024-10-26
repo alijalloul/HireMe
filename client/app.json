@@ -20,7 +20,7 @@
       "resizeMode": "contain"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true  
     },
     "android": {
       "adaptiveIcon": {

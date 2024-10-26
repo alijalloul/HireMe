@@ -2,6 +2,10 @@
 
 HireMe is a React Native application developed with Expo for job finding, backed by a Node.js server. This app allows users to search for job postings, apply for jobs, and receive notifications through Firebase Cloud Messaging (FCM).
 
+## Figma Design
+
+https://www.figma.com/design/yslkS2NKs6xRGQiej3tibN/HireMe?node-id=0-1&t=UzalJc3SVoj7zpGE-1
+
 ## Features
 
 - **Job Search**: Browse and search for job postings.
